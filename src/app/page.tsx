@@ -1,69 +1,277 @@
-import Image from "next/image";
+import { ArrowRight01Icon, StarIcon } from "@hugeicons/core-free-icons";
+import Link from "next/link";
+import { AdvantageList } from "@/components/home/AdvantageList";
+import { CertificateFan } from "@/components/home/CertificateFan";
+import { FamilyTile } from "@/components/home/FamilyTile";
+import { HeroVisual, type HeroSlide } from "@/components/home/HeroVisual";
+import { HorizontalShelf } from "@/components/home/HorizontalShelf";
+import { VideoPlaylist } from "@/components/media/VideoPlayer";
+import { ProductCard } from "@/components/product/ProductCard";
+import { CopyValue } from "@/components/ui/CopyValue";
+import { Icon } from "@/components/ui/Icon";
+import { JsonLd } from "@/components/ui/JsonLd";
+import { QuoteButton } from "@/components/ui/QuoteButton";
+import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
+import { advantageIntro, advantages, company, industries, mission, ratings, reviews, welcomeParagraphs } from "@/data/company";
+import { allVideos, alsoPopular, categories, families, featured, formatPrice, productCount, productHref, unitLabel } from "@/lib/catalog";
+
+const HEADLINE = "Your trusted chemical solutions partner";
 
 export default function Home() {
+  const shelf = [...featured, ...alsoPopular];
+  const slides: HeroSlide[] = shelf
+    .filter(({ product }) => product.images[0])
+    .map(({ category, product }) => ({
+      src: product.images[0],
+      name: product.name,
+      href: productHref(category.slug, product.slug),
+      price: product.price ? `${formatPrice(product.price)} / ${unitLabel(product.unit)}` : "Price on request",
+      category: category.name,
+    }));
+  const [feature, ...rest] = families;
+  const pool = rest.find((f) => f.slug === "swimming-pool-chemicals")!;
+  const plain = rest.filter((f) => f !== pool);
+  const quotes = reviews.filter((r) => r.text && r.text.length > 20);
+  const videoPicks = allVideos.slice(0, 7);
+
+  const orgLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: company.name,
+    url: "https://www.sampratitiexim.in",
+    logo: "https://www.sampratitiexim.in/icon.png",
+    foundingDate: company.established,
+    telephone: "+91-79-4282-2902",
+    address: { "@type": "PostalAddress", streetAddress: company.address.lines.slice(0, 3).join(", "), addressLocality: "Ahmedabad", postalCode: "382430", addressRegion: "Gujarat", addressCountry: "IN" },
+    aggregateRating: { "@type": "AggregateRating", ratingValue: ratings.average, reviewCount: ratings.count, bestRating: 5 },
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
+    <>
+      <JsonLd data={orgLd} />
+
+      {/* Hero */}
+      <section className="shell grid items-center gap-10 pb-14 pt-4 md:pt-10 lg:min-h-[calc(100dvh-72px)] lg:grid-cols-[1.15fr_0.85fr] lg:gap-12 lg:pb-16">
+        <div>
+          <p className="fade-in text-sm font-medium text-ink-2">Importer, exporter and bulk supplier since {company.established}</p>
+          <h1 className="rise mt-4 text-balance text-[2.5rem] font-semibold leading-[1.03] tracking-[-0.035em] sm:text-[3.4rem] lg:text-[3.55rem] xl:text-[4.1rem]">
+            {HEADLINE.split(" ").map((w, i) => (
+              <span key={i} style={{ ["--i" as string]: i }}>
+                {w}&nbsp;
+              </span>
+            ))}
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="fade-in mt-5 max-w-[40ch] text-lg leading-relaxed text-ink-2 md:text-xl" style={{ ["--d" as string]: "420ms" }}>
+            Food, pharma and water-treatment chemicals, imported and supplied in bulk across India with COA and MSDS support.
           </p>
+          <div className="fade-in mt-8 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap" style={{ ["--d" as string]: "560ms" }}>
+            <QuoteButton className="btn btn-gold px-4" />
+            <Link href="/products-and-services" className="btn btn-ghost px-4">
+              <span className="sm:hidden">All products</span>
+              <span className="hidden sm:inline">Browse {productCount} products</span>
+            </Link>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <HeroVisual slides={slides} />
+      </section>
+
+      {/* Proof strip */}
+      <section aria-label="Company at a glance" className="shell">
+        <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-[var(--radius-surface)] bg-line md:grid-cols-4">
+          {[
+            { k: "Products", v: String(productCount), d: `in ${categories.length} categories` },
+            { k: "Buyer rating", v: `${ratings.average}/5`, d: `from ${ratings.count} reviews` },
+            { k: "Delivery", v: "Pan-India", d: "from Ahmedabad warehouse" },
+            { k: "Documents", v: "COA, MSDS", d: "with every applicable batch" },
+          ].map((s) => (
+            <div key={s.k} className="bg-surface p-4 md:p-6">
+              <dt className="text-sm text-ink-3">{s.k}</dt>
+              <dd className="mt-1 text-2xl font-semibold tracking-tight md:text-3xl">{s.v}</dd>
+              <dd className="mt-0.5 text-sm text-ink-2">{s.d}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      {/* Product groups */}
+      <section className="shell py-20 md:py-28">
+        <Reveal className="max-w-2xl">
+          <h2 className="text-3xl font-semibold tracking-tight md:text-5xl">Product range</h2>
+          <p className="mt-4 max-w-[52ch] text-lg leading-relaxed text-ink-2">
+            Eight product groups for food, pharma, agriculture and industry, sourced from established manufacturers in India and abroad.
+          </p>
+        </Reveal>
+        <RevealGroup className="mt-10 grid grid-cols-2 gap-3 md:gap-4 lg:grid-cols-4">
+          <RevealItem className="col-span-2 lg:row-span-2">
+            <FamilyTile family={feature} variant="feature" className="h-full" />
+          </RevealItem>
+          {plain.slice(0, 4).map((f) => (
+            <RevealItem key={f.slug}>
+              <FamilyTile family={f} className="h-full" />
+            </RevealItem>
+          ))}
+          <RevealItem className="col-span-2">
+            <FamilyTile family={pool} variant="wide" className="h-full min-h-[11rem]" />
+          </RevealItem>
+          {plain.slice(4).map((f) => (
+            <RevealItem key={f.slug}>
+              <FamilyTile family={f} className="h-full" />
+            </RevealItem>
+          ))}
+        </RevealGroup>
+      </section>
+
+      {/* Popular products */}
+      <HorizontalShelf
+        header={
+          <div className="flex items-end justify-between gap-6">
+            <h2 className="text-3xl font-semibold tracking-tight md:text-5xl">Popular products</h2>
+            <Link href="/products-and-services" className="hidden items-center gap-1.5 font-semibold sm:inline-flex">
+              View all {productCount}
+              <Icon icon={ArrowRight01Icon} size={18} />
+            </Link>
+          </div>
+        }
+      >
+        {shelf.map(({ category, product }) => (
+          <div key={product.slug} className="w-[72%] shrink-0 snap-start sm:w-[42%] md:w-[30%] lg:w-[19rem]">
+            <ProductCard category={category} product={product} showCategory sizes="(min-width: 1024px) 19rem, 72vw" />
+          </div>
+        ))}
+      </HorizontalShelf>
+
+      {/* Industries */}
+      <section aria-label="Industries we serve" className="marquee overflow-hidden border-y border-line py-6 md:py-8">
+        <div className="marquee-track flex w-max items-center">
+          {[0, 1].map((dup) => (
+            <ul key={dup} aria-hidden={dup === 1} className="flex items-center">
+              {industries.map((name) => (
+                <li key={name} className="flex items-center whitespace-nowrap text-3xl font-semibold tracking-tight text-ink md:text-6xl">
+                  <span className="px-5 md:px-8">{name}</span>
+                  <span className="droplet block h-5 w-4 bg-gold md:h-7 md:w-[1.35rem]" />
+                </li>
+              ))}
+            </ul>
+          ))}
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* About and certificates */}
+      <section className="shell grid items-center gap-14 py-20 md:py-28 lg:grid-cols-2 lg:gap-20">
+        <Reveal>
+          <h2 className="text-3xl font-semibold tracking-tight md:text-5xl">A trusted sourcing partner since {company.established}</h2>
+          <p className="mt-5 max-w-[56ch] text-lg leading-relaxed text-ink-2">{welcomeParagraphs[0]}</p>
+          <p className="mt-4 max-w-[56ch] leading-relaxed text-ink-2">
+            Imported materials are sourced from established manufacturers and supplied with applicable product documentation such as COA and MSDS.
+          </p>
+          <div className="mt-8 grid gap-2 rounded-[var(--radius-surface)] bg-surface p-3 hairline sm:grid-cols-2">
+            {company.registrations.slice(0, 4).map((r) => (
+              <CopyValue key={r.label} label={r.label} value={r.value} className="rounded-xl p-2.5 hover:bg-surface-2" />
+            ))}
+          </div>
+          <Link href="/profile" className="mt-6 inline-flex items-center gap-1.5 font-semibold">
+            Company introduction
+            <Icon icon={ArrowRight01Icon} size={18} />
+          </Link>
+        </Reveal>
+        <CertificateFan
+          certs={[
+            { src: "/images/company/iso-certificate.jpg", title: "ISO certification" },
+            { src: company.fssai.image, title: `FSSAI, valid to ${company.fssai.validUpto}` },
+            { src: "/images/company/iso-certificate-2.jpg", title: "ISO certificate" },
+          ]}
+        />
+      </section>
+
+      {/* Advantages */}
+      <section className="bg-surface-2/60 py-20 md:py-28">
+        <div className="shell grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+          <div className="lg:sticky lg:top-28 lg:self-start">
+            <h2 className="text-3xl font-semibold tracking-tight md:text-5xl">Why choose Sampratiti Exim</h2>
+            <p className="mt-5 max-w-[46ch] text-lg leading-relaxed text-ink-2">{advantageIntro}</p>
+            <figure className="mt-8 border-l-2 border-gold pl-5">
+              <blockquote className="max-w-[48ch] leading-relaxed text-ink-2">{mission.split(". ")[0]}.</blockquote>
+              <figcaption className="mt-2 text-sm font-semibold">Our mission</figcaption>
+            </figure>
+            <div className="mt-8 hidden lg:block">
+              <QuoteButton />
+            </div>
+          </div>
+          <AdvantageList items={advantages} />
+        </div>
+      </section>
+
+      {/* Reviews */}
+      <section className="py-20 md:py-28">
+        <div className="shell grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+          <Reveal>
+            <h2 className="text-3xl font-semibold tracking-tight md:text-5xl">Ratings &amp; reviews</h2>
+            <div className="mt-8 flex items-end gap-4">
+              <p className="text-7xl font-semibold leading-none tracking-tighter">{ratings.average}</p>
+              <div className="pb-1">
+                <div className="flex gap-0.5 text-gold" aria-label={`${ratings.average} out of 5 stars`}>
+                  {[0, 1, 2, 3, 4].map((i) => (
+                    <Icon key={i} icon={StarIcon} size={20} fill="currentColor" strokeWidth={0} className={i === 4 ? "opacity-50" : ""} />
+                  ))}
+                </div>
+                <p className="mt-1 text-sm text-ink-2">Reviewed by {ratings.count} buyers</p>
+              </div>
+            </div>
+            <ul className="mt-8 grid max-w-sm gap-2">
+              {ratings.distribution.map((d) => (
+                <li key={d.stars} className="grid grid-cols-[2.5rem_1fr_2.5rem] items-center gap-3 text-sm">
+                  <span className="text-ink-2">{d.stars} star</span>
+                  <span className="h-1.5 rounded-full bg-gold" style={{ width: `${Math.max(d.pct, 2)}%` }} />
+                  <span className="text-right font-mono text-xs text-ink-3">{d.pct}%</span>
+                </li>
+              ))}
+            </ul>
+            <dl className="mt-8 grid max-w-sm grid-cols-3 gap-3">
+              {ratings.satisfaction.map((s) => (
+                <div key={s.label} className="rounded-2xl bg-surface p-3 hairline">
+                  <dd className="text-xl font-semibold">{s.pct}%</dd>
+                  <dt className="text-xs text-ink-3">{s.label}</dt>
+                </div>
+              ))}
+            </dl>
+            <Link href="/testimonial" className="mt-8 inline-flex items-center gap-1.5 font-semibold">
+              Read all reviews
+              <Icon icon={ArrowRight01Icon} size={18} />
+            </Link>
+          </Reveal>
+          <div className="no-scrollbar -mx-4 flex min-w-0 snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 lg:mx-0 lg:grid lg:grid-cols-2 lg:overflow-visible lg:px-0">
+            {quotes.map((r) => (
+              <figure key={r.name} className="flex w-[82%] shrink-0 snap-start flex-col rounded-[var(--radius-surface)] bg-surface p-5 hairline sm:w-[60%] lg:w-auto">
+                <span className="font-mono text-3xl leading-none text-gold" aria-hidden>
+                  &ldquo;
+                </span>
+                <blockquote className="mt-1 line-clamp-4 leading-relaxed text-ink">{r.text}</blockquote>
+                <figcaption className="mt-auto pt-5 text-sm">
+                  <span className="font-semibold">{r.name}</span>
+                  <span className="block text-ink-3">
+                    {r.place}
+                    {r.product ? `, bought ${r.product}` : ""}
+                  </span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Videos */}
+      {videoPicks.length > 0 && (
+        <section className="shell pb-20 md:pb-28">
+          <Reveal className="mb-8 flex items-end justify-between gap-6">
+            <h2 className="text-3xl font-semibold tracking-tight md:text-5xl">Product videos</h2>
+            <Link href="/photos" className="hidden items-center gap-1.5 font-semibold sm:inline-flex">
+              Photo gallery
+              <Icon icon={ArrowRight01Icon} size={18} />
+            </Link>
+          </Reveal>
+          <VideoPlaylist videos={videoPicks} />
+        </section>
+      )}
+    </>
   );
 }
