@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Familjen_Grotesk, Martian_Mono } from "next/font/google";
-import { DropletDefs } from "@/components/brand/DropletDefs";
 import { EnquirySheet } from "@/components/enquiry/EnquirySheet";
 import { UIProvider } from "@/components/providers/UIProvider";
 import { SearchOverlay } from "@/components/search/SearchOverlay";
@@ -67,7 +66,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <a href="#main" className="sr-only z-[90] rounded-full bg-gold px-4 py-2 font-semibold text-on-gold focus:not-sr-only focus:fixed focus:left-4 focus:top-3">
           Skip to content
         </a>
-        <DropletDefs />
         <UIProvider>
           <Header families={navFamilies} companyLinks={companyLinks} productCount={productCount} phone={phone} />
           <main id="main">{children}</main>

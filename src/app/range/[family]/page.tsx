@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ProductDeck, type DeckSlide } from "@/components/home/ProductDeck";
 import { CategoryBlock } from "@/components/product/CategoryBlock";
 import { ProductCard } from "@/components/product/ProductCard";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { QuoteButton } from "@/components/ui/QuoteButton";
 import { Reveal } from "@/components/ui/Reveal";
-import { families, getFamily } from "@/lib/catalog";
+import { families, formatPrice, getFamily, productHref, unitLabel } from "@/lib/catalog";
 
 export const instant = false;
 
@@ -31,12 +31,24 @@ export default async function FamilyPage({ params }: PageProps<"/range/[family]"
   const family = getFamily(slug);
   if (!family) notFound();
   const productTotal = family.categories.reduce((n, c) => n + c.products.length, 0);
+  const slides: DeckSlide[] = family.categories
+    .map((c) => ({ c, p: c.products.find((p) => p.images.length) }))
+    .filter((x) => x.p)
+    .slice(0, 8)
+    .map(({ c, p }) => ({
+      src: p!.images[0],
+      name: p!.name,
+      href: productHref(c.slug, p!.slug),
+      price: p!.price ? `${formatPrice(p!.price)} / ${unitLabel(p!.unit)}` : "Price on request",
+      category: c.name,
+      code: c.code,
+    }));
 
   return (
     <>
       <section className="shell pt-3 md:pt-6">
         <Breadcrumbs items={[{ href: "/products-and-services", label: "Products" }, { label: family.name }]} />
-        <div className="mt-6 grid items-center gap-8 md:mt-10 md:grid-cols-[1.3fr_0.7fr]">
+        <div className="mt-6 grid items-center gap-8 md:mt-10 md:grid-cols-[1.15fr_0.85fr] lg:gap-14">
           <div>
             <h1 className="text-balance text-[2.3rem] font-semibold leading-[1.05] tracking-tight md:text-6xl">{family.name}</h1>
             <p className="mt-4 max-w-[50ch] text-lg leading-relaxed text-ink-2">{family.blurb}</p>
@@ -47,12 +59,8 @@ export default async function FamilyPage({ params }: PageProps<"/range/[family]"
               <QuoteButton product={family.name} />
             </div>
           </div>
-          <div className="relative mx-auto hidden aspect-[4/5] w-full max-w-[18rem] md:block">
-            <div className="droplet absolute -inset-[3%] bg-gold" aria-hidden />
-            <div className="droplet absolute -inset-[1.4%] bg-bg" aria-hidden />
-            <div className="droplet well absolute inset-0 overflow-hidden">
-              <Image src={family.cover} alt="" fill sizes="18rem" className="object-contain px-[12%] pb-[6%] pt-[26%]" />
-            </div>
+          <div className="hidden md:block">
+            <ProductDeck slides={slides} compact />
           </div>
         </div>
       </section>

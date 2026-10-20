@@ -17,7 +17,7 @@ export const company = {
     kind: "Trade/Retail: Wholesaler, Distributor, Retailer",
     image: "/images/company/fssai-licence-2024.jpg",
   },
-  contactPerson: { name: "Mayur Patel", role: "Marketing Head" },
+  contactPerson: { name: "Mayur Patel", role: "Managing Director" },
   ceo: "Urmil R Ramani",
   address: {
     label: "Warehouse",

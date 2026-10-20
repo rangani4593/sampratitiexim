@@ -4,8 +4,8 @@ import Link from "next/link";
 export function LogoBadge({ size = 40, className = "" }: { size?: number; className?: string }) {
   return (
     <span
-      className={`relative grid shrink-0 place-items-center rounded-[11px] bg-brand ${className}`}
-      style={{ width: size, height: size }}
+      className={`relative grid shrink-0 place-items-center bg-brand ${className}`}
+      style={{ width: size, height: size, borderRadius: Math.round(size * 0.27) }}
     >
       <Image src="/images/brand/emblem-gold.png" alt="" width={size} height={Math.round(size * 1.25)} quality={90} sizes={`${size * 2}px`} className="h-[76%] w-auto" />
     </span>

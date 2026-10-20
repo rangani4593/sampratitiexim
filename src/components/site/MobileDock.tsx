@@ -56,7 +56,7 @@ export function MobileDock({ phoneHref, productNames, companyPaths }: Props) {
           </Link>
         ))}
         <a href={phoneHref} className="relative -mt-5 flex flex-1 flex-col items-center gap-1 text-[11px] font-semibold text-ink" aria-label="Call Sampratiti Exim">
-          <span className="droplet grid h-[3.6rem] w-[2.9rem] place-items-center bg-gold pt-3 text-on-gold shadow-lg">
+          <span className="grid size-[3.25rem] place-items-center rounded-full bg-gold text-on-gold shadow-lg ring-4 ring-bg">
             <Icon icon={Call02Icon} size={21} strokeWidth={2} />
           </span>
           Call

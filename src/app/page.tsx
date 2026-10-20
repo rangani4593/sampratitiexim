@@ -3,7 +3,7 @@ import Link from "next/link";
 import { AdvantageList } from "@/components/home/AdvantageList";
 import { CertificateFan } from "@/components/home/CertificateFan";
 import { FamilyTile } from "@/components/home/FamilyTile";
-import { HeroVisual, type HeroSlide } from "@/components/home/HeroVisual";
+import { ProductDeck, type DeckSlide } from "@/components/home/ProductDeck";
 import { HorizontalShelf } from "@/components/home/HorizontalShelf";
 import { VideoPlaylist } from "@/components/media/VideoPlayer";
 import { ProductCard } from "@/components/product/ProductCard";
@@ -19,7 +19,7 @@ const HEADLINE = "Your trusted chemical solutions partner";
 
 export default function Home() {
   const shelf = [...featured, ...alsoPopular];
-  const slides: HeroSlide[] = shelf
+  const slides: DeckSlide[] = shelf
     .filter(({ product }) => product.images[0])
     .map(({ category, product }) => ({
       src: product.images[0],
@@ -27,6 +27,7 @@ export default function Home() {
       href: productHref(category.slug, product.slug),
       price: product.price ? `${formatPrice(product.price)} / ${unitLabel(product.unit)}` : "Price on request",
       category: category.name,
+      code: category.code,
     }));
   const [feature, ...rest] = families;
   const pool = rest.find((f) => f.slug === "swimming-pool-chemicals")!;
@@ -72,7 +73,9 @@ export default function Home() {
             </Link>
           </div>
         </div>
-        <HeroVisual slides={slides} />
+        <div className="fade-in" style={{ ["--d" as string]: "200ms" }}>
+          <ProductDeck slides={slides} />
+        </div>
       </section>
 
       {/* Proof strip */}
@@ -148,7 +151,7 @@ export default function Home() {
               {industries.map((name) => (
                 <li key={name} className="flex items-center whitespace-nowrap text-3xl font-semibold tracking-tight text-ink md:text-6xl">
                   <span className="px-5 md:px-8">{name}</span>
-                  <span className="droplet block h-5 w-4 bg-gold md:h-7 md:w-[1.35rem]" />
+                  <span className="block size-2.5 rotate-45 rounded-[2px] bg-gold md:size-3.5" aria-hidden />
                 </li>
               ))}
             </ul>
