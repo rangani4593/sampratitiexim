@@ -120,19 +120,19 @@ export function Header({ families, companyLinks, productCount, phone }: Props) {
             <button
               type="button"
               onClick={openSearch}
-              className="flex h-11 items-center gap-2.5 whitespace-nowrap rounded-full bg-surface px-3.5 text-ink-2 hairline transition-colors hover:text-ink xl:pr-2"
+              className="flex h-11 items-center gap-2.5 whitespace-nowrap rounded-full bg-surface px-3.5 text-ink-2 hairline transition-colors hover:text-ink 2xl:pr-2"
               aria-label="Search products"
             >
               <Icon icon={Search01Icon} size={19} />
-              <span className="hidden text-sm md:inline xl:hidden">Search</span>
-              <span className="hidden text-sm xl:inline">Search {productCount} products</span>
-              <kbd className="ml-1 hidden rounded-md bg-surface-2 px-1.5 py-0.5 font-mono text-[10px] text-ink-3 xl:inline">Ctrl K</kbd>
+              <span className="hidden text-sm md:inline 2xl:hidden">Search</span>
+              <span className="hidden text-sm 2xl:inline">Search {productCount} products</span>
+              <kbd className="ml-1 hidden rounded-md bg-surface-2 px-1.5 py-0.5 font-mono text-[10px] text-ink-3 2xl:inline">Ctrl K</kbd>
             </button>
-            <a href={phone.href} className="hidden h-11 shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-3 text-sm font-semibold text-ink xl:flex">
+            <a href={phone.href} className="hidden h-11 shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-3 text-sm font-semibold text-ink 2xl:flex">
               <Icon icon={Call02Icon} size={18} />
               {phone.display}
             </a>
-            <div className="hidden md:block">
+            <div className="hidden shrink-0 md:block">
               <InquiryButton className="btn btn-gold h-11" />
             </div>
           </div>
