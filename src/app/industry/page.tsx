@@ -4,7 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { PageIntro } from "@/components/company/PageIntro";
 import { Icon } from "@/components/ui/Icon";
+import { JsonLd } from "@/components/ui/JsonLd";
 import { Reveal } from "@/components/ui/Reveal";
+import { abs } from "@/lib/seo";
 import { industryPages } from "@/data/industries";
 
 export const metadata: Metadata = {
@@ -14,8 +16,20 @@ export const metadata: Metadata = {
 };
 
 export default function IndustryPage() {
+  const listLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Industries We Serve | Sampratiti Exim",
+    url: abs("/industry"),
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: industryPages.map((i, n) => ({ "@type": "ListItem", position: n + 1, url: abs(`/industry/${i.slug}`), name: i.title })),
+    },
+  };
+
   return (
     <>
+      <JsonLd data={listLd} />
       <PageIntro title="Industries" lead="Premium ingredients for the food, beverage and nutrition industries, supplied in bulk with COA and MSDS support." />
       <section className="shell grid gap-3 pb-20 sm:grid-cols-2 md:gap-4 lg:grid-cols-3">
         {industryPages.map((ind, i) => (

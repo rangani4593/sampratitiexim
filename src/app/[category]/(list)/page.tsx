@@ -9,9 +9,11 @@ import { ShareButton } from "@/components/product/ShareButton";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Icon } from "@/components/ui/Icon";
 import { InquiryButton } from "@/components/ui/InquiryButton";
+import { Faq } from "@/components/ui/Faq";
 import { JsonLd } from "@/components/ui/JsonLd";
 import { company } from "@/data/company";
 import { getProduct, industriesFor, productHref, products, relatedProducts, typeOf } from "@/lib/catalog";
+import { productFaqs, productLd, productQuickAnswer } from "@/lib/seo";
 
 export const instant = false;
 
@@ -19,18 +21,19 @@ export function generateStaticParams() {
   return products.map((p) => ({ category: p.slug }));
 }
 
-const plain = (html: string) => html.replace(/<[^>]+>/g, " ").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim();
-
 export async function generateMetadata({ params }: PageProps<"/[category]">): Promise<Metadata> {
   const { category: slug } = await params;
   const p = getProduct(slug);
   if (!p) return {};
-  const desc = `${p.name}: ${p.short} Bulk supply across India from Sampratiti Exim, Ahmedabad.`;
+  const desc = `${p.name}${p.code ? ` (${p.code})` : ""}: ${p.short} Bulk supply across India from Ahmedabad. COA and MSDS available. Send an inquiry for price.`;
+  const title = `${p.name} Supplier & Importer in Ahmedabad`;
   return {
-    title: `${p.name} Supplier, Importer & Trader`,
+    title,
     description: desc,
+    keywords: [`${p.name} supplier in Ahmedabad`, `${p.name} importer India`, `buy ${p.name} in bulk`, `${p.name} price`, p.name, ...(p.code ? [p.code] : [])],
     alternates: { canonical: productHref(p.slug) },
-    openGraph: { title: p.name, description: desc, images: [{ url: p.image }] },
+    openGraph: { type: "website", title, description: desc, url: productHref(p.slug), images: [{ url: p.image, width: 1600, height: 1200, alt: `${p.name} supplier in Ahmedabad` }] },
+    twitter: { card: "summary_large_image", title, description: desc, images: [p.image] },
   };
 }
 
@@ -43,19 +46,11 @@ export default async function ProductPage({ params }: PageProps<"/[category]">) 
   const related = relatedProducts(product);
   const whatsapp = `https://wa.me/${company.whatsapp}?text=${encodeURIComponent(`Hello Sampratiti Exim, I have an inquiry for ${product.name}.`)}`;
 
-  const ld = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: product.name,
-    image: `https://www.sampratitiexim.in${product.image}`,
-    description: plain(product.html).slice(0, 500) || product.short,
-    category: type.name,
-    brand: { "@type": "Brand", name: company.name },
-  };
+  const faqs = productFaqs(product);
 
   return (
     <>
-      <JsonLd data={ld} />
+      <JsonLd data={productLd(product)} />
       <div className="shell pt-3 md:pt-6">
         <Breadcrumbs items={[{ href: "/products-and-services", label: "Products" }, { label: product.name }]} />
       </div>
@@ -110,7 +105,10 @@ export default async function ProductPage({ params }: PageProps<"/[category]">) 
       <section className="border-t border-line bg-surface-2/50 py-14 md:py-20">
         <div className="shell grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:gap-16">
           <div className="min-w-0">
-            <h2 className="mb-6 text-2xl font-semibold tracking-tight md:text-3xl">About {product.name}</h2>
+            <h2 className="mb-4 text-2xl font-semibold tracking-tight md:text-3xl">About {product.name}</h2>
+            <p className="mb-6 max-w-[68ch] rounded-2xl bg-gold-soft p-4 text-[1.02rem] leading-relaxed text-ink" data-speakable>
+              {productQuickAnswer(product)}
+            </p>
             <div className="prose-spec" dangerouslySetInnerHTML={{ __html: product.html }} />
           </div>
           <div className="min-w-0 lg:sticky lg:top-24 lg:self-start">
@@ -140,6 +138,12 @@ export default async function ProductPage({ params }: PageProps<"/[category]">) 
       </section>
 
       <section className="shell py-14 md:py-20">
+        <div className="max-w-3xl">
+          <Faq id="faq" title={`${product.name} FAQs`} items={faqs} />
+        </div>
+      </section>
+
+      <section className="shell pb-14 md:pb-20">
         <h2 className="mb-6 text-2xl font-semibold tracking-tight md:text-3xl">More products</h2>
         <div className="no-scrollbar -mx-4 flex snap-x gap-3 overflow-x-auto px-4 md:mx-0 md:grid md:grid-cols-4 md:gap-4 md:overflow-visible md:px-0">
           {related.map((r) => (

@@ -3,9 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import { Faq } from "@/components/ui/Faq";
 import { ProductCard } from "@/components/product/ProductCard";
 import { InquiryButton } from "@/components/ui/InquiryButton";
 import { getIndustry, industryPages } from "@/data/industries";
+import { company } from "@/data/company";
 import { getProduct } from "@/lib/catalog";
 
 export const instant = false;
@@ -27,6 +29,12 @@ export default async function IndustryDetail({ params }: PageProps<"/industry/[s
   if (!ind) notFound();
   const items = ind.products.map((s) => getProduct(s)).filter((p) => p !== undefined);
   const others = industryPages.filter((i) => i.slug !== ind.slug);
+  const names = items.map((p) => p.name);
+  const faqs = [
+    { q: `Which ingredients does Sampratiti Exim supply for the ${ind.name.toLowerCase()} industry?`, a: `For the ${ind.name.toLowerCase()} industry we supply ${names.join(", ")}. ${ind.blurb}.` },
+    { q: `Can I buy ${ind.name.toLowerCase()} industry ingredients in bulk in India?`, a: "Yes. Sampratiti Exim Pvt Ltd, Ahmedabad, supplies in bulk across India with COA and MSDS support as applicable to the product and batch." },
+    { q: "How do I get a price?", a: `Send an inquiry on this page, message on WhatsApp or call ${company.phoneDisplay}. The team replies with price, availability and dispatch time.` },
+  ];
 
   return (
     <>
@@ -66,6 +74,12 @@ export default async function IndustryDetail({ params }: PageProps<"/industry/[s
           {items.map((p) => (
             <ProductCard key={p.slug} product={p} />
           ))}
+        </div>
+      </section>
+
+      <section className="shell pb-14">
+        <div className="max-w-3xl">
+          <Faq id="faq" title={`${ind.name} industry FAQs`} items={faqs} />
         </div>
       </section>
 

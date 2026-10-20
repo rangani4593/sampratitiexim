@@ -8,6 +8,8 @@ import { Header, type NavFamily } from "@/components/site/Header";
 import { MobileDock } from "@/components/site/MobileDock";
 import { company, companyTabs } from "@/data/company";
 import { productCount, productHref, productTypes, products, searchIndex } from "@/lib/catalog";
+import { JsonLd } from "@/components/ui/JsonLd";
+import { organizationLd, websiteLd } from "@/lib/seo";
 import "./globals.css";
 
 const familjen = Familjen_Grotesk({ variable: "--font-familjen", subsets: ["latin"], display: "swap" });
@@ -16,11 +18,11 @@ const martian = Martian_Mono({ variable: "--font-martian", subsets: ["latin"], a
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.sampratitiexim.in"),
   title: {
-    default: "Sampratiti Exim Pvt Ltd | Importer & Bulk Supplier of Food, Pharma and Water Treatment Chemicals, Ahmedabad",
-    template: "%s | Sampratiti Exim Pvt Ltd, Ahmedabad",
+    default: "Sampratiti Exim | Chemical Importer & Bulk Supplier, Ahmedabad",
+    template: "%s | Sampratiti Exim",
   },
   description:
-    "Sampratiti Exim Private Limited, Ahmedabad: importer, exporter, trader and bulk supplier of food grade sucralose, aspartame, TCCA 90, xanthan gum, citric acid, sodium benzoate, potassium sorbate and more. COA/MSDS support and pan-India supply.",
+    "Ahmedabad importer and bulk supplier of food grade sucralose, aspartame, TCCA 90, xanthan gum, citric acid and sodium benzoate. COA/MSDS and pan-India supply.",
   keywords: [
     "Food Grade Sucralose",
     "Aspartame Powder",
@@ -34,8 +36,17 @@ export const metadata: Metadata = {
     "Chemical importer Ahmedabad",
     "Sampratiti Exim",
   ],
-  openGraph: { type: "website", siteName: "Sampratiti Exim Pvt Ltd", locale: "en_IN" },
-  formatDetection: { telephone: true },
+  applicationName: "Sampratiti Exim",
+  authors: [{ name: "Sampratiti Exim Pvt Ltd", url: "https://www.sampratitiexim.in" }],
+  creator: "Sampratiti Exim Pvt Ltd",
+  publisher: "Sampratiti Exim Pvt Ltd",
+  category: "Chemicals",
+  alternates: { canonical: "/" },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
+  openGraph: { type: "website", siteName: "Sampratiti Exim Pvt Ltd", locale: "en_IN", url: "/" },
+  twitter: { card: "summary_large_image" },
+  other: { "geo.region": "IN-GJ", "geo.placename": "Ahmedabad", "geo.position": "23.03899;72.69154", ICBM: "23.03899, 72.69154" },
+  formatDetection: { telephone: true, email: true, address: true },
 };
 
 export const viewport: Viewport = {
@@ -66,6 +77,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <a href="#main" className="sr-only z-[90] rounded-full bg-gold px-4 py-2 font-semibold text-on-gold focus:not-sr-only focus:fixed focus:left-4 focus:top-3">
           Skip to content
         </a>
+        <JsonLd data={organizationLd} />
+        <JsonLd data={websiteLd} />
         <UIProvider>
           <Header families={navFamilies} companyLinks={companyLinks} productCount={productCount} phone={phone} />
           <main id="main">{children}</main>

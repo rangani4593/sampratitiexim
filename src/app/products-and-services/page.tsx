@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { ProductCard } from "@/components/product/ProductCard";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { InquiryButton } from "@/components/ui/InquiryButton";
-import { productCount, productTypes } from "@/lib/catalog";
+import { JsonLd } from "@/components/ui/JsonLd";
+import { abs } from "@/lib/seo";
+import { productCount, productTypes, products } from "@/lib/catalog";
 
 export const metadata: Metadata = {
   title: "Products & Services",
@@ -11,8 +13,22 @@ export const metadata: Metadata = {
 };
 
 export default function ProductsPage() {
+  const listLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Products & Services | Sampratiti Exim",
+    url: abs("/products-and-services"),
+    isPartOf: { "@id": abs("/#website") },
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: products.length,
+      itemListElement: products.map((p, i) => ({ "@type": "ListItem", position: i + 1, url: abs(`/${p.slug}`), name: p.name })),
+    },
+  };
+
   return (
     <>
+      <JsonLd data={listLd} />
       <section className="shell pt-3 md:pt-6">
         <Breadcrumbs items={[{ label: "Products & Services" }]} />
         <div className="mt-6 grid gap-6 md:mt-10 md:grid-cols-[1fr_auto] md:items-end">

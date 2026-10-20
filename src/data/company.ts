@@ -9,6 +9,13 @@ export const company = {
   altPhoneHref: "tel:+918980002428",
   altPhoneOwner: "Urmil Ramani",
   whatsapp: "919558086593",
+  email: "sampratitiexim@gmail.com",
+  geo: { lat: 23.03899, lng: 72.69154 },
+  social: [
+    "https://www.facebook.com/p/Sampratiti-Exim-Pvt-Ltd-100087364990464/",
+    "https://in.linkedin.com/in/sampratiti-exim-a4659327b",
+    "https://www.youtube.com/channel/UC_tdJhji8jBnLEVb3fqtTHg",
+  ],
   responseRate: "85%",
   established: "2022",
   gst: "24ABJCS3281Q1ZP",

@@ -16,7 +16,7 @@ export type Product = {
 
 const data = raw as { types: ProductType[]; products: Omit<Product, "image">[] };
 
-export const products: Product[] = data.products.map((p) => ({ ...p, image: `/images/product/${p.slug}-v2.webp` }));
+export const products: Product[] = data.products.map((p) => ({ ...p, image: `/images/product/${p.slug}-v5.webp` }));
 export const productCount = products.length;
 
 export const productTypes = data.types.map((t) => {

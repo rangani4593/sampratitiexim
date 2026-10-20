@@ -9,10 +9,11 @@ import { ProductCard } from "@/components/product/ProductCard";
 import { CopyValue } from "@/components/ui/CopyValue";
 import { Icon } from "@/components/ui/Icon";
 import { InquiryButton } from "@/components/ui/InquiryButton";
-import { JsonLd } from "@/components/ui/JsonLd";
+import { Faq } from "@/components/ui/Faq";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { advantageIntro, advantages, company, mission, ratings, reviews, welcomeParagraphs } from "@/data/company";
 import { industryPages } from "@/data/industries";
+import { homeFaqs } from "@/lib/seo";
 import { featured, productCount, productTypes } from "@/lib/catalog";
 
 const HEADLINE = "Your trusted chemical solutions partner";
@@ -27,22 +28,9 @@ export default function Home() {
   }));
   const quotes = reviews.filter((r) => r.text && r.text.length > 20);
 
-  const orgLd = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: company.name,
-    url: "https://www.sampratitiexim.in",
-    logo: "https://www.sampratitiexim.in/icon.png",
-    foundingDate: company.established,
-    telephone: "+91-95580-86593",
-    address: { "@type": "PostalAddress", streetAddress: company.address.lines.slice(0, 3).join(", "), addressLocality: "Ahmedabad", postalCode: "382430", addressRegion: "Gujarat", addressCountry: "IN" },
-    aggregateRating: { "@type": "AggregateRating", ratingValue: ratings.average, reviewCount: ratings.count, bestRating: 5 },
-  };
 
   return (
     <>
-      <JsonLd data={orgLd} />
-
       {/* Hero */}
       <section className="shell grid items-center gap-10 pb-14 pt-4 md:pt-10 lg:min-h-[calc(100dvh-72px)] lg:grid-cols-[1.15fr_0.85fr] lg:gap-12 lg:pb-16">
         <div>
@@ -259,6 +247,13 @@ export default function Home() {
               </figure>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="shell pb-20 md:pb-28">
+        <div className="max-w-3xl">
+          <Faq id="faq" title="Frequently asked questions" items={homeFaqs} />
         </div>
       </section>
     </>

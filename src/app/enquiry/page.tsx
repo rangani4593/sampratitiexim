@@ -44,6 +44,9 @@ export default function EnquiryPage() {
                 {company.altPhoneOwner.split(" ")[0]}: {company.altPhoneDisplay}
               </a>
             </div>
+            <a href={`mailto:${company.email}`} className="text-sm font-semibold text-on-brand underline underline-offset-4">
+              {company.email}
+            </a>
             <p className="text-sm text-on-brand/60">Call response rate {company.responseRate}</p>
           </div>
 
