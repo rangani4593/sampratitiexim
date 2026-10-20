@@ -9,7 +9,7 @@ import { useRef, useState } from "react";
 import { Logo } from "@/components/brand/Logo";
 import { useUI } from "@/components/providers/UIProvider";
 import { Icon } from "@/components/ui/Icon";
-import { QuoteButton } from "@/components/ui/QuoteButton";
+import { InquiryButton } from "@/components/ui/InquiryButton";
 
 export type NavFamily = {
   slug: string;
@@ -132,7 +132,7 @@ export function Header({ families, companyLinks, productCount, phone }: Props) {
               {phone.display}
             </a>
             <div className="hidden md:block">
-              <QuoteButton className="btn btn-gold h-11" />
+              <InquiryButton className="btn btn-gold h-11" />
             </div>
           </div>
         </div>

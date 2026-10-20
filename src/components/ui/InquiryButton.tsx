@@ -4,9 +4,9 @@ import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import { useUI } from "@/components/providers/UIProvider";
 import { Icon } from "./Icon";
 
-export function QuoteButton({
+export function InquiryButton({
   product,
-  label = "Get a quote",
+  label = "Send inquiry",
   className = "btn btn-gold",
   arrow = true,
 }: {

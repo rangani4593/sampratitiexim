@@ -6,7 +6,7 @@ import { ProductCard } from "@/components/product/ProductCard";
 import { SortableGrid } from "@/components/product/SortableGrid";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { JsonLd } from "@/components/ui/JsonLd";
-import { QuoteButton } from "@/components/ui/QuoteButton";
+import { InquiryButton } from "@/components/ui/InquiryButton";
 import { categories, formatPrice, getCategory, primaryFamily, productHref } from "@/lib/catalog";
 
 export const instant = false;
@@ -74,7 +74,7 @@ export default async function CategoryPage({ params }: PageProps<"/[category]">)
               )}
             </p>
           </div>
-          <QuoteButton product={category.name} />
+          <InquiryButton product={category.name} />
         </div>
       </section>
 

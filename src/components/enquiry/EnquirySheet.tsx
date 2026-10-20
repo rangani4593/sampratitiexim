@@ -58,7 +58,7 @@ export function EnquirySheet({ phone }: { phone: { display: string; href: string
             <div className="mb-5 flex items-start justify-between gap-4">
               <div>
                 <h2 id="enquiry-title" className="text-2xl font-semibold tracking-tight">
-                  Get the best quote
+                  Send your inquiry
                 </h2>
                 <p className="mt-1 text-sm text-ink-2">Share your requirement. Our team replies with price, COA and dispatch time.</p>
               </div>

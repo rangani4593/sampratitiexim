@@ -5,7 +5,7 @@ import { ProductDeck, type DeckSlide } from "@/components/home/ProductDeck";
 import { CategoryBlock } from "@/components/product/CategoryBlock";
 import { ProductCard } from "@/components/product/ProductCard";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-import { QuoteButton } from "@/components/ui/QuoteButton";
+import { InquiryButton } from "@/components/ui/InquiryButton";
 import { Reveal } from "@/components/ui/Reveal";
 import { families, formatPrice, getFamily, productHref, unitLabel } from "@/lib/catalog";
 
@@ -56,7 +56,7 @@ export default async function FamilyPage({ params }: PageProps<"/range/[family]"
               {family.categories.length} categories, {productTotal} products
             </p>
             <div className="mt-6">
-              <QuoteButton product={family.name} />
+              <InquiryButton product={family.name} />
             </div>
           </div>
           <div className="hidden md:block">

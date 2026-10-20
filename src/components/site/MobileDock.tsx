@@ -29,7 +29,7 @@ export function MobileDock({ phoneHref, productNames, companyPaths }: Props) {
             Call
           </a>
           <button type="button" className="btn btn-gold h-12 min-w-0 flex-1" onClick={() => openEnquiry(productName)}>
-            <span className="truncate">Get a quote</span>
+            <span className="truncate">Send inquiry</span>
             <Icon icon={SentIcon} size={18} />
           </button>
         </div>

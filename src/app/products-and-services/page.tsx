@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CategoryBlock } from "@/components/product/CategoryBlock";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-import { QuoteButton } from "@/components/ui/QuoteButton";
+import { InquiryButton } from "@/components/ui/InquiryButton";
 import { categories, families, productCount } from "@/lib/catalog";
 
 export const metadata: Metadata = {
@@ -23,7 +23,7 @@ export default function ProductsPage() {
               {productCount} products across {categories.length} categories. Tap a group to jump, or search by name or E-number.
             </p>
           </div>
-          <QuoteButton />
+          <InquiryButton />
         </div>
       </section>
 

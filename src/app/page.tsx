@@ -10,7 +10,7 @@ import { ProductCard } from "@/components/product/ProductCard";
 import { CopyValue } from "@/components/ui/CopyValue";
 import { Icon } from "@/components/ui/Icon";
 import { JsonLd } from "@/components/ui/JsonLd";
-import { QuoteButton } from "@/components/ui/QuoteButton";
+import { InquiryButton } from "@/components/ui/InquiryButton";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { advantageIntro, advantages, company, industries, mission, ratings, reviews, welcomeParagraphs } from "@/data/company";
 import { allVideos, alsoPopular, categories, families, featured, formatPrice, productCount, productHref, unitLabel } from "@/lib/catalog";
@@ -66,7 +66,7 @@ export default function Home() {
             Food, pharma and water-treatment chemicals, imported and supplied in bulk across India with COA and MSDS support.
           </p>
           <div className="fade-in mt-8 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap" style={{ ["--d" as string]: "560ms" }}>
-            <QuoteButton className="btn btn-gold px-4" />
+            <InquiryButton className="btn btn-gold px-4" />
             <Link href="/products-and-services" className="btn btn-ghost px-4">
               <span className="sm:hidden">All products</span>
               <span className="hidden sm:inline">Browse {productCount} products</span>
@@ -197,7 +197,7 @@ export default function Home() {
               <figcaption className="mt-2 text-sm font-semibold">Our mission</figcaption>
             </figure>
             <div className="mt-8 hidden lg:block">
-              <QuoteButton />
+              <InquiryButton />
             </div>
           </div>
           <AdvantageList items={advantages} />

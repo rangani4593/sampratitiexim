@@ -1,24 +1,39 @@
 "use client";
 
-import { Alert02Icon, CheckmarkBadge02Icon, Loading03Icon, SentIcon } from "@hugeicons/core-free-icons";
+import { Alert02Icon, CheckmarkBadge02Icon, Loading03Icon, SentIcon, WhatsappIcon } from "@hugeicons/core-free-icons";
 import { useId, useState } from "react";
 import { Icon } from "@/components/ui/Icon";
+import { ProductPicker } from "./ProductPicker";
 
-type Errors = Partial<Record<"mobile" | "email" | "name" | "message", string>>;
+type Field = "product" | "mobile" | "email" | "name" | "message";
+type Errors = Partial<Record<Field, string>>;
 type Status = "idle" | "sending" | "sent" | "error";
+
+const WHATSAPP_NUMBER = "918071790327";
 
 export const normaliseMobile = (v: string) => v.replace(/[^\d]/g, "").replace(/^(91|0)(?=\d{10}$)/, "");
 
-function validate(f: FormData): Errors {
+function validate(v: Record<Field, string>): Errors {
   const e: Errors = {};
-  const mobile = normaliseMobile(String(f.get("mobile") ?? ""));
-  if (!/^[6-9]\d{9}$/.test(mobile)) e.mobile = "Enter a 10-digit Indian mobile number.";
-  const email = String(f.get("email") ?? "").trim();
-  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) e.email = "Enter a valid email address, or leave it empty.";
-  if (String(f.get("name") ?? "").trim().length < 2) e.name = "Please enter your name.";
-  if (String(f.get("message") ?? "").trim().length < 10) e.message = "Tell us the product, grade and quantity you need.";
+  if (!v.product.trim()) e.product = "Select or type the product you need.";
+  if (!/^[6-9]\d{9}$/.test(normaliseMobile(v.mobile))) e.mobile = "Enter a 10-digit Indian mobile number.";
+  if (v.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.email.trim())) e.email = "Enter a valid email address, or leave it empty.";
+  if (v.name.trim().length < 2) e.name = "Please enter your name.";
+  if (v.message.trim().length < 10) e.message = "Tell us the grade, quantity and delivery city you need.";
   return e;
 }
+
+const whatsappLink = (v: Record<Field, string>) => {
+  const lines = [
+    "Hello Sampratiti Exim, I have an inquiry.",
+    v.product && `Product: ${v.product}`,
+    v.message && `Requirement: ${v.message}`,
+    v.name && `Name: ${v.name}`,
+    v.mobile && `Mobile: ${v.mobile}`,
+    v.email && `Email: ${v.email}`,
+  ].filter(Boolean);
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join("\n"))}`;
+};
 
 export function EnquiryForm({
   product,
@@ -30,42 +45,52 @@ export function EnquiryForm({
   phone: { display: string; href: string };
 }) {
   const id = useId();
+  const [values, setValues] = useState<Record<Field, string>>({ product: product ?? "", mobile: "", email: "", name: "", message: "" });
+  const [lastProp, setLastProp] = useState(product);
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<Status>("idle");
   const [serverMessage, setServerMessage] = useState("");
+  const [sentLink, setSentLink] = useState("");
+
+  if (product !== lastProp) {
+    setLastProp(product);
+    setValues((v) => ({ ...v, product: product ?? "" }));
+  }
 
   const label = tone === "brand" ? "text-on-brand" : "text-ink";
   const help = tone === "brand" ? "text-on-brand/70" : "text-ink-3";
   const err = tone === "brand" ? "text-[#ffb4a3]" : "text-[#b4402c] dark:text-[#ff9f8a]";
 
+  const set = (name: Field) => (value: string) => {
+    setValues((v) => ({ ...v, [name]: value }));
+    if (errors[name]) setErrors((e) => ({ ...e, [name]: undefined }));
+  };
+
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
-    const data = new FormData(form);
-    const found = validate(data);
+    const found = validate(values);
     setErrors(found);
-    if (Object.keys(found).length) {
-      const first = form.querySelector<HTMLElement>(`[name="${Object.keys(found)[0]}"]`);
-      first?.focus();
+    const firstBad = Object.keys(found)[0];
+    if (firstBad) {
+      form.querySelector<HTMLElement>(`[name="${firstBad}"]`)?.focus();
       return;
     }
     setStatus("sending");
     try {
+      const honeypot = (new FormData(form).get("company_website") as string) ?? "";
       const res = await fetch("/api/enquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...Object.fromEntries(data.entries()),
-          mobile: normaliseMobile(String(data.get("mobile"))),
-          page: window.location.pathname,
-        }),
+        body: JSON.stringify({ ...values, mobile: normaliseMobile(values.mobile), company_website: honeypot, page: window.location.pathname }),
       });
       const body = (await res.json().catch(() => ({}))) as { message?: string };
-      if (!res.ok) throw new Error(body.message ?? "Could not send your enquiry.");
+      if (!res.ok) throw new Error(body.message ?? "Could not send your inquiry.");
+      setSentLink(whatsappLink(values));
       setStatus("sent");
-      form.reset();
+      setValues({ product: "", mobile: "", email: "", name: "", message: "" });
     } catch (error) {
-      setServerMessage(error instanceof Error ? error.message : "Could not send your enquiry.");
+      setServerMessage(error instanceof Error ? error.message : "Could not send your inquiry.");
       setStatus("error");
     }
   }
@@ -77,28 +102,33 @@ export function EnquiryForm({
           <Icon icon={CheckmarkBadge02Icon} size={24} />
         </span>
         <p className="text-xl font-semibold">Thank you</p>
-        <p className={`max-w-[40ch] ${help}`}>Your enquiry has been sent successfully. We will reply shortly with the best price.</p>
+        <p className={`max-w-[40ch] ${help}`}>Your inquiry has been sent successfully. We will reply shortly with the best price.</p>
+        <a href={sentLink} target="_blank" rel="noopener noreferrer" className="btn mt-1 w-full bg-[#25d366] text-[#06210f] sm:w-auto">
+          <Icon icon={WhatsappIcon} size={20} />
+          Continue on WhatsApp
+        </a>
         <p className={`text-sm ${help}`}>
-          For an immediate response, call{" "}
+          Or call{" "}
           <a href={phone.href} className="font-semibold underline underline-offset-4">
             {phone.display}
           </a>
         </p>
-        <button type="button" className={`btn mt-2 ${tone === "brand" ? "btn-on-brand" : "btn-ghost"}`} onClick={() => setStatus("idle")}>
-          Send another enquiry
+        <button type="button" className={`btn mt-1 ${tone === "brand" ? "btn-on-brand" : "btn-ghost"}`} onClick={() => setStatus("idle")}>
+          Send another inquiry
         </button>
       </div>
     );
   }
 
-  const field = (name: keyof Errors) => ({
+  const field = (name: Exclude<Field, "product">) => ({
     id: `${id}-${name}`,
     name,
+    value: values[name],
     "aria-invalid": errors[name] ? true : undefined,
     "aria-describedby": errors[name] ? `${id}-${name}-error` : undefined,
-    onChange: () => errors[name] && setErrors((e) => ({ ...e, [name]: undefined })),
+    onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => set(name)(e.target.value),
   });
-  const fieldError = (name: keyof Errors) =>
+  const fieldError = (name: Field) =>
     errors[name] ? (
       <p id={`${id}-${name}-error`} className={`text-sm ${err}`}>
         {errors[name]}
@@ -108,10 +138,11 @@ export function EnquiryForm({
   return (
     <form noValidate onSubmit={onSubmit} className="grid gap-4">
       <div className="grid gap-2">
-        <label htmlFor={`${id}-product`} className={`text-sm font-medium ${label}`}>
+        <label htmlFor={`${id}-input`} className={`text-sm font-medium ${label}`}>
           Product
         </label>
-        <input id={`${id}-product`} name="product" defaultValue={product} key={product} className="field" placeholder="e.g. Sucralose, 25 Kg" />
+        <ProductPicker value={values.product} onChange={set("product")} invalid={!!errors.product} describedBy={errors.product ? `${id}-product-error` : undefined} />
+        {fieldError("product")}
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="grid gap-2">
@@ -151,7 +182,7 @@ export function EnquiryForm({
         <p role="alert" className={`flex items-start gap-2 text-sm ${err}`}>
           <Icon icon={Alert02Icon} size={18} className="mt-0.5 shrink-0" />
           <span>
-            {serverMessage} Please call{" "}
+            {serverMessage} Please use WhatsApp or call{" "}
             <a href={phone.href} className="font-semibold underline underline-offset-4">
               {phone.display}
             </a>
@@ -159,19 +190,30 @@ export function EnquiryForm({
           </span>
         </p>
       )}
-      <button type="submit" disabled={status === "sending"} className="btn btn-gold mt-1 h-[3.25rem] w-full disabled:opacity-70 sm:w-auto sm:justify-self-start sm:px-8">
-        {status === "sending" ? (
-          <>
-            <Icon icon={Loading03Icon} size={18} className="animate-spin" />
-            Sending
-          </>
-        ) : (
-          <>
-            Send enquiry
-            <Icon icon={SentIcon} size={18} />
-          </>
-        )}
-      </button>
+      <div className="grid gap-2 sm:grid-cols-2">
+        <button type="submit" disabled={status === "sending"} className="btn btn-gold h-[3.25rem] w-full disabled:opacity-70">
+          {status === "sending" ? (
+            <>
+              <Icon icon={Loading03Icon} size={18} className="animate-spin" />
+              Sending
+            </>
+          ) : (
+            <>
+              Send inquiry
+              <Icon icon={SentIcon} size={18} />
+            </>
+          )}
+        </button>
+        <a
+          href={whatsappLink(values)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`btn h-[3.25rem] w-full ${tone === "brand" ? "btn-on-brand" : "btn-ghost"}`}
+        >
+          <Icon icon={WhatsappIcon} size={20} />
+          Inquire on WhatsApp
+        </a>
+      </div>
     </form>
   );
 }

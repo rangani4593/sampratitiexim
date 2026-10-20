@@ -10,7 +10,7 @@ import { ShareButton } from "@/components/product/ShareButton";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Icon } from "@/components/ui/Icon";
 import { JsonLd } from "@/components/ui/JsonLd";
-import { QuoteButton } from "@/components/ui/QuoteButton";
+import { InquiryButton } from "@/components/ui/InquiryButton";
 import { company } from "@/data/company";
 import { allProducts, formatPrice, getProduct, primaryFamily, productHref, relatedProducts, unitLabel } from "@/lib/catalog";
 
@@ -115,7 +115,7 @@ export default async function ProductPage({ params }: PageProps<"/[category]/[pr
                 <span className="font-mono text-3xl font-semibold tracking-tight">{formatPrice(product.price)}</span>
                 {product.price !== null && <span className="text-ink-2"> / {unitLabel(product.unit)}</span>}
               </p>
-              <QuoteButton product={product.name} label="Get latest price" className="text-sm font-semibold text-ink underline underline-offset-4" arrow={false} />
+              <InquiryButton product={product.name} label="Get latest price" className="text-sm font-semibold text-ink underline underline-offset-4" arrow={false} />
             </div>
             {product.moq && (
               <p className="mt-2 text-ink-2">
@@ -123,7 +123,7 @@ export default async function ProductPage({ params }: PageProps<"/[category]/[pr
               </p>
             )}
             <div className="mt-5 hidden gap-2 md:flex">
-              <QuoteButton product={product.name} className="btn btn-gold h-12 flex-1" />
+              <InquiryButton product={product.name} className="btn btn-gold h-12 flex-1" />
               <a href={company.phoneHref} className="btn btn-ghost h-12">
                 <Icon icon={Call02Icon} size={19} />
                 <span className="hidden sm:inline">Call</span>

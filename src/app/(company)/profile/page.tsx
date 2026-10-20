@@ -4,7 +4,7 @@ import { PageIntro } from "@/components/company/PageIntro";
 import { PhotoGrid } from "@/components/company/PhotoGrid";
 import { CopyValue } from "@/components/ui/CopyValue";
 import { Icon } from "@/components/ui/Icon";
-import { QuoteButton } from "@/components/ui/QuoteButton";
+import { InquiryButton } from "@/components/ui/InquiryButton";
 import { company, companyPhotos, profileParagraphs } from "@/data/company";
 
 export const metadata: Metadata = {
@@ -27,7 +27,7 @@ export default function ProfilePage() {
             ))}
           </div>
           <div className="mt-8 flex flex-wrap gap-3">
-            <QuoteButton />
+            <InquiryButton />
             <a href={company.catalogue.href} download className="btn btn-ghost">
               <Icon icon={Download04Icon} size={18} />
               Catalogue PDF ({company.catalogue.size})
