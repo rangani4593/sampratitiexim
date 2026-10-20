@@ -26,7 +26,7 @@ export const industryPages: Industry[] = [
       "Contact us today to explore our range and discover how we can support your success in the ice cream industry."
     ],
     "products": ["xanthan-gum","carrageenan","gms-powder","sucralose","cmc-powder","glycerin"],
-    "image": "/images/industry/ice-cream.webp"
+    "image": "/images/industry/ice-cream-vanilla.webp"
   },
   {
     "slug": "beverages",
@@ -65,7 +65,7 @@ export const industryPages: Industry[] = [
       "Contact us today to explore our range and discover how we can support your success in the processed food industry."
     ],
     "products": ["monosodium-glutamate","sodium-benzoate","potassium-sorbate","sorbic-acid","xanthan-gum","citric-acid","acetic-acid","maize-starch"],
-    "image": "/images/industry/processed-food.webp"
+    "image": "/images/industry/processed-food-sauces.webp"
   },
   {
     "slug": "snacks",
@@ -78,7 +78,7 @@ export const industryPages: Industry[] = [
       "Contact us today to explore our range and discover how we can support your success in the snakes industry."
     ],
     "products": ["monosodium-glutamate","citric-acid","sodium-bicarbonate","potassium-sorbate","maize-starch"],
-    "image": "/images/industry/snacks.webp"
+    "image": "/images/industry/snacks-popcorn.webp"
   },
   {
     "slug": "confectionery",

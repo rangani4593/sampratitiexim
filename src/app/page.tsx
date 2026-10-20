@@ -142,16 +142,16 @@ export default function Home() {
       </HorizontalShelf>
 
       {/* Industries */}
-      <section aria-label="Industries we serve" className="marquee overflow-hidden border-y border-line py-6 md:py-8">
+      <section aria-label="Industries we serve" className="marquee overflow-hidden border-y border-line py-3 md:py-4">
         <div className="marquee-track flex w-max items-center">
           {[0, 1].map((dup) => (
             <ul key={dup} aria-hidden={dup === 1} className="flex items-center">
               {industryPages.map((ind) => (
-                <li key={ind.slug} className="flex items-center whitespace-nowrap text-3xl font-semibold tracking-tight text-ink md:text-6xl">
-                  <Link href={`/industry/${ind.slug}`} tabIndex={dup === 1 ? -1 : undefined} className="px-5 hover:underline md:px-8">
+                <li key={ind.slug} className="flex items-center whitespace-nowrap text-lg font-semibold tracking-tight text-ink md:text-2xl">
+                  <Link href={`/industry/${ind.slug}`} tabIndex={dup === 1 ? -1 : undefined} className="px-4 hover:underline md:px-6">
                     {ind.name}
                   </Link>
-                  <span className="block size-2.5 rotate-45 rounded-[2px] bg-gold md:size-3.5" aria-hidden />
+                  <span className="block size-2 rotate-45 rounded-[1px] bg-gold md:size-2.5" aria-hidden />
                 </li>
               ))}
             </ul>

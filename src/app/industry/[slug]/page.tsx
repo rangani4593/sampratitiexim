@@ -34,7 +34,7 @@ export default async function IndustryDetail({ params }: PageProps<"/industry/[s
         <Breadcrumbs items={[{ href: "/industry", label: "Industries" }, { label: ind.name }]} />
         <div className="relative mt-5 overflow-hidden rounded-[var(--radius-surface)] bg-brand-deep">
           <div className="relative aspect-[4/3] sm:aspect-[16/8] lg:aspect-[16/6]">
-            <Image src={ind.image} alt={ind.title} fill sizes="(min-width: 1320px) 1256px, 100vw" loading="eager" fetchPriority="high" className="object-cover" />
+            <Image src={ind.image} alt={ind.title} fill sizes="(min-width: 1320px) 1256px, 100vw" quality={90} loading="eager" fetchPriority="high" className="object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#06121b]/85 via-[#06121b]/25 to-transparent" />
           </div>
           <div className="absolute inset-x-0 bottom-0 p-5 md:p-10">

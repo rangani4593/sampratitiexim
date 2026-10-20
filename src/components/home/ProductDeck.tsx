@@ -87,7 +87,8 @@ export function ProductDeck({ slides, autoPlay = true }: { slides: DeckSlide[]; 
                         alt={top ? slide.title : ""}
                         fill
                         draggable={false}
-                        sizes="(min-width: 1024px) 22rem, 80vw"
+                        sizes="(min-width: 1024px) 44rem, 160vw"
+                        quality={90}
                         loading={d === 0 && index === 0 ? "eager" : "lazy"}
                         fetchPriority={d === 0 && index === 0 ? "high" : "auto"}
                         className="select-none object-cover"

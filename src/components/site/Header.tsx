@@ -128,7 +128,7 @@ export function Header({ families, companyLinks, productCount, phone }: Props) {
               <span className="hidden text-sm xl:inline">Search {productCount} products</span>
               <kbd className="ml-1 hidden rounded-md bg-surface-2 px-1.5 py-0.5 font-mono text-[10px] text-ink-3 xl:inline">Ctrl K</kbd>
             </button>
-            <a href={phone.href} className="hidden h-11 items-center gap-2 rounded-full px-3 text-sm font-semibold text-ink xl:flex">
+            <a href={phone.href} className="hidden h-11 shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-3 text-sm font-semibold text-ink xl:flex">
               <Icon icon={Call02Icon} size={18} />
               {phone.display}
             </a>
