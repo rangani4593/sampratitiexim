@@ -3,13 +3,13 @@
 import { Alert02Icon, CheckmarkBadge02Icon, Loading03Icon, SentIcon, WhatsappIcon } from "@hugeicons/core-free-icons";
 import { useId, useState } from "react";
 import { Icon } from "@/components/ui/Icon";
+import { company } from "@/data/company";
 import { ProductPicker } from "./ProductPicker";
 
 type Field = "product" | "mobile" | "email" | "name" | "message";
 type Errors = Partial<Record<Field, string>>;
 type Status = "idle" | "sending" | "sent" | "error";
 
-const WHATSAPP_NUMBER = "918071790327";
 
 export const normaliseMobile = (v: string) => v.replace(/[^\d]/g, "").replace(/^(91|0)(?=\d{10}$)/, "");
 
@@ -32,7 +32,7 @@ const whatsappLink = (v: Record<Field, string>) => {
     v.mobile && `Mobile: ${v.mobile}`,
     v.email && `Email: ${v.email}`,
   ].filter(Boolean);
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join("\n"))}`;
+  return `https://wa.me/${company.whatsapp}?text=${encodeURIComponent(lines.join("\n"))}`;
 };
 
 export function EnquiryForm({

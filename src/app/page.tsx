@@ -42,7 +42,7 @@ export default function Home() {
     url: "https://www.sampratitiexim.in",
     logo: "https://www.sampratitiexim.in/icon.png",
     foundingDate: company.established,
-    telephone: "+91-79-4282-2902",
+    telephone: "+91-95580-86593",
     address: { "@type": "PostalAddress", streetAddress: company.address.lines.slice(0, 3).join(", "), addressLocality: "Ahmedabad", postalCode: "382430", addressRegion: "Gujarat", addressCountry: "IN" },
     aggregateRating: { "@type": "AggregateRating", ratingValue: ratings.average, reviewCount: ratings.count, bestRating: 5 },
   };

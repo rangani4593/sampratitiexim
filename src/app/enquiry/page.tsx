@@ -37,11 +37,11 @@ export default function EnquiryPage() {
             <div className="mt-2 grid gap-2 sm:grid-cols-2">
               <a href={company.phoneHref} className="btn btn-gold">
                 <Icon icon={Call02Icon} size={18} />
-                {company.phoneDisplay}
+                {company.phoneOwner.split(" ")[0]}: {company.phoneDisplay}
               </a>
               <a href={company.altPhoneHref} className="btn btn-on-brand">
                 <Icon icon={Call02Icon} size={18} />
-                {company.altPhoneDisplay}
+                {company.altPhoneOwner.split(" ")[0]}: {company.altPhoneDisplay}
               </a>
             </div>
             <p className="text-sm text-on-brand/60">Call response rate {company.responseRate}</p>

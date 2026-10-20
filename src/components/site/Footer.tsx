@@ -55,11 +55,11 @@ export function Footer() {
             </p>
             <a href={company.phoneHref} className="flex items-center gap-2 text-base font-semibold">
               <Icon icon={Call02Icon} size={18} />
-              {company.phoneDisplay}
+              {company.phoneOwner}: {company.phoneDisplay}
             </a>
             <a href={company.altPhoneHref} className="flex items-center gap-2 text-on-brand/80">
               <Icon icon={Call02Icon} size={18} />
-              {company.altPhoneDisplay}
+              {company.altPhoneOwner}: {company.altPhoneDisplay}
             </a>
             <p className="text-on-brand/60">Call response rate {company.responseRate}</p>
           </div>
