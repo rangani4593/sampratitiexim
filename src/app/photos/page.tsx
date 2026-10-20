@@ -1,37 +1,39 @@
 import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
 import { PageIntro } from "@/components/company/PageIntro";
 import { PhotoGrid } from "@/components/company/PhotoGrid";
-import { PhotoBrowser, type Photo } from "@/components/media/PhotoBrowser";
 import { companyPhotos } from "@/data/company";
-import { allProducts, families, formatPrice, photoCount, primaryFamily, productHref, unitLabel } from "@/lib/catalog";
+import { industryPages } from "@/data/industries";
 
 export const metadata: Metadata = {
   title: "Photos",
-  description: `${photoCount} product photos of sucralose, aspartame, TCCA 90, xanthan gum, citric acid and more from Sampratiti Exim, Ahmedabad.`,
+  description: "Photos of the Sampratiti Exim warehouse, certificates and the industries we supply, from Ahmedabad.",
   alternates: { canonical: "/photos" },
 };
 
 export default function PhotosPage() {
-  const photos: Photo[] = allProducts.flatMap(({ category, product }) =>
-    product.images.map((src) => ({
-      src,
-      name: product.name,
-      href: productHref(category.slug, product.slug),
-      group: primaryFamily(category).name,
-      price: product.price ? `${formatPrice(product.price)} / ${unitLabel(product.unit)}` : "Price on request",
-    })),
-  );
-
   return (
     <>
-      <PageIntro title="Photos" lead={`${photoCount} product photos and our warehouse, infrastructure and certificates.`} />
+      <PageIntro title="Photos" lead="Our warehouse, infrastructure, certificates and the industries we supply." />
       <section className="shell pb-14">
         <h2 className="mb-6 text-2xl font-semibold tracking-tight md:text-3xl">Company</h2>
         <PhotoGrid photos={companyPhotos} />
       </section>
       <section className="shell pb-20">
-        <h2 className="mb-2 text-2xl font-semibold tracking-tight md:text-3xl">Products</h2>
-        <PhotoBrowser photos={photos} groups={families.map((f) => f.name)} />
+        <h2 className="mb-6 text-2xl font-semibold tracking-tight md:text-3xl">Industries</h2>
+        <ul className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
+          {industryPages.map((i) => (
+            <li key={i.slug}>
+              <Link href={`/industry/${i.slug}`} className="group block">
+                <span className="relative block aspect-[4/3] overflow-hidden rounded-[var(--radius-surface)] bg-surface-2">
+                  <Image src={i.image} alt={i.title} fill sizes="(min-width: 768px) 25vw, 50vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                </span>
+                <span className="mt-2 block px-1 text-sm font-semibold">{i.name}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </section>
     </>
   );

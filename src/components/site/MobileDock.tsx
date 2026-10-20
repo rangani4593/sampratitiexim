@@ -39,7 +39,7 @@ export function MobileDock({ phoneHref, productNames, companyPaths }: Props) {
 
   const items = [
     { href: "/", label: "Home", icon: Home04Icon, active: pathname === "/" },
-    { href: "/products-and-services", label: "Products", icon: DashboardSquare01Icon, active: pathname.startsWith("/products") || pathname.startsWith("/range") },
+    { href: "/products-and-services", label: "Products", icon: DashboardSquare01Icon, active: pathname.startsWith("/products") || pathname.startsWith("/industry") },
   ];
   const right = [{ href: "/profile", label: "Company", icon: Building03Icon, active: companyPaths.some((p) => pathname.startsWith(p)) }];
 

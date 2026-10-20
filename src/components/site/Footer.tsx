@@ -5,13 +5,13 @@ import { LogoBadge } from "@/components/brand/Logo";
 import { EnquiryForm } from "@/components/enquiry/EnquiryForm";
 import { Icon } from "@/components/ui/Icon";
 import { company, companyTabs } from "@/data/company";
-import { categories, families } from "@/lib/catalog";
+import { productTypes, products } from "@/lib/catalog";
 
 const shareIcons = { Facebook: Facebook01Icon, X: NewTwitterIcon, LinkedIn: Linkedin01Icon } as const;
 
 export function Footer() {
   const phone = { display: company.phoneDisplay, href: company.phoneHref };
-  const topCategories = [...categories].sort((a, b) => b.products.length - a.products.length).slice(0, 10);
+  const topProducts = products.slice(0, 10);
 
   return (
     <footer className="relative isolate overflow-hidden bg-brand text-on-brand">
@@ -96,7 +96,7 @@ export function Footer() {
         <div>
           <p className="text-sm font-semibold text-gold">Our company</p>
           <ul className="mt-4 grid gap-2.5 text-sm text-on-brand/80">
-            {[...companyTabs, { href: "/products-and-services", label: "Our Products" }, { href: "/photos", label: "Photos" }, { href: "/enquiry", label: "Contact Us" }, { href: "/sitemap", label: "Sitemap" }].map((l) => (
+            {[...companyTabs, { href: "/products-and-services", label: "Our Products" }, { href: "/industry", label: "Industries" }, { href: "/photos", label: "Photos" }, { href: "/enquiry", label: "Contact Us" }, { href: "/sitemap", label: "Sitemap" }].map((l) => (
               <li key={l.href}>
                 <Link href={l.href} className="hover:text-on-brand hover:underline hover:underline-offset-4">
                   {l.label}
@@ -108,9 +108,9 @@ export function Footer() {
         <div>
           <p className="text-sm font-semibold text-gold">Product groups</p>
           <ul className="mt-4 grid gap-2.5 text-sm text-on-brand/80">
-            {families.map((f) => (
+            {productTypes.map((f) => (
               <li key={f.slug}>
-                <Link href={`/range/${f.slug}`} className="hover:text-on-brand hover:underline hover:underline-offset-4">
+                <Link href={`/products-and-services#${f.slug}`} className="hover:text-on-brand hover:underline hover:underline-offset-4">
                   {f.name}
                 </Link>
               </li>
@@ -120,7 +120,7 @@ export function Footer() {
         <div className="sm:col-span-2">
           <p className="text-sm font-semibold text-gold">Our products</p>
           <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2.5 text-sm text-on-brand/80">
-            {topCategories.map((c) => (
+            {topProducts.map((c) => (
               <li key={c.slug}>
                 <Link href={`/${c.slug}`} className="hover:text-on-brand hover:underline hover:underline-offset-4">
                   {c.name}

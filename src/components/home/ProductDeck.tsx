@@ -7,12 +7,12 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { Icon } from "@/components/ui/Icon";
 
-export type DeckSlide = { src: string; name: string; href: string; price: string; category: string; code: string | null };
+export type DeckSlide = { src: string; title: string; href: string; caption: string; eyebrow: string };
 
 const DEPTH = 3;
 const SWIPE = 90;
 
-export function ProductDeck({ slides, autoPlay = true, compact = false }: { slides: DeckSlide[]; autoPlay?: boolean; compact?: boolean }) {
+export function ProductDeck({ slides, autoPlay = true }: { slides: DeckSlide[]; autoPlay?: boolean }) {
   const reduce = useReducedMotion();
   const [index, setIndex] = useState(0);
   const [dir, setDir] = useState(1);
@@ -47,11 +47,11 @@ export function ProductDeck({ slides, autoPlay = true, compact = false }: { slid
       onFocusCapture={() => setPaused(true)}
       onBlurCapture={() => setPaused(false)}
       aria-roledescription="carousel"
-      aria-label="Featured products"
+      aria-label="Industries we supply"
     >
       <Image src="/images/brand/emblem-gold.png" alt="" width={420} height={524} className="pointer-events-none absolute -bottom-16 -right-14 -z-10 w-56 opacity-[0.09] sm:w-72" />
 
-      <div className={`relative mx-auto ${compact ? "max-w-[15rem]" : "max-w-[19rem] sm:max-w-[21rem]"}`}>
+      <div className="relative mx-auto max-w-[19rem] sm:max-w-[21rem]">
         <div className="relative aspect-[4/5]">
           <AnimatePresence initial={false} custom={dir}>
             {visible
@@ -81,32 +81,29 @@ export function ProductDeck({ slides, autoPlay = true, compact = false }: { slid
                     className={`absolute inset-0 flex origin-bottom flex-col overflow-hidden rounded-[22px] bg-surface shadow-[0_30px_60px_-30px_rgb(0_0_0/0.55)] ${top ? "cursor-grab" : "pointer-events-none"}`}
                     aria-hidden={!top}
                   >
-                    <div className="relative min-h-0 flex-1 bg-white">
+                    <div className="relative min-h-0 flex-1 bg-surface-2">
                       <Image
                         src={slide.src}
-                        alt={top ? slide.name : ""}
+                        alt={top ? slide.title : ""}
                         fill
                         draggable={false}
                         sizes="(min-width: 1024px) 22rem, 80vw"
                         loading={d === 0 && index === 0 ? "eager" : "lazy"}
                         fetchPriority={d === 0 && index === 0 ? "high" : "auto"}
-                        className="select-none object-contain p-4"
+                        className="select-none object-cover"
                       />
-                      {slide.code && (
-                        <span className="absolute left-3 top-3 rounded-full bg-brand px-2.5 py-1 font-mono text-[11px] font-medium text-gold">{slide.code}</span>
-                      )}
                     </div>
                     <div className="flex items-center gap-3 border-t border-line p-3.5 pl-4">
                       <div className="min-w-0 flex-1">
-                        <p className="truncate text-xs text-ink-3">{slide.category}</p>
-                        <p className="truncate font-semibold leading-snug text-ink">{slide.name}</p>
-                        <p className="font-mono text-sm text-ink-2">{slide.price}</p>
+                        <p className="truncate text-xs text-ink-3">{slide.eyebrow}</p>
+                        <p className="truncate font-semibold leading-snug text-ink">{slide.title}</p>
+                        <p className="truncate text-sm text-ink-2">{slide.caption}</p>
                       </div>
                       <Link
                         href={slide.href}
                         tabIndex={top ? 0 : -1}
                         className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-gold text-on-gold transition-transform active:scale-95"
-                        aria-label={`View ${slide.name}`}
+                        aria-label={`View ${slide.title}`}
                       >
                         <Icon icon={ArrowUpRight01Icon} size={20} />
                       </Link>
@@ -123,13 +120,12 @@ export function ProductDeck({ slides, autoPlay = true, compact = false }: { slid
           <p className="font-mono text-xs text-on-brand/70" aria-live="polite">
             <span className="text-on-brand">{String(index + 1).padStart(2, "0")}</span> / {String(slides.length).padStart(2, "0")}
           </p>
-          <p className="hidden text-xs text-on-brand/60 sm:block md:hidden">Swipe the card to browse</p>
           <div className="flex gap-2">
             <button
               type="button"
               onClick={() => go(-1)}
               className="grid h-11 w-11 place-items-center rounded-full text-on-brand ring-1 ring-on-brand/30 transition-colors hover:bg-on-brand hover:text-brand"
-              aria-label="Previous product"
+              aria-label="Previous industry"
             >
               <Icon icon={ArrowLeft01Icon} size={20} />
             </button>
@@ -137,7 +133,7 @@ export function ProductDeck({ slides, autoPlay = true, compact = false }: { slid
               type="button"
               onClick={() => go(1)}
               className="grid h-11 w-11 place-items-center rounded-full text-on-brand ring-1 ring-on-brand/30 transition-colors hover:bg-on-brand hover:text-brand"
-              aria-label="Next product"
+              aria-label="Next industry"
             >
               <Icon icon={ArrowRight01Icon} size={20} />
             </button>

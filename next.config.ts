@@ -1,5 +1,5 @@
 import type { NextConfig } from "next";
-import legacyRedirects from "./src/data/redirects.json";
+import legacyRedirects from "./src/data/legacy-redirects.json";
 
 const nextConfig: NextConfig = {
   cacheComponents: true,
@@ -16,8 +16,9 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
-      // sampratitiexim.co.in (TradeIndia) URLs
+      // old category, variant and sampratitiexim.co.in URLs now point at the single product pages
       ...(legacyRedirects as [string, string][]).map(([source, destination]) => ({ source, destination, permanent: true })),
+      { source: "/range/:family", destination: "/products-and-services", permanent: true },
       { source: "/products.html", destination: "/products-and-services", permanent: true },
       { source: "/contact-us.html", destination: "/enquiry", permanent: true },
       { source: "/company-profile.html", destination: "/profile", permanent: true },

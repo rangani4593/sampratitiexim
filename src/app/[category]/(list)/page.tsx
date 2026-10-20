@@ -1,149 +1,153 @@
+import { Call02Icon, DeliveryTruck01Icon, File01Icon, PackageIcon, WhatsappIcon } from "@hugeicons/core-free-icons";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ViewTransition } from "react";
 import { ProductCard } from "@/components/product/ProductCard";
-import { SortableGrid } from "@/components/product/SortableGrid";
+import { ShareButton } from "@/components/product/ShareButton";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-import { JsonLd } from "@/components/ui/JsonLd";
+import { Icon } from "@/components/ui/Icon";
 import { InquiryButton } from "@/components/ui/InquiryButton";
-import { categories, formatPrice, getCategory, primaryFamily, productHref } from "@/lib/catalog";
+import { JsonLd } from "@/components/ui/JsonLd";
+import { company } from "@/data/company";
+import { getProduct, industriesFor, productHref, products, relatedProducts, typeOf } from "@/lib/catalog";
 
 export const instant = false;
 
 export function generateStaticParams() {
-  return categories.map((c) => ({ category: c.slug }));
+  return products.map((p) => ({ category: p.slug }));
 }
+
+const plain = (html: string) => html.replace(/<[^>]+>/g, " ").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim();
 
 export async function generateMetadata({ params }: PageProps<"/[category]">): Promise<Metadata> {
   const { category: slug } = await params;
-  const category = getCategory(slug);
-  if (!category) return {};
-  const desc = `${category.name} supplier in Ahmedabad: ${category.products.length} products${
-    category.priceMin ? ` from ${formatPrice(category.priceMin)}/Kg` : ""
-  }. ${category.use}. Bulk supply across India from Sampratiti Exim.`;
+  const p = getProduct(slug);
+  if (!p) return {};
+  const desc = `${p.name}: ${p.short} Bulk supply across India from Sampratiti Exim, Ahmedabad.`;
   return {
-    title: `${category.name} Supplier, Importer & Trader`,
+    title: `${p.name} Supplier, Importer & Trader`,
     description: desc,
-    keywords: [category.name, ...(category.code ? [category.code] : []), ...category.tags.slice(0, 15)],
-    alternates: { canonical: `/${category.slug}` },
-    openGraph: { title: category.name, description: desc, images: [{ url: category.cover }] },
+    alternates: { canonical: productHref(p.slug) },
+    openGraph: { title: p.name, description: desc, images: [{ url: p.image }] },
   };
 }
 
-export default async function CategoryPage({ params }: PageProps<"/[category]">) {
+export default async function ProductPage({ params }: PageProps<"/[category]">) {
   const { category: slug } = await params;
-  const category = getCategory(slug);
-  if (!category) notFound();
-  const family = primaryFamily(category);
-  const siblings = family.categories;
-  const others = categories.filter((c) => !family.categories.includes(c)).slice(0, 8);
+  const product = getProduct(slug);
+  if (!product) notFound();
+  const type = typeOf(product);
+  const industries = industriesFor(product);
+  const related = relatedProducts(product);
+  const whatsapp = `https://wa.me/${company.whatsapp}?text=${encodeURIComponent(`Hello Sampratiti Exim, I have an inquiry for ${product.name}.`)}`;
 
   const ld = {
     "@context": "https://schema.org",
-    "@type": "ItemList",
-    name: category.name,
-    itemListElement: category.products.map((p, i) => ({ "@type": "ListItem", position: i + 1, url: `https://www.sampratitiexim.in${productHref(category.slug, p.slug)}`, name: p.name })),
+    "@type": "Product",
+    name: product.name,
+    image: `https://www.sampratitiexim.in${product.image}`,
+    description: plain(product.html).slice(0, 500) || product.short,
+    category: type.name,
+    brand: { "@type": "Brand", name: company.name },
   };
 
   return (
     <>
       <JsonLd data={ld} />
-      <section className="shell pt-3 md:pt-6">
-        <Breadcrumbs items={[{ href: "/products-and-services", label: "Products" }, { href: `/range/${family.slug}`, label: family.name }, { label: category.name }]} />
-        <div className="mt-6 grid gap-6 md:mt-10 md:grid-cols-[1fr_auto] md:items-end">
-          <div>
-            <div className="flex flex-wrap items-center gap-2 font-mono text-xs text-ink-2">
-              {category.code && <span className="rounded-full bg-gold px-2.5 py-1 text-on-gold">{category.code}</span>}
-              {category.formula && <span className="rounded-full bg-surface px-2.5 py-1 hairline">{category.formula}</span>}
-            </div>
-            <h1 className="mt-4 text-balance text-[2.3rem] font-semibold leading-[1.05] tracking-tight md:text-6xl">{category.name}</h1>
-            <p className="mt-4 max-w-[52ch] text-lg text-ink-2">
-              {category.use}.{" "}
-              {category.priceMin !== null && (
-                <>
-                  {category.priceMin === category.priceMax ? "Price " : "Prices from "}
-                  <span className="font-mono font-semibold text-ink">{formatPrice(category.priceMin)}</span>
-                  {category.priceMax !== null && category.priceMax !== category.priceMin && (
-                    <>
-                      {" "}to <span className="font-mono font-semibold text-ink">{formatPrice(category.priceMax)}</span>
-                    </>
-                  )}{" "}
-                  per Kg.
-                </>
-              )}
-            </p>
+      <div className="shell pt-3 md:pt-6">
+        <Breadcrumbs items={[{ href: "/products-and-services", label: "Products" }, { label: product.name }]} />
+      </div>
+
+      <section className="shell grid gap-8 pb-12 pt-5 md:grid-cols-2 md:items-center md:gap-10 lg:gap-16">
+        <ViewTransition name={`product-${product.slug}`} share="morph" default="none">
+          <div className="relative aspect-[4/3] min-w-0 overflow-hidden rounded-[var(--radius-surface)] bg-surface-2">
+            <Image src={product.image} alt={product.name} fill sizes="(min-width: 768px) 50vw, 100vw" loading="eager" fetchPriority="high" className="object-cover" />
           </div>
-          <InquiryButton product={category.name} />
+        </ViewTransition>
+
+        <div className="min-w-0">
+          <div className="flex flex-wrap items-center gap-2 font-mono text-xs text-ink-2">
+            {product.code && <span className="rounded-full bg-gold px-2.5 py-1 text-on-gold">{product.code}</span>}
+            <Link href={`/products-and-services#${type.slug}`} className="rounded-full bg-surface px-2.5 py-1 font-sans hairline">
+              {type.name}
+            </Link>
+          </div>
+          <h1 className="mt-4 text-balance text-[2.1rem] font-semibold leading-[1.06] tracking-tight md:text-5xl">{product.name}</h1>
+          {product.tagline && <p className="mt-3 max-w-[44ch] text-lg leading-relaxed text-ink-2">{product.tagline}</p>}
+
+          <div className="mt-6 grid grid-cols-2 gap-2 sm:flex">
+            <InquiryButton product={product.name} className="btn btn-gold col-span-2 h-12 sm:flex-1" />
+            <a href={company.phoneHref} className="btn btn-ghost h-12">
+              <Icon icon={Call02Icon} size={19} />
+              Call
+            </a>
+            <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="btn btn-ghost h-12">
+              <Icon icon={WhatsappIcon} size={19} />
+              WhatsApp
+            </a>
+            <div className="hidden sm:block">
+              <ShareButton title={product.name} />
+            </div>
+          </div>
+
+          <ul className="mt-6 grid gap-3 text-sm text-ink-2">
+            {[
+              { icon: File01Icon, text: "COA and MSDS available as applicable to the product and batch" },
+              { icon: PackageIcon, text: "Bulk and custom packing on request" },
+              { icon: DeliveryTruck01Icon, text: "Dispatch from Ahmedabad, delivery across India" },
+            ].map((r) => (
+              <li key={r.text} className="flex items-center gap-3">
+                <Icon icon={r.icon} size={19} className="shrink-0 text-ink" />
+                {r.text}
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
-      {siblings.length > 1 && (
-        <nav aria-label={`${family.name} categories`} className="sticky top-16 z-30 mt-8 border-y border-line bg-bg/90 backdrop-blur-xl md:top-[72px]">
-          <div className="shell no-scrollbar flex gap-2 overflow-x-auto py-3">
-            {siblings.map((s) => (
-              <Link key={s.slug} href={`/${s.slug}`} aria-current={s.slug === category.slug ? "page" : undefined} className="chip shrink-0">
-                {s.name}
-                <span className="font-mono text-[11px] opacity-60">{s.products.length}</span>
-              </Link>
-            ))}
+      <section className="border-t border-line bg-surface-2/50 py-14 md:py-20">
+        <div className="shell grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:gap-16">
+          <div className="min-w-0">
+            <h2 className="mb-6 text-2xl font-semibold tracking-tight md:text-3xl">About {product.name}</h2>
+            <div className="prose-spec" dangerouslySetInnerHTML={{ __html: product.html }} />
           </div>
-        </nav>
-      )}
-
-      <section className="shell py-8 md:py-12">
-        <SortableGrid
-          items={category.products.map((p, i) => ({
-            key: p.slug,
-            price: p.price,
-            name: p.name,
-            node: <ProductCard category={category} product={p} eager={i < 4} sizes="(min-width: 1280px) 300px, (min-width: 768px) 33vw, 50vw" />,
-          }))}
-        />
-      </section>
-
-      {category.introHtml && (
-        <section className="border-t border-line bg-surface-2/50 py-14 md:py-20">
-          <div className="shell grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:gap-16">
-            <div>
-              <h2 className="mb-6 text-2xl font-semibold tracking-tight md:text-3xl">About {category.name}</h2>
-              <div className="prose-spec" dangerouslySetInnerHTML={{ __html: category.introHtml }} />
-            </div>
-            <div className="lg:sticky lg:top-40 lg:self-start">
-              <div className="well relative aspect-square overflow-hidden rounded-[var(--radius-surface)] hairline">
-                <Image src={category.cover} alt={category.name} fill sizes="(min-width: 1024px) 30vw, 100vw" className="object-contain p-4" />
-              </div>
-              {category.tags.length > 0 && (
-                <ul className="mt-6 flex flex-wrap gap-2">
-                  {category.tags.slice(0, 16).map((t) => (
-                    <li key={t} className="rounded-full bg-surface px-3 py-1.5 text-sm text-ink-2 hairline">
-                      {t}
+          <div className="min-w-0 lg:sticky lg:top-24 lg:self-start">
+            {industries.length > 0 && (
+              <>
+                <h2 className="mb-3 text-xl font-semibold tracking-tight">Used in these industries</h2>
+                <ul className="flex flex-wrap gap-2">
+                  {industries.map((i) => (
+                    <li key={i.slug}>
+                      <Link href={`/industry/${i.slug}`} className="chip">
+                        {i.name}
+                      </Link>
                     </li>
                   ))}
                 </ul>
-              )}
+              </>
+            )}
+            <div className="mt-8 rounded-[var(--radius-surface)] bg-brand p-6 text-on-brand">
+              <h2 className="text-xl font-semibold tracking-tight">Need {product.name}?</h2>
+              <p className="mt-2 text-sm text-on-brand/75">Tell us the grade and quantity. We reply with price, COA and dispatch time.</p>
+              <div className="mt-4">
+                <InquiryButton product={product.name} />
+              </div>
             </div>
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
       <section className="shell py-14 md:py-20">
-        <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">Explore more categories</h2>
-        <ul className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-          {others.map((o) => (
-            <li key={o.slug}>
-              <Link href={`/${o.slug}`} className="group flex items-center gap-3 rounded-2xl bg-surface p-2 pr-3 hairline transition-transform active:scale-[0.98]">
-                <span className="well relative h-14 w-14 shrink-0 overflow-hidden rounded-xl">
-                  <Image src={o.cover} alt="" fill sizes="56px" className="object-contain p-1" />
-                </span>
-                <span className="min-w-0">
-                  <span className="block truncate text-sm font-semibold group-hover:underline">{o.name}</span>
-                  <span className="block text-xs text-ink-3">{o.products.length} products</span>
-                </span>
-              </Link>
-            </li>
+        <h2 className="mb-6 text-2xl font-semibold tracking-tight md:text-3xl">More products</h2>
+        <div className="no-scrollbar -mx-4 flex snap-x gap-3 overflow-x-auto px-4 md:mx-0 md:grid md:grid-cols-4 md:gap-4 md:overflow-visible md:px-0">
+          {related.map((r) => (
+            <div key={r.slug} className="w-[68%] shrink-0 snap-start sm:w-[42%] md:w-auto">
+              <ProductCard product={r} />
+            </div>
           ))}
-        </ul>
+        </div>
       </section>
     </>
   );

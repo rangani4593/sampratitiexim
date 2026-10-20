@@ -7,7 +7,7 @@ import { Footer } from "@/components/site/Footer";
 import { Header, type NavFamily } from "@/components/site/Header";
 import { MobileDock } from "@/components/site/MobileDock";
 import { company, companyTabs } from "@/data/company";
-import { allProducts, families, productCount, productHref, searchIndex } from "@/lib/catalog";
+import { productCount, productHref, productTypes, products, searchIndex } from "@/lib/catalog";
 import "./globals.css";
 
 const familjen = Familjen_Grotesk({ variable: "--font-familjen", subsets: ["latin"], display: "swap" });
@@ -46,16 +46,16 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-const navFamilies: NavFamily[] = families.map((f) => ({
-  slug: f.slug,
-  name: f.name,
-  blurb: f.blurb,
-  cover: f.cover,
-  productCount: f.productCount,
-  categories: f.categories.map((c) => ({ slug: c.slug, name: c.name, code: c.code, count: c.products.length })),
+const navFamilies: NavFamily[] = productTypes.map((t) => ({
+  slug: t.slug,
+  name: t.name,
+  blurb: t.blurb,
+  cover: t.cover,
+  productCount: t.products.length,
+  categories: t.products.map((p) => ({ slug: p.slug, name: p.name, code: p.code, count: 0 })),
 }));
 
-const productNames = Object.fromEntries(allProducts.map(({ category, product }) => [productHref(category.slug, product.slug), product.name]));
+const productNames = Object.fromEntries(products.map((p) => [productHref(p.slug), p.name]));
 const companyLinks = [...companyTabs, { href: "/photos", label: "Photos" }];
 const phone = { display: company.phoneDisplay, href: company.phoneHref };
 
@@ -71,7 +71,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <main id="main">{children}</main>
           <Footer />
           <MobileDock phoneHref={company.phoneHref} productNames={productNames} companyPaths={companyTabs.map((t) => t.href)} />
-          <SearchOverlay items={searchIndex} quickLinks={families.map((f) => ({ href: `/range/${f.slug}`, label: f.name }))} />
+          <SearchOverlay items={searchIndex} quickLinks={productTypes.map((t) => ({ href: `/products-and-services#${t.slug}`, label: t.name }))} />
           <EnquirySheet phone={phone} />
         </UIProvider>
       </body>

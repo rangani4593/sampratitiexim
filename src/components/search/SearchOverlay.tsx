@@ -149,13 +149,13 @@ export function SearchOverlay({ items, quickLinks }: Props) {
                         onMouseMove={() => setCursor(i)}
                         className={`flex items-center gap-3 rounded-2xl p-2 pr-3 transition-colors ${i === cursor ? "bg-gold-soft" : ""}`}
                       >
-                        <span className="well relative h-14 w-14 shrink-0 overflow-hidden rounded-xl hairline">
-                          {r.image && <Image src={r.image} alt="" fill sizes="56px" className="object-contain p-1" />}
+                        <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-surface-2">
+                          {r.image && <Image src={r.image} alt="" fill sizes="56px" className="object-cover" />}
                         </span>
                         <span className="min-w-0 flex-1">
                           <span className="block truncate font-medium text-ink">{r.name}</span>
                           <span className="mt-0.5 block truncate text-sm text-ink-3">
-                            {r.category} <span aria-hidden>/</span> <span className="font-mono text-[12px]">{r.price}</span>
+                            {r.category}
                           </span>
                         </span>
                         <Icon icon={ArrowRight01Icon} size={18} className="shrink-0 text-ink-3" />

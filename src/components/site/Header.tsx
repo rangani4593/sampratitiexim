@@ -78,7 +78,7 @@ export function Header({ families, companyLinks, productCount, phone }: Props) {
               onMouseLeave={scheduleClose}
               onClick={() => setMenu(menu === "products" ? null : "products")}
               className={`flex h-10 items-center gap-1 rounded-full px-4 text-[0.95rem] font-medium transition-colors hover:bg-surface ${
-                menu === "products" || pathname.startsWith("/range") || pathname.startsWith("/products") ? "text-ink" : "text-ink-2"
+                menu === "products" || pathname.startsWith("/products") ? "text-ink" : "text-ink-2"
               }`}
             >
               Products
@@ -99,6 +99,7 @@ export function Header({ families, companyLinks, productCount, phone }: Props) {
               <Icon icon={ArrowDown01Icon} size={16} className={`transition-transform ${menu === "company" ? "rotate-180" : ""}`} />
             </button>
             {[
+              { href: "/industry", label: "Industries" },
               { href: "/photos", label: "Photos" },
               { href: "/enquiry", label: "Contact" },
             ].map((l) => (
@@ -157,7 +158,7 @@ export function Header({ families, companyLinks, productCount, phone }: Props) {
                   {families.map((f) => (
                     <li key={f.slug}>
                       <Link
-                        href={`/range/${f.slug}`}
+                        href={`/products-and-services#${f.slug}`}
                         onMouseEnter={() => setActiveFamily(f.slug)}
                         onFocus={() => setActiveFamily(f.slug)}
                         className={`flex items-center justify-between rounded-xl px-3.5 py-2.5 text-[0.95rem] transition-colors ${
@@ -179,21 +180,21 @@ export function Header({ families, companyLinks, productCount, phone }: Props) {
                           <li key={c.slug}>
                             <Link href={`/${c.slug}`} className="group flex items-baseline justify-between gap-3 rounded-lg py-2 text-[0.95rem] text-ink">
                               <span className="underline-offset-4 group-hover:underline">{c.name}</span>
-                              <span className="font-mono text-[11px] text-ink-3">{c.code ?? `${c.count}`}</span>
+                              <span className="font-mono text-[11px] text-ink-3">{c.code}</span>
                             </Link>
                           </li>
                         ))}
                       </ul>
-                      <Link href={`/range/${current.slug}`} className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-ink">
-                        View all {current.name.toLowerCase()}
+                      <Link href={`/products-and-services#${current.slug}`} className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-ink">
+                        View {current.name.toLowerCase()}
                         <Icon icon={ArrowRight01Icon} size={16} />
                       </Link>
                     </>
                   )}
                 </div>
                 <div className="relative flex flex-col bg-surface-2 p-4">
-                  <div className="well relative aspect-square overflow-hidden rounded-2xl">
-                    {current && <Image key={current.cover} src={current.cover} alt="" fill sizes="16rem" className="object-contain p-3" />}
+                  <div className="relative aspect-square overflow-hidden rounded-2xl bg-surface">
+                    {current && <Image key={current.cover} src={current.cover} alt="" fill sizes="16rem" className="object-cover" />}
                   </div>
                   <Link href="/products-and-services" className="btn btn-ghost mt-auto h-11 w-full bg-surface">
                     All {productCount} products

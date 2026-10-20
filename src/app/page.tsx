@@ -1,39 +1,31 @@
 import { ArrowRight01Icon, StarIcon } from "@hugeicons/core-free-icons";
+import Image from "next/image";
 import Link from "next/link";
 import { AdvantageList } from "@/components/home/AdvantageList";
 import { CertificateFan } from "@/components/home/CertificateFan";
-import { FamilyTile } from "@/components/home/FamilyTile";
-import { ProductDeck, type DeckSlide } from "@/components/home/ProductDeck";
 import { HorizontalShelf } from "@/components/home/HorizontalShelf";
-import { VideoPlaylist } from "@/components/media/VideoPlayer";
+import { ProductDeck, type DeckSlide } from "@/components/home/ProductDeck";
 import { ProductCard } from "@/components/product/ProductCard";
 import { CopyValue } from "@/components/ui/CopyValue";
 import { Icon } from "@/components/ui/Icon";
-import { JsonLd } from "@/components/ui/JsonLd";
 import { InquiryButton } from "@/components/ui/InquiryButton";
+import { JsonLd } from "@/components/ui/JsonLd";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
-import { advantageIntro, advantages, company, industries, mission, ratings, reviews, welcomeParagraphs } from "@/data/company";
-import { allVideos, alsoPopular, categories, families, featured, formatPrice, productCount, productHref, unitLabel } from "@/lib/catalog";
+import { advantageIntro, advantages, company, mission, ratings, reviews, welcomeParagraphs } from "@/data/company";
+import { industryPages } from "@/data/industries";
+import { featured, productCount, productTypes } from "@/lib/catalog";
 
 const HEADLINE = "Your trusted chemical solutions partner";
 
 export default function Home() {
-  const shelf = [...featured, ...alsoPopular];
-  const slides: DeckSlide[] = shelf
-    .filter(({ product }) => product.images[0])
-    .map(({ category, product }) => ({
-      src: product.images[0],
-      name: product.name,
-      href: productHref(category.slug, product.slug),
-      price: product.price ? `${formatPrice(product.price)} / ${unitLabel(product.unit)}` : "Price on request",
-      category: category.name,
-      code: category.code,
-    }));
-  const [feature, ...rest] = families;
-  const pool = rest.find((f) => f.slug === "swimming-pool-chemicals")!;
-  const plain = rest.filter((f) => f !== pool);
+  const slides: DeckSlide[] = industryPages.map((i) => ({
+    src: i.image,
+    title: i.title,
+    href: `/industry/${i.slug}`,
+    eyebrow: "Industry",
+    caption: `${i.products.length} products`,
+  }));
   const quotes = reviews.filter((r) => r.text && r.text.length > 20);
-  const videoPicks = allVideos.slice(0, 7);
 
   const orgLd = {
     "@context": "https://schema.org",
@@ -82,10 +74,10 @@ export default function Home() {
       <section aria-label="Company at a glance" className="shell">
         <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-[var(--radius-surface)] bg-line md:grid-cols-4">
           {[
-            { k: "Products", v: String(productCount), d: `in ${categories.length} categories` },
+            { k: "Products", v: String(productCount), d: `in ${productTypes.length} groups` },
+            { k: "Industries", v: String(industryPages.length), d: "food, beverage and nutrition" },
             { k: "Buyer rating", v: `${ratings.average}/5`, d: `from ${ratings.count} reviews` },
             { k: "Delivery", v: "Pan-India", d: "from Ahmedabad warehouse" },
-            { k: "Documents", v: "COA, MSDS", d: "with every applicable batch" },
           ].map((s) => (
             <div key={s.k} className="bg-surface p-4 md:p-6">
               <dt className="text-sm text-ink-3">{s.k}</dt>
@@ -101,24 +93,30 @@ export default function Home() {
         <Reveal className="max-w-2xl">
           <h2 className="text-3xl font-semibold tracking-tight md:text-5xl">Product range</h2>
           <p className="mt-4 max-w-[52ch] text-lg leading-relaxed text-ink-2">
-            Eight product groups for food, pharma, agriculture and industry, sourced from established manufacturers in India and abroad.
+            {productCount} ingredients and chemicals for food, pharma, agriculture and industry, sourced from established manufacturers.
           </p>
         </Reveal>
-        <RevealGroup className="mt-10 grid grid-cols-2 gap-3 md:gap-4 lg:grid-cols-4">
-          <RevealItem className="col-span-2 lg:row-span-2">
-            <FamilyTile family={feature} variant="feature" className="h-full" />
-          </RevealItem>
-          {plain.slice(0, 4).map((f) => (
-            <RevealItem key={f.slug}>
-              <FamilyTile family={f} className="h-full" />
-            </RevealItem>
-          ))}
-          <RevealItem className="col-span-2">
-            <FamilyTile family={pool} variant="wide" className="h-full min-h-[11rem]" />
-          </RevealItem>
-          {plain.slice(4).map((f) => (
-            <RevealItem key={f.slug}>
-              <FamilyTile family={f} className="h-full" />
+        <RevealGroup className="mt-10 grid grid-cols-2 gap-3 md:gap-4 lg:grid-cols-3">
+          {productTypes.map((t) => (
+            <RevealItem key={t.slug}>
+              <Link
+                href={`/products-and-services#${t.slug}`}
+                className="group flex h-full flex-col rounded-[var(--radius-surface)] bg-surface p-2 transition-transform hairline active:scale-[0.985] md:hover:-translate-y-1 md:hover:lift"
+              >
+                <span className="relative block aspect-[4/3] overflow-hidden rounded-[16px] bg-surface-2">
+                  <Image src={t.cover} alt={t.name} fill sizes="(min-width: 1024px) 30vw, 50vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                </span>
+                <span className="flex flex-1 flex-col p-3 md:p-4">
+                  <span className="flex items-start justify-between gap-2">
+                    <span className="text-[1.05rem] font-semibold leading-tight tracking-tight md:text-xl">{t.name}</span>
+                    <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-surface-2 transition-colors group-hover:bg-gold group-hover:text-on-gold">
+                      <Icon icon={ArrowRight01Icon} size={16} />
+                    </span>
+                  </span>
+                  <span className="mt-1 hidden text-sm leading-snug text-ink-2 md:block">{t.blurb}</span>
+                  <span className="mt-auto pt-3 text-sm text-ink-3">{t.products.length} products</span>
+                </span>
+              </Link>
             </RevealItem>
           ))}
         </RevealGroup>
@@ -136,9 +134,9 @@ export default function Home() {
           </div>
         }
       >
-        {shelf.map(({ category, product }) => (
-          <div key={product.slug} className="w-[72%] shrink-0 snap-start sm:w-[42%] md:w-[30%] lg:w-[19rem]">
-            <ProductCard category={category} product={product} showCategory sizes="(min-width: 1024px) 19rem, 72vw" />
+        {featured.map((p) => (
+          <div key={p.slug} className="w-[72%] shrink-0 snap-start sm:w-[42%] md:w-[30%] lg:w-[19rem]">
+            <ProductCard product={p} sizes="(min-width: 1024px) 19rem, 72vw" />
           </div>
         ))}
       </HorizontalShelf>
@@ -148,9 +146,11 @@ export default function Home() {
         <div className="marquee-track flex w-max items-center">
           {[0, 1].map((dup) => (
             <ul key={dup} aria-hidden={dup === 1} className="flex items-center">
-              {industries.map((name) => (
-                <li key={name} className="flex items-center whitespace-nowrap text-3xl font-semibold tracking-tight text-ink md:text-6xl">
-                  <span className="px-5 md:px-8">{name}</span>
+              {industryPages.map((ind) => (
+                <li key={ind.slug} className="flex items-center whitespace-nowrap text-3xl font-semibold tracking-tight text-ink md:text-6xl">
+                  <Link href={`/industry/${ind.slug}`} tabIndex={dup === 1 ? -1 : undefined} className="px-5 hover:underline md:px-8">
+                    {ind.name}
+                  </Link>
                   <span className="block size-2.5 rotate-45 rounded-[2px] bg-gold md:size-3.5" aria-hidden />
                 </li>
               ))}
@@ -261,20 +261,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* Videos */}
-      {videoPicks.length > 0 && (
-        <section className="shell pb-20 md:pb-28">
-          <Reveal className="mb-8 flex items-end justify-between gap-6">
-            <h2 className="text-3xl font-semibold tracking-tight md:text-5xl">Product videos</h2>
-            <Link href="/photos" className="hidden items-center gap-1.5 font-semibold sm:inline-flex">
-              Photo gallery
-              <Icon icon={ArrowRight01Icon} size={18} />
-            </Link>
-          </Reveal>
-          <VideoPlaylist videos={videoPicks} />
-        </section>
-      )}
     </>
   );
 }
