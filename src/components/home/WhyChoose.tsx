@@ -11,7 +11,8 @@ import {
 } from "@hugeicons/core-free-icons";
 import Image from "next/image";
 import { Icon } from "@/components/ui/Icon";
-import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
+import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 
 const ICONS = {
   sourcing: GlobalIcon,
@@ -32,16 +33,7 @@ export function WhyChoose({ intro, items }: { intro: string; items: readonly Ite
   return (
     <section className="relative overflow-hidden bg-surface-2/60 py-14 md:py-20">
       <div className="shell">
-        <Reveal className="grid items-end gap-6 lg:grid-cols-2 lg:gap-16">
-          <div>
-            <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-gold">
-              <span className="h-px w-8 shrink-0 bg-gold" />
-              Why Sampratiti
-            </p>
-            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight md:text-5xl">Why choose Sampratiti Exim</h2>
-          </div>
-          <p className="max-w-[52ch] text-lg leading-relaxed text-ink-2 lg:justify-self-end">{intro}</p>
-        </Reveal>
+        <SectionHeading eyebrow="Why Sampratiti" title="Why choose Sampratiti Exim" intro={intro} />
 
         <RevealGroup className="mt-10 grid gap-3 sm:grid-cols-2 md:mt-14 md:gap-4 lg:grid-cols-3" stagger={0.07}>
           <RevealItem className="sm:col-span-2 lg:row-span-2">

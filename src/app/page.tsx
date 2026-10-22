@@ -9,7 +9,9 @@ import { CopyValue } from "@/components/ui/CopyValue";
 import { Icon } from "@/components/ui/Icon";
 import { InquiryButton } from "@/components/ui/InquiryButton";
 import { Faq } from "@/components/ui/Faq";
+import { CountUp } from "@/components/ui/CountUp";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { advantageIntro, advantages, company, ratings, welcomeParagraphs } from "@/data/company";
 import { industryPages } from "@/data/industries";
 import { homeFaqs } from "@/lib/seo";
@@ -56,66 +58,92 @@ export default function Home() {
 
       {/* Proof strip */}
       <section aria-label="Company at a glance" className="shell">
-        <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-[var(--radius-surface)] bg-line md:grid-cols-4">
-          {[
-            { k: "Satisfied Customers", v: `${ratings.count}+`, d: "verified buyers across India" },
-            { k: "Industries Served", v: String(industryPages.length), d: "food, pharma and industrial" },
-            { k: "Years in Business", v: `${company.yearsInBusiness}+`, d: `since ${company.established}` },
-            { k: "Products", v: `${productCount}+`, d: `across ${productTypes.length} product groups` },
-          ].map((s) => (
-            <div key={s.k} className="bg-surface p-4 md:p-6">
-              <dt className="text-sm text-ink-3">{s.k}</dt>
-              <dd className="mt-1 text-2xl font-semibold tracking-tight md:text-3xl">{s.v}</dd>
-              <dd className="mt-0.5 text-sm text-ink-2">{s.d}</dd>
-            </div>
-          ))}
-        </dl>
+        <Reveal>
+          <dl className="relative grid grid-cols-2 overflow-hidden rounded-[var(--radius-surface)] bg-surface hairline md:grid-cols-4">
+            <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/70 to-transparent" />
+            {[
+              { k: "Satisfied Customers", v: `${ratings.count}+`, d: "verified buyers across India" },
+              { k: "Industries Served", v: String(industryPages.length), d: "food, pharma and industrial" },
+              { k: "Years in Business", v: `${company.yearsInBusiness}+`, d: `since ${company.established}` },
+              { k: "Products", v: `${productCount}+`, d: `across ${productTypes.length} product groups` },
+            ].map((s, i) => (
+              <div
+                key={s.k}
+                className={`flex flex-col p-5 md:p-7 ${i % 2 === 1 ? "border-l border-line" : ""} ${i >= 2 ? "border-t border-line md:border-t-0" : ""} ${i === 2 ? "md:border-l" : ""}`}
+              >
+                <dt className="order-2 mt-2 text-xs font-semibold uppercase tracking-[0.12em] text-ink-3">{s.k}</dt>
+                <dd className="order-1 text-3xl font-semibold tracking-tight text-ink md:text-5xl">
+                  <CountUp value={s.v} />
+                </dd>
+                <dd className="order-3 mt-1 text-sm text-ink-2">{s.d}</dd>
+              </div>
+            ))}
+          </dl>
+        </Reveal>
       </section>
 
       {/* Product groups */}
       <section className="shell py-20 md:py-28">
-        <Reveal className="max-w-2xl">
-          <h2 className="text-3xl font-semibold tracking-tight md:text-5xl">Product range</h2>
-          <p className="mt-4 max-w-[52ch] text-lg leading-relaxed text-ink-2">
-            {productCount} ingredients and chemicals for food, pharma, agriculture and industry, sourced from established manufacturers.
-          </p>
-        </Reveal>
-        <RevealGroup className="mt-10 grid grid-cols-2 gap-3 md:gap-4 lg:grid-cols-3">
-          {productTypes.map((t) => (
-            <RevealItem key={t.slug}>
-              <Link
-                href={`/products-and-services#${t.slug}`}
-                className="group flex h-full flex-col rounded-[var(--radius-surface)] bg-surface p-2 transition-transform hairline active:scale-[0.985] md:hover:-translate-y-1 md:hover:lift"
-              >
-                <span className="relative block aspect-[4/3] overflow-hidden rounded-[16px] bg-surface-2">
-                  <Image src={t.cover} alt={t.name} fill sizes="(min-width: 1024px) 30vw, 50vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
-                </span>
-                <span className="flex flex-1 flex-col p-3 md:p-4">
-                  <span className="flex items-start justify-between gap-2">
-                    <span className="text-[1.05rem] font-semibold leading-tight tracking-tight md:text-xl">{t.name}</span>
-                    <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-surface-2 transition-colors group-hover:bg-gold group-hover:text-on-gold">
-                      <Icon icon={ArrowRight01Icon} size={16} />
+        <SectionHeading
+          eyebrow="What we supply"
+          title="Product range"
+          intro={`${productCount} ingredients and chemicals for food, pharma, agriculture and industry, sourced from established manufacturers.`}
+        />
+        <RevealGroup className="mt-10 grid grid-cols-2 gap-3 md:mt-14 md:gap-4 lg:grid-cols-3">
+          {productTypes.map((t, i) => {
+            const big = i === 0;
+            // 5 small cards leave an orphan in the 2-column layout, so the last one spans full width below lg.
+            const wideLast = i === productTypes.length - 1 && (productTypes.length - 1) % 2 === 1;
+            const span = big ? "col-span-2 lg:row-span-2" : wideLast ? "col-span-2 lg:col-span-1" : "";
+            const aspect = big ? "aspect-[16/10] lg:aspect-auto" : wideLast ? "aspect-[16/9] lg:aspect-[4/3]" : "aspect-[4/5] sm:aspect-[4/3]";
+            return (
+              <RevealItem key={t.slug} className={span}>
+                <Link
+                  href={`/products-and-services#${t.slug}`}
+                  className={`group relative block h-full overflow-hidden rounded-[var(--radius-surface)] bg-surface-2 hairline active:scale-[0.985] ${aspect}`}
+                >
+                  <Image
+                    src={t.cover}
+                    alt={t.name}
+                    fill
+                    sizes={big ? "(min-width: 1024px) 60vw, 100vw" : "(min-width: 1024px) 30vw, 50vw"}
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                  />
+                  <span className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent transition-opacity duration-500 group-hover:from-black/90" />
+                  <span className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-4 md:p-6">
+                    <span className="min-w-0">
+                      <span className="block text-xs font-semibold uppercase tracking-[0.14em] text-gold">{t.products.length} products</span>
+                      <span className={`mt-1 block font-semibold leading-tight tracking-tight text-white ${big ? "text-2xl md:text-4xl" : "text-[1.05rem] md:text-xl"}`}>{t.name}</span>
+                      <span
+                        className={`mt-2 max-w-[44ch] text-sm leading-snug text-white/75 ${big ? "hidden sm:block md:text-base" : "hidden md:block md:max-h-0 md:overflow-hidden md:opacity-0 md:transition-all md:duration-500 md:group-hover:max-h-16 md:group-hover:opacity-100"}`}
+                      >
+                        {t.blurb}
+                      </span>
+                    </span>
+                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white/15 text-white backdrop-blur-sm transition-all duration-300 group-hover:bg-gold group-hover:text-on-gold group-hover:-rotate-45">
+                      <Icon icon={ArrowRight01Icon} size={18} />
                     </span>
                   </span>
-                  <span className="mt-1 hidden text-sm leading-snug text-ink-2 md:block">{t.blurb}</span>
-                  <span className="mt-auto pt-3 text-sm text-ink-3">{t.products.length} products</span>
-                </span>
-              </Link>
-            </RevealItem>
-          ))}
+                </Link>
+              </RevealItem>
+            );
+          })}
         </RevealGroup>
       </section>
 
       {/* Popular products */}
       <HorizontalShelf
         header={
-          <div className="flex items-end justify-between gap-6">
-            <h2 className="text-3xl font-semibold tracking-tight md:text-5xl">Popular products</h2>
-            <Link href="/products-and-services" className="hidden items-center gap-1.5 font-semibold sm:inline-flex">
-              View all {productCount}
-              <Icon icon={ArrowRight01Icon} size={18} />
-            </Link>
-          </div>
+          <SectionHeading
+            eyebrow="Most requested"
+            title="Popular products"
+            action={
+              <Link href="/products-and-services" className="btn btn-ghost w-fit px-5">
+                View all {productCount}
+                <Icon icon={ArrowRight01Icon} size={18} />
+              </Link>
+            }
+          />
         }
       >
         {featured.map((p) => (
@@ -226,7 +254,7 @@ export default function Home() {
       {/* FAQ */}
       <section className="shell py-20 md:py-28">
         <div className="mx-auto max-w-3xl">
-          <Faq id="faq" title="Frequently asked questions" items={homeFaqs} />
+          <Faq id="faq" eyebrow="Good to know" title="Frequently asked questions" items={homeFaqs} />
         </div>
       </section>
     </>
