@@ -36,7 +36,7 @@ export default function AdvantagePage() {
         <div className="overflow-hidden rounded-[var(--radius-surface)] hairline">
           <div className="relative aspect-[16/9]">
             <Image
-              src="/images/company/port-terminal.webp"
+              src="/images/company/advantage-partners.webp"
               alt="Sampratiti Exim — reliable chemical supply"
               fill
               sizes="(min-width: 1024px) 48vw, 100vw"

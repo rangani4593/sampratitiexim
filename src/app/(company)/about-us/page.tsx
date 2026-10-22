@@ -33,7 +33,7 @@ export default function AboutPage() {
         <div className="overflow-hidden rounded-[var(--radius-surface)] hairline">
           <div className="relative aspect-[16/9]">
             <Image
-              src="/images/company/port-terminal.webp"
+              src="/images/company/about-chemist.webp"
               alt="Sampratiti Exim — chemical import and supply"
               fill
               sizes="(min-width: 1024px) 48vw, 100vw"

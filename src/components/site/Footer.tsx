@@ -1,17 +1,29 @@
-import { Call02Icon, Facebook01Icon, Linkedin01Icon, Location01Icon, NewTwitterIcon, UserIcon } from "@hugeicons/core-free-icons";
+import { ArrowRight01Icon, Call02Icon, Facebook01Icon, Linkedin01Icon, Location01Icon, Mail01Icon, UserIcon, YoutubeIcon } from "@hugeicons/core-free-icons";
 import Image from "next/image";
 import Link from "next/link";
 import { LogoBadge } from "@/components/brand/Logo";
 import { EnquiryForm } from "@/components/enquiry/EnquiryForm";
 import { Icon } from "@/components/ui/Icon";
-import { company, companyTabs } from "@/data/company";
-import { productTypes, products } from "@/lib/catalog";
+import { company } from "@/data/company";
+import { productTypes } from "@/lib/catalog";
 
-const shareIcons = { Facebook: Facebook01Icon, X: NewTwitterIcon, LinkedIn: Linkedin01Icon } as const;
+const COMPANY_LINKS = [
+  { href: "/profile", label: "Introduction" },
+  { href: "/about-us", label: "About Us" },
+  { href: "/quality-and-compliance", label: "Quality" },
+  { href: "/our-advantage", label: "Our Advantage" },
+  { href: "/industry", label: "Industries" },
+] as const;
+
+// Same order as company.social: Facebook, LinkedIn, YouTube.
+const SOCIAL = [
+  { label: "Facebook", icon: Facebook01Icon },
+  { label: "LinkedIn", icon: Linkedin01Icon },
+  { label: "YouTube", icon: YoutubeIcon },
+] as const;
 
 export function Footer() {
   const phone = { display: company.phoneDisplay, href: company.phoneHref };
-  const topProducts = products.slice(0, 10);
 
   return (
     <footer className="relative isolate overflow-hidden bg-brand text-on-brand">
@@ -43,26 +55,28 @@ export function Footer() {
               </div>
             </div>
           </div>
-          <div className="grid gap-3 text-sm">
+          <div className="grid content-start gap-1.5 text-sm">
             <p className="flex items-center gap-2 font-semibold text-gold">
               <Icon icon={UserIcon} size={18} />
               Contact person
             </p>
-            <p>
+            <p className="leading-relaxed">
               {company.contactPerson.name}
               <br />
               <span className="text-on-brand/70">{company.contactPerson.role}</span>
             </p>
-            <a href={company.phoneHref} className="flex items-center gap-2 text-base font-semibold">
-              <Icon icon={Call02Icon} size={18} />
-              {company.phoneOwner}: {company.phoneDisplay}
-            </a>
-            <a href={company.altPhoneHref} className="flex items-center gap-2 text-on-brand/80">
-              <Icon icon={Call02Icon} size={18} />
-              {company.altPhoneOwner}: {company.altPhoneDisplay}
-            </a>
+            <div className="mt-3 grid gap-2">
+              <a href={company.phoneHref} className="flex items-center gap-2 text-base font-semibold hover:text-gold">
+                <Icon icon={Call02Icon} size={18} />
+                {company.phoneOwner}: {company.phoneDisplay}
+              </a>
+              <a href={company.altPhoneHref} className="flex items-center gap-2 text-on-brand/80 hover:text-gold">
+                <Icon icon={Call02Icon} size={18} />
+                {company.altPhoneOwner}: {company.altPhoneDisplay}
+              </a>
+            </div>
           </div>
-          <div className="grid gap-5 text-sm">
+          <div className="grid content-start gap-5 text-sm">
             {[company.address, company.corporateOffice].map((a) => (
               <div key={a.label} className="grid gap-1.5">
                 <p className="flex items-center gap-2 font-semibold text-gold">
@@ -87,61 +101,70 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="shell grid gap-10 border-t border-on-brand/15 py-12 sm:grid-cols-2 lg:grid-cols-4">
-        <div>
-          <p className="text-sm font-semibold text-gold">Our company</p>
-          <ul className="mt-4 grid gap-2.5 text-sm text-on-brand/80">
-            {[...companyTabs, { href: "/products-and-services", label: "Our Products" }, { href: "/industry", label: "Industries" }, { href: "/enquiry", label: "Contact Us" }, { href: "/sitemap", label: "Sitemap" }].map((l) => (
-              <li key={l.href}>
-                <Link href={l.href} className="hover:text-on-brand hover:underline hover:underline-offset-4">
-                  {l.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+      <nav aria-label="Footer" className="shell grid gap-10 border-t border-on-brand/15 py-12 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr] lg:gap-12">
+        <div className="max-w-xs">
+          <p className="font-semibold">{company.shortName}</p>
+          <p className="mt-3 text-sm leading-relaxed text-on-brand/70">
+            Importer, trader and bulk supplier of food, pharma and industrial chemicals from Ahmedabad since {company.established}.
+          </p>
+          <a href={`mailto:${company.email}`} className="mt-4 inline-flex items-center gap-2 text-sm font-semibold hover:text-gold">
+            <Icon icon={Mail01Icon} size={18} />
+            {company.email}
+          </a>
         </div>
-        <div>
-          <p className="text-sm font-semibold text-gold">Product groups</p>
-          <ul className="mt-4 grid gap-2.5 text-sm text-on-brand/80">
-            {productTypes.map((f) => (
-              <li key={f.slug}>
-                <Link href={`/products-and-services#${f.slug}`} className="hover:text-on-brand hover:underline hover:underline-offset-4">
-                  {f.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="sm:col-span-2">
-          <p className="text-sm font-semibold text-gold">Our products</p>
-          <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2.5 text-sm text-on-brand/80">
-            {topProducts.map((c) => (
-              <li key={c.slug}>
-                <Link href={`/${c.slug}`} className="hover:text-on-brand hover:underline hover:underline-offset-4">
-                  {c.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
 
-      <div className="shell flex flex-col gap-4 border-t border-on-brand/15 pb-[calc(6.5rem+env(safe-area-inset-bottom))] pt-6 text-sm text-on-brand/65 md:flex-row md:items-center md:justify-between md:pb-8">
+        <div>
+          <p className="text-sm font-semibold text-gold">Company</p>
+          <ul className="mt-4 grid gap-2.5 text-sm text-on-brand/75">
+            {COMPANY_LINKS.map((l) => (
+              <li key={l.href}>
+                <Link href={l.href} className="transition-colors hover:text-on-brand">{l.label}</Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <p className="text-sm font-semibold text-gold">Products</p>
+          <ul className="mt-4 grid gap-2.5 text-sm text-on-brand/75">
+            {productTypes.map((t) => (
+              <li key={t.slug}>
+                <Link href={`/products-and-services#${t.slug}`} className="transition-colors hover:text-on-brand">{t.name}</Link>
+              </li>
+            ))}
+            <li>
+              <Link href="/products-and-services" className="inline-flex items-center gap-1 font-semibold text-on-brand hover:text-gold">
+                All products
+                <Icon icon={ArrowRight01Icon} size={14} />
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <p className="text-sm font-semibold text-gold">Follow us</p>
+          <div className="mt-4 flex gap-2">
+            {SOCIAL.map((s, i) => (
+              <a
+                key={s.label}
+                href={company.social[i]}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${company.shortName} on ${s.label}`}
+                className="grid h-10 w-10 place-items-center rounded-full ring-1 ring-on-brand/25 transition-colors hover:bg-on-brand hover:text-brand"
+              >
+                <Icon icon={s.icon} size={18} />
+              </a>
+            ))}
+          </div>
+        </div>
+      </nav>
+
+      <div className="shell flex flex-col gap-3 border-t border-on-brand/15 pb-[calc(6.5rem+env(safe-area-inset-bottom))] pt-6 text-sm text-on-brand/60 md:flex-row md:items-center md:justify-between md:pb-8">
         <p>© {company.name}. All rights reserved.</p>
-        <div className="flex items-center gap-2">
-          <span className="mr-1">Share us on</span>
-          {company.share.map((s) => (
-            <a
-              key={s.label}
-              href={s.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`Share on ${s.label}`}
-              className="grid h-10 w-10 place-items-center rounded-full text-on-brand ring-1 ring-on-brand/25 transition-colors hover:bg-on-brand hover:text-brand"
-            >
-              <Icon icon={shareIcons[s.label as keyof typeof shareIcons]} size={18} />
-            </a>
-          ))}
+        <div className="flex gap-5">
+          <Link href="/sitemap" className="hover:text-on-brand">Sitemap</Link>
+          <Link href="/enquiry" className="hover:text-on-brand">Contact</Link>
         </div>
       </div>
     </footer>
