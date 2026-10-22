@@ -37,7 +37,7 @@ export default function ProfilePage() {
         <div className="overflow-hidden rounded-[var(--radius-surface)] hairline">
           <div className="relative aspect-[16/9]">
             <Image
-              src="/images/company/hero-industry.webp"
+              src="/images/company/port-night.webp"
               alt="Sampratiti Exim — global chemical sourcing and supply"
               fill
               sizes="(min-width: 1024px) 48vw, 100vw"
