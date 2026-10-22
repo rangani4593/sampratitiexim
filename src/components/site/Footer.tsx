@@ -54,43 +54,56 @@ export function Footer() {
             </div>
           </div>
 
-          <div className="grid content-start gap-3 text-sm">
-            <p className="flex items-center gap-2 font-semibold text-gold">
-              <Icon icon={Call02Icon} size={18} />
-              Call us
-            </p>
-            <a href={company.phoneHref} className="text-base font-semibold hover:text-gold">+91 {company.phoneDisplay}</a>
-            <a href={company.altPhoneHref} className="text-base font-semibold hover:text-gold">+91 {company.altPhoneDisplay}</a>
-          </div>
+          <ul className="divide-y divide-on-brand/15 border-y border-on-brand/15 sm:col-span-2">
+            <li className="flex gap-4 py-5">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-on-brand/10 text-gold">
+                <Icon icon={Call02Icon} size={19} />
+              </span>
+              <div className="min-w-0">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-on-brand/55">Call us</p>
+                <div className="mt-1.5 flex flex-wrap gap-x-6 gap-y-1">
+                  <a href={company.phoneHref} className="text-lg font-semibold transition-colors hover:text-gold">+91 {company.phoneDisplay}</a>
+                  <a href={company.altPhoneHref} className="text-lg font-semibold transition-colors hover:text-gold">+91 {company.altPhoneDisplay}</a>
+                </div>
+              </div>
+            </li>
 
-          <div className="grid content-start gap-1.5 text-sm">
-            <p className="flex items-center gap-2 font-semibold text-gold">
-              <Icon icon={Location01Icon} size={18} />
-              {company.office.label}
-            </p>
-            <address className="not-italic leading-relaxed text-on-brand/80">
-              {company.office.lines.map((l) => (
-                <span key={l} className="block">{l}</span>
-              ))}
-            </address>
-            <a href={company.office.mapHref} target="_blank" rel="noopener noreferrer" className="w-fit font-semibold underline underline-offset-4">
-              Get directions
-            </a>
-          </div>
+            <li className="flex gap-4 py-5">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-on-brand/10 text-gold">
+                <Icon icon={Location01Icon} size={19} />
+              </span>
+              <div className="min-w-0">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-on-brand/55">{company.office.label}</p>
+                <address className="mt-1.5 not-italic leading-relaxed text-on-brand/85">{company.office.lines.join(", ")}</address>
+                <a
+                  href={company.office.mapHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-gold hover:underline hover:underline-offset-4"
+                >
+                  Get directions
+                  <Icon icon={ArrowRight01Icon} size={14} />
+                </a>
+              </div>
+            </li>
 
-          <div className="grid content-start gap-2 text-sm sm:col-span-2">
-            <p className="flex items-center gap-2 font-semibold text-gold">
-              <Icon icon={WarehouseIcon} size={18} />
-              Warehouses
-            </p>
-            <div className="flex flex-wrap gap-x-8 gap-y-1 text-on-brand/80">
-              {company.warehouses.map((w) => (
-                <p key={w.region}>
-                  <span className="font-semibold text-on-brand">{w.region}:</span> {w.places.join(", ")}
-                </p>
-              ))}
-            </div>
-          </div>
+            <li className="flex gap-4 py-5">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-on-brand/10 text-gold">
+                <Icon icon={WarehouseIcon} size={19} />
+              </span>
+              <div className="min-w-0">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-on-brand/55">Warehouses</p>
+                <dl className="mt-1.5 grid gap-1 text-on-brand/85">
+                  {company.warehouses.map((w) => (
+                    <div key={w.region} className="flex flex-wrap gap-x-2">
+                      <dt className="font-semibold text-on-brand">{w.region}</dt>
+                      <dd>{w.places.join(" · ")}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
 
