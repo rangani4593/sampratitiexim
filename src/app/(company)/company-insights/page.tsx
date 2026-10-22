@@ -34,7 +34,7 @@ export default function InsightsPage() {
         <div className="overflow-hidden rounded-[var(--radius-surface)] hairline">
           <div className="relative aspect-[16/9]">
             <Image
-              src="/images/company/warehouse.webp"
+              src="/images/company/port-hero.webp"
               alt="Sampratiti Exim — global chemical logistics"
               fill
               sizes="(min-width: 1024px) 48vw, 100vw"

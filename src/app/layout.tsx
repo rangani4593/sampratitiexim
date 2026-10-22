@@ -67,7 +67,7 @@ const navFamilies: NavFamily[] = productTypes.map((t) => ({
 }));
 
 const productNames = Object.fromEntries(products.map((p) => [productHref(p.slug), p.name]));
-const companyLinks = [...companyTabs, { href: "/photos", label: "Photos" }];
+const companyLinks = [...companyTabs];
 const phone = { display: company.phoneDisplay, href: company.phoneHref };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
