@@ -91,7 +91,7 @@ export function Footer() {
         <div>
           <p className="text-sm font-semibold text-gold">Our company</p>
           <ul className="mt-4 grid gap-2.5 text-sm text-on-brand/80">
-            {[...companyTabs, { href: "/products-and-services", label: "Our Products" }, { href: "/industry", label: "Industries" }, { href: "/photos", label: "Photos" }, { href: "/enquiry", label: "Contact Us" }, { href: "/sitemap", label: "Sitemap" }].map((l) => (
+            {[...companyTabs, { href: "/products-and-services", label: "Our Products" }, { href: "/industry", label: "Industries" }, { href: "/enquiry", label: "Contact Us" }, { href: "/sitemap", label: "Sitemap" }].map((l) => (
               <li key={l.href}>
                 <Link href={l.href} className="hover:text-on-brand hover:underline hover:underline-offset-4">
                   {l.label}

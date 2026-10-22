@@ -1,11 +1,9 @@
-import { ArrowRight01Icon, Building01Icon, Calendar01Icon, CheckmarkBadge02Icon, GlobalIcon } from "@hugeicons/core-free-icons";
+import { Building01Icon, Calendar01Icon, CheckmarkBadge02Icon, GlobalIcon } from "@hugeicons/core-free-icons";
 import Image from "next/image";
-import Link from "next/link";
 import type { Metadata } from "next";
-import { PageIntro } from "@/components/company/PageIntro";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { CopyValue } from "@/components/ui/CopyValue";
 import { Icon } from "@/components/ui/Icon";
-import { InquiryButton } from "@/components/ui/InquiryButton";
 import { company, profileParagraphs, ratings } from "@/data/company";
 import { industryPages } from "@/data/industries";
 import { productCount } from "@/lib/catalog";
@@ -29,7 +27,31 @@ export default function ProfilePage() {
 
   return (
     <>
-      <PageIntro title="Introduction" lead={company.tagline} crumbs={[{ href: "/profile", label: "Company" }, { label: "Introduction" }]} />
+      {/* Hero — two-column: title left, image right */}
+      <section className="shell grid items-center gap-8 pb-6 pt-5 md:pt-8 lg:grid-cols-2 lg:gap-12">
+        <div>
+          <Breadcrumbs items={[{ href: "/profile", label: "Company" }, { label: "Introduction" }]} />
+          <h1 className="mt-6 text-balance text-[2.3rem] font-semibold leading-[1.05] tracking-tight md:mt-8 md:text-6xl">Introduction</h1>
+          <p className="mt-4 max-w-[52ch] text-lg leading-relaxed text-ink-2">{company.tagline}</p>
+        </div>
+        <div className="overflow-hidden rounded-[var(--radius-surface)] hairline">
+          <div className="relative aspect-[16/9]">
+            <Image
+              src="/images/company/warehouse.webp"
+              alt="Sampratiti Exim — global chemical sourcing and supply"
+              fill
+              sizes="(min-width: 1024px) 48vw, 100vw"
+              className="object-cover"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+            <div className="absolute bottom-4 left-4">
+              <p className="text-xs font-semibold uppercase tracking-widest text-white/70">Est. {company.established}</p>
+              <p className="mt-0.5 text-sm font-bold text-white">Ahmedabad, Gujarat</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section className="shell grid items-start gap-12 pb-20 lg:grid-cols-[1fr_0.9fr] lg:gap-16">
 
@@ -55,14 +77,6 @@ export default function ProfilePage() {
                 </div>
               </div>
             ))}
-          </div>
-
-          <div className="mt-8 flex flex-wrap gap-3">
-            <InquiryButton />
-            <Link href="/enquiry" className="btn btn-ghost px-5">
-              Contact us
-              <Icon icon={ArrowRight01Icon} size={16} />
-            </Link>
           </div>
         </div>
 

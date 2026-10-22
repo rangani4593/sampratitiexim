@@ -207,7 +207,6 @@ export const companyPhotos = [
 
 export const companyTabs = [
   { href: "/profile", label: "Introduction" },
-  { href: "/testimonial", label: "Testimonial" },
   { href: "/quality-and-compliance", label: "Quality" },
   { href: "/company-insights", label: "Custom Profile" },
   { href: "/about-us", label: "About Us" },
