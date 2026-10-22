@@ -230,16 +230,13 @@ export default function Home() {
               <blockquote className="max-w-[48ch] leading-relaxed text-ink-2">{mission.split(". ")[0]}.</blockquote>
               <figcaption className="mt-2 text-sm font-semibold">Our mission</figcaption>
             </figure>
-            <div className="mt-8 hidden lg:block">
-              <InquiryButton />
-            </div>
           </div>
           <AdvantageList items={advantages} />
         </div>
       </section>
 
       {/* FAQ */}
-      <section className="shell pb-20 md:pb-28">
+      <section className="shell py-20 md:py-28">
         <div className="mx-auto max-w-3xl">
           <Faq id="faq" title="Frequently asked questions" items={homeFaqs} />
         </div>
