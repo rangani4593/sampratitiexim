@@ -17,7 +17,7 @@ export type Product = {
 const data = raw as { types: ProductType[]; products: Omit<Product, "image">[] };
 
 // Bump a product's version when its image changes so caches pick up the new file.
-const IMAGE_VERSION: Record<string, string> = { pectin: "v6" };
+const IMAGE_VERSION: Record<string, string> = { pectin: "v7" };
 
 export const products: Product[] = data.products.map((p) => ({ ...p, image: `/images/product/${p.slug}-${IMAGE_VERSION[p.slug] ?? "v5"}.webp` }));
 export const productCount = products.length;
