@@ -1,5 +1,4 @@
 import { DeliveryTruck01Icon, File01Icon, SearchList01Icon, UserCheck01Icon } from "@hugeicons/core-free-icons";
-import Image from "next/image";
 import type { Metadata } from "next";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { CopyValue } from "@/components/ui/CopyValue";
@@ -17,11 +16,6 @@ const STEPS = [
   { icon: SearchList01Icon, title: "Specification check", body: "Product specifications verified against customer and application requirements." },
   { icon: File01Icon, title: "Batch documentation", body: "COA, MSDS and technical documents reviewed batch-wise and shared with buyers." },
   { icon: DeliveryTruck01Icon, title: "Pre-dispatch check", body: "Packaging, handling and storage checked before every dispatch." },
-] as const;
-
-const CERTIFICATES = [
-  { src: "/images/company/iso-certificate.jpg", title: "ISO Certification", caption: "ISO certified company" },
-  { src: "/images/company/iso-certificate-2.jpg", title: "ISO Certificate", caption: "Quality management" },
 ] as const;
 
 export default function QualityPage() {
@@ -78,28 +72,10 @@ export default function QualityPage() {
       </section>
 
       {/* Body copy */}
-      <section className="shell pb-14">
+      <section className="shell pb-20">
         <div className="prose-spec max-w-3xl">
           {qualityParagraphs.slice(1).map((p) => (
             <p key={p.slice(0, 24)}>{p}</p>
-          ))}
-        </div>
-      </section>
-
-      {/* Certificates */}
-      <section className="shell pb-20">
-        <h2 className="mb-6 text-2xl font-semibold tracking-tight md:text-3xl">Certificates</h2>
-        <div className="grid max-w-3xl gap-4 sm:grid-cols-2">
-          {CERTIFICATES.map((c) => (
-            <figure key={c.src} className="rounded-[var(--radius-surface)] bg-surface p-3 hairline">
-              <div className="relative aspect-[5/7] overflow-hidden rounded-xl bg-white">
-                <Image src={c.src} alt={c.title} fill sizes="(min-width: 640px) 380px, 90vw" className="object-contain" />
-              </div>
-              <figcaption className="px-1 pb-1 pt-3">
-                <p className="font-semibold">{c.title}</p>
-                <p className="text-sm text-ink-3">{c.caption}</p>
-              </figcaption>
-            </figure>
           ))}
         </div>
       </section>
