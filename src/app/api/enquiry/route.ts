@@ -99,14 +99,15 @@ function buildText(e: { product: string; name: string; mobile: string; email: st
     .join("\n");
 }
 
-async function sendEmail(e: { product: string; name: string; mobile: string; email: string; message: string; page: string }) {
+// Resolves false when SMTP is not configured; throws if sending fails.
+async function sendEmail(e: { product: string; name: string; mobile: string; email: string; message: string; page: string }): Promise<boolean> {
   const user = process.env.SMTP_USER;
   const pass = process.env.SMTP_PASS;
   const notify = process.env.NOTIFY_EMAIL;
 
   if (!user || !pass || !notify) {
     console.warn("[enquiry] SMTP env vars missing — skipping email");
-    return;
+    return false;
   }
 
   const transporter = nodemailer.createTransport({
@@ -117,10 +118,24 @@ async function sendEmail(e: { product: string; name: string; mobile: string; ema
   await transporter.sendMail({
     from: `"Sampratiti Exim Website" <${user}>`,
     to: notify,
+    replyTo: e.email || undefined,
     subject: `New Enquiry: ${e.product} from ${e.name}`,
     text: buildText(e),
     html: buildHtml(e),
   });
+  return true;
+}
+
+async function submitGoogleForm(params: URLSearchParams) {
+  const res = await fetch(FORM_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: params,
+    redirect: "manual",
+    signal: AbortSignal.timeout(10_000),
+  });
+  if (process.env.NODE_ENV !== "production") console.info("[enquiry] Google Form status", res.status);
+  if (res.status >= 400) throw new Error(`Google Form responded ${res.status}`);
 }
 
 export async function POST(request: Request) {
@@ -157,24 +172,15 @@ export async function POST(request: Request) {
     [ENTRY.message]: enquiry.page ? `${enquiry.message}\n\n(Sent from: ${enquiry.page})` : enquiry.message,
   });
 
-  // Submit to Google Form
-  try {
-    const res = await fetch(FORM_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: params,
-      redirect: "manual",
-      signal: AbortSignal.timeout(10_000),
-    });
-    if (process.env.NODE_ENV !== "production") console.info("[enquiry] Google Form status", res.status);
-    if (res.status >= 400) throw new Error(`Google Form responded ${res.status}`);
-  } catch (error) {
-    console.error("[enquiry] Google Form delivery failed", error);
+  // Deliver through both channels and await them: an un-awaited send can be cut off once a
+  // serverless function returns. The enquiry counts as received if either channel succeeds.
+  const [form, mail] = await Promise.allSettled([submitGoogleForm(params), sendEmail(enquiry)]);
+  if (form.status === "rejected") console.error("[enquiry] Google Form delivery failed", form.reason);
+  if (mail.status === "rejected") console.error("[enquiry] Email delivery failed", mail.reason);
+
+  const delivered = form.status === "fulfilled" || (mail.status === "fulfilled" && mail.value);
+  if (!delivered) {
     return NextResponse.json({ message: "We could not send your inquiry right now." }, { status: 502 });
   }
-
-  // Send email notification (non-blocking — don't fail the response if email fails)
-  sendEmail(enquiry).catch((err) => console.error("[enquiry] Email delivery failed", err));
-
   return NextResponse.json({ ok: true });
 }

@@ -7,15 +7,16 @@ export function Faq({ title, items, id, eyebrow }: { title: string; items: FaqIt
   return (
     <section id={id} aria-labelledby={id ? `${id}-title` : undefined}>
       {eyebrow && (
-        <p className="mb-4 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-gold">
+        <p className="mb-4 flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-gold">
           <span className="h-px w-8 shrink-0 bg-gold" />
           {eyebrow}
+          <span className="h-px w-8 shrink-0 bg-gold" />
         </p>
       )}
-      <h2 id={id ? `${id}-title` : undefined} className="text-2xl font-semibold tracking-tight md:text-3xl">
+      <h2 id={id ? `${id}-title` : undefined} className="text-balance text-center text-2xl font-semibold tracking-tight md:text-4xl">
         {title}
       </h2>
-      <div className="mt-6 divide-y divide-line overflow-hidden rounded-[var(--radius-surface)] bg-surface hairline">
+      <div className="mt-8 divide-y divide-line overflow-hidden rounded-[var(--radius-surface)] bg-surface hairline">
         {items.map((f) => (
           <details key={f.q} className="group">
             <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-4 text-left font-semibold md:p-5 [&::-webkit-details-marker]:hidden">

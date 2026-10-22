@@ -9,6 +9,7 @@ import { useRef, useState } from "react";
 import { Logo } from "@/components/brand/Logo";
 import { useUI } from "@/components/providers/UIProvider";
 import { Icon } from "@/components/ui/Icon";
+import { ThemeToggle } from "@/components/site/ThemeToggle";
 import { InquiryButton } from "@/components/ui/InquiryButton";
 
 export type NavFamily = {
@@ -62,9 +63,7 @@ export function Header({ families, companyLinks, productCount, phone }: Props) {
   return (
     <header style={{ viewTransitionName: "site-header" }} className="sticky top-0 z-40" onKeyDown={(e) => e.key === "Escape" && setMenu(null)}>
       <div
-        className={`transition-[background-color,box-shadow,backdrop-filter] duration-300 ${
-          scrolled || menu ? "bg-bg/95 shadow-[0_1px_0_var(--line)] backdrop-blur-xl" : "bg-bg/0"
-        }`}
+        className={`bg-bg transition-shadow duration-300 ${scrolled || menu ? "shadow-[0_1px_0_var(--line),0_8px_24px_-12px_rgb(var(--shadow-rgb)/0.25)]" : ""}`}
       >
         <div className="shell flex h-16 items-center gap-4 md:h-[72px]">
           <Logo />
@@ -127,6 +126,7 @@ export function Header({ families, companyLinks, productCount, phone }: Props) {
               <span className="hidden min-w-0 flex-1 truncate text-left text-[0.95rem] xl:inline">Search {productCount} products</span>
               <kbd className="hidden shrink-0 rounded-md bg-surface-2 px-1.5 py-0.5 font-mono text-[10px] text-ink-3 min-[1700px]:inline">Ctrl K</kbd>
             </button>
+            <ThemeToggle />
             <a href={phone.href} className="hidden h-11 shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-3 text-sm font-semibold text-ink min-[1700px]:flex">
               <Icon icon={Call02Icon} size={18} />
               {phone.display}

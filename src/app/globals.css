@@ -24,8 +24,40 @@
   color-scheme: light;
 }
 
+/* Dark applies when chosen explicitly, or when following a dark system setting (no data-theme="light"). */
+@custom-variant dark {
+  &:where([data-theme="dark"], [data-theme="dark"] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme="light"]), :root:not([data-theme="light"]) *) {
+      @slot;
+    }
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #0a1823;
+  --surface: #102434;
+  --surface-2: #163045;
+  --ink: #e8eef2;
+  --ink-2: #a9bac7;
+  --ink-3: #8399a8;
+  --line: rgb(232 238 242 / 0.1);
+  --line-strong: rgb(232 238 242 / 0.2);
+  --brand: #1e435e;
+  --brand-deep: #0e2232;
+  --on-brand: #eef3f6;
+  --gold: #e8b957;
+  --gold-soft: rgb(232 185 87 / 0.14);
+  --on-gold: #10283a;
+  --well: #f2f5f7;
+  --shadow-rgb: 0 0 0;
+  color-scheme: dark;
+}
+
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #0a1823;
     --surface: #102434;
     --surface-2: #163045;

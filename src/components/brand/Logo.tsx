@@ -1,13 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
 
+// emblem-gold.png is 397x495; size it in pixels so it always sits inside the badge.
+const EMBLEM_RATIO = 397 / 495;
+
 export function LogoBadge({ size = 40, className = "" }: { size?: number; className?: string }) {
+  const h = Math.round(size * 0.72);
+  const w = Math.round(h * EMBLEM_RATIO);
   return (
     <span
-      className={`relative grid shrink-0 place-items-center bg-brand ${className}`}
+      className={`relative grid shrink-0 place-items-center overflow-hidden bg-brand ${className}`}
       style={{ width: size, height: size, borderRadius: Math.round(size * 0.27) }}
     >
-      <Image src="/images/brand/emblem-gold.png" alt="" width={size} height={Math.round(size * 1.25)} quality={90} sizes={`${size * 2}px`} className="h-[76%] w-auto" />
+      <Image src="/images/brand/emblem-gold.png" alt="" width={w} height={h} quality={90} sizes={`${w * 2}px`} style={{ width: w, height: h }} />
     </span>
   );
 }
