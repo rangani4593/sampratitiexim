@@ -6,7 +6,8 @@ import { PageIntro } from "@/components/company/PageIntro";
 import { CopyValue } from "@/components/ui/CopyValue";
 import { Icon } from "@/components/ui/Icon";
 import { InquiryButton } from "@/components/ui/InquiryButton";
-import { company, profileParagraphs } from "@/data/company";
+import { company, profileParagraphs, ratings } from "@/data/company";
+import { industryPages } from "@/data/industries";
 import { productCount } from "@/lib/catalog";
 
 export const metadata: Metadata = {
@@ -71,10 +72,10 @@ export default function ProfilePage() {
           {/* Stats grid */}
           <div className="grid grid-cols-2 gap-3">
             {[
-              { v: `${productCount}+`, label: "Products Supplied" },
+              { v: `${productCount}+`, label: "Products" },
               { v: `${company.yearsInBusiness}+`, label: "Years Active" },
-              { v: "Pan-India", label: "Delivery" },
-              { v: "COA & MSDS", label: "Documentation" },
+              { v: `${industryPages.length}`, label: "Industries" },
+              { v: `${ratings.count}+`, label: "Happy Customers" },
             ].map((s) => (
               <div key={s.label} className="rounded-2xl bg-surface px-4 py-5 hairline">
                 <p className="text-2xl font-bold tracking-tight">{s.v}</p>
