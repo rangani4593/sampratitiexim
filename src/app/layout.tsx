@@ -70,9 +70,15 @@ const productNames = Object.fromEntries(products.map((p) => [productHref(p.slug)
 const companyLinks = [...companyTabs, { href: "/photos", label: "Photos" }];
 const phone = { display: company.phoneDisplay, href: company.phoneHref };
 
+const THEME_SCRIPT = `try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.dataset.theme=t;var c=t==="dark"?"#0a1823":"#edf1f3";document.querySelectorAll('meta[name="theme-color"]').forEach(function(m){m.content=c})}}catch(e){}`;
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en-IN" data-scroll-behavior="smooth" className={`${familjen.variable} ${martian.variable}`}>
+    <html lang="en-IN" data-scroll-behavior="smooth" className={`${familjen.variable} ${martian.variable}`} suppressHydrationWarning>
+      <head>
+        {/* Apply a saved light/dark choice before first paint so the page never flashes the wrong theme. */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
       <body className="min-h-dvh">
         <a href="#main" className="sr-only z-[90] rounded-full bg-gold px-4 py-2 font-semibold text-on-gold focus:not-sr-only focus:fixed focus:left-4 focus:top-3">
           Skip to content
