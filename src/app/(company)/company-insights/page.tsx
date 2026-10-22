@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/company-insights" },
 };
 
-const KEY = ["Nature of business", "Year of establishment", "Import percentage", "Export percentage", "Annual turnover", "Number of employees"];
+const KEY = ["Nature of business", "Year of establishment"];
 
 export default function InsightsPage() {
   const facts = KEY.map((k) => company.facts.find((f) => f.label === k)).filter((f) => f !== undefined);

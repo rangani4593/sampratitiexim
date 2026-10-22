@@ -17,8 +17,8 @@ export function Logo({ onBrand = false }: { onBrand?: boolean }) {
     <Link href="/" className="group flex items-center gap-2.5" aria-label="Sampratiti Exim, home">
       <LogoBadge />
       <span className="flex flex-col leading-none">
-        <span className={`text-[1.05rem] font-bold tracking-[0.06em] ${onBrand ? "text-gold" : "text-ink"}`}>SAMPRATITI</span>
-        <span className={`mt-1 text-[0.72rem] font-medium tracking-[0.02em] ${onBrand ? "text-on-brand/70" : "text-ink-3"}`}>Exim Pvt Ltd</span>
+        <span className={`text-[1.05rem] font-bold tracking-[0.06em] ${onBrand ? "text-gold" : "text-ink"}`}>SAMPRATITI EXIM</span>
+        <span className={`mt-1 text-[0.72rem] font-medium tracking-[0.02em] ${onBrand ? "text-on-brand/70" : "text-ink-3"}`}>Pvt Ltd.</span>
       </span>
     </Link>
   );

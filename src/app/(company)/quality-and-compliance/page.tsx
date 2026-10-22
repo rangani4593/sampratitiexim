@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { PageIntro } from "@/components/company/PageIntro";
-import { PhotoGrid } from "@/components/company/PhotoGrid";
-import { company, companyPhotos, qualityParagraphs } from "@/data/company";
+import { company, qualityParagraphs } from "@/data/company";
 
 export const metadata: Metadata = {
   title: "Quality & Compliance",
@@ -11,7 +9,6 @@ export const metadata: Metadata = {
 };
 
 export default function QualityPage() {
-  const certs = companyPhotos.filter((p) => /iso|fssai/i.test(p.src));
   return (
     <>
       <PageIntro title="Quality Assurance" lead={qualityParagraphs[0]} crumbs={[{ href: "/profile", label: "Company" }, { label: "Quality" }]} />
@@ -37,15 +34,7 @@ export default function QualityPage() {
               </div>
             ))}
           </dl>
-          <div className="relative mt-6 aspect-[3/4] overflow-hidden rounded-2xl bg-white hairline">
-            <Image src={company.fssai.image} alt="FSSAI licence, Government of Gujarat" fill sizes="(min-width: 1024px) 30vw, 100vw" className="object-cover object-top" />
-          </div>
         </aside>
-      </section>
-
-      <section className="shell border-t border-line py-14 md:py-20">
-        <h2 className="mb-8 text-2xl font-semibold tracking-tight md:text-3xl">Certificates</h2>
-        <PhotoGrid photos={certs} />
       </section>
     </>
   );

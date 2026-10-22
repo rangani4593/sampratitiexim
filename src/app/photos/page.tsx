@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { PageIntro } from "@/components/company/PageIntro";
-import { PhotoGrid } from "@/components/company/PhotoGrid";
-import { companyPhotos } from "@/data/company";
 import { industryPages } from "@/data/industries";
 
 export const metadata: Metadata = {
@@ -15,11 +13,7 @@ export const metadata: Metadata = {
 export default function PhotosPage() {
   return (
     <>
-      <PageIntro title="Photos" lead="Our warehouse, infrastructure, certificates and the industries we supply." />
-      <section className="shell pb-14">
-        <h2 className="mb-6 text-2xl font-semibold tracking-tight md:text-3xl">Company</h2>
-        <PhotoGrid photos={companyPhotos} />
-      </section>
+      <PageIntro title="Photos" lead="Industries we supply, from Ahmedabad." />
       <section className="shell pb-20">
         <h2 className="mb-6 text-2xl font-semibold tracking-tight md:text-3xl">Industries</h2>
         <ul className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">

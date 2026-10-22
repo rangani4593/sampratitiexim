@@ -1,4 +1,4 @@
-import { Call02Icon, Location01Icon, UserIcon } from "@hugeicons/core-free-icons";
+import { Call02Icon, Location01Icon } from "@hugeicons/core-free-icons";
 import type { Metadata } from "next";
 import { PageIntro } from "@/components/company/PageIntro";
 import { EnquiryForm } from "@/components/enquiry/EnquiryForm";
@@ -27,27 +27,19 @@ export default function EnquiryPage() {
 
         <div className="grid content-start gap-4">
           <div className="grid gap-3 rounded-[var(--radius-surface)] bg-brand p-6 text-on-brand">
-            <p className="flex items-center gap-2 text-sm font-semibold text-gold">
-              <Icon icon={UserIcon} size={18} /> Contact person
-            </p>
-            <p className="text-xl font-semibold">
-              {company.contactPerson.name}
-              <span className="block text-sm font-normal text-on-brand/70">{company.contactPerson.role}</span>
-            </p>
-            <div className="mt-2 grid gap-2 sm:grid-cols-2">
+            <div className="grid gap-2 sm:grid-cols-2">
               <a href={company.phoneHref} className="btn btn-gold">
                 <Icon icon={Call02Icon} size={18} />
-                {company.phoneOwner.split(" ")[0]}: {company.phoneDisplay}
+                {company.phoneDisplay}
               </a>
               <a href={company.altPhoneHref} className="btn btn-on-brand">
                 <Icon icon={Call02Icon} size={18} />
-                {company.altPhoneOwner.split(" ")[0]}: {company.altPhoneDisplay}
+                {company.altPhoneDisplay}
               </a>
             </div>
             <a href={`mailto:${company.email}`} className="text-sm font-semibold text-on-brand underline underline-offset-4">
               {company.email}
             </a>
-            <p className="text-sm text-on-brand/60">Call response rate {company.responseRate}</p>
           </div>
 
           {[company.address, company.corporateOffice].map((a) => (

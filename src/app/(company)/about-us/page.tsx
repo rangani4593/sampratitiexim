@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { PageIntro } from "@/components/company/PageIntro";
 import { Reveal } from "@/components/ui/Reveal";
 import { aboutParagraphs, customerApproach, industries, mission, welcomeParagraphs } from "@/data/company";
@@ -15,16 +14,11 @@ export default function AboutPage() {
     <>
       <PageIntro title="About Us" lead={aboutParagraphs[0]} crumbs={[{ href: "/profile", label: "Company" }, { label: "About Us" }]} />
 
-      <section className="shell grid gap-10 pb-16 lg:grid-cols-[1.2fr_0.8fr] lg:gap-16">
-        <div className="prose-spec">
+      <section className="shell pb-16">
+        <div className="prose-spec max-w-3xl">
           {aboutParagraphs.slice(1).map((p) => (
             <p key={p.slice(0, 24)}>{p}</p>
           ))}
-        </div>
-        <div className="relative overflow-hidden rounded-[var(--radius-surface)] bg-white hairline">
-          <div className="relative aspect-[4/5]">
-            <Image src="/images/company/warehouse.jpg" alt="Sampratiti Exim warehouse, Ahmedabad" fill sizes="(min-width: 1024px) 35vw, 100vw" className="object-cover" />
-          </div>
         </div>
       </section>
 
