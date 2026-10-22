@@ -1,4 +1,4 @@
-import { DeliveryTruck01Icon, File01Icon, SearchList01Icon, UserCheck01Icon } from "@hugeicons/core-free-icons";
+import { CheckmarkCircle02Icon, DeliveryTruck01Icon, File01Icon, QuoteDownIcon, SearchList01Icon, UserCheck01Icon } from "@hugeicons/core-free-icons";
 import type { Metadata } from "next";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { CopyValue } from "@/components/ui/CopyValue";
@@ -16,6 +16,13 @@ const STEPS = [
   { icon: SearchList01Icon, title: "Specification check", body: "Product specifications verified against customer and application requirements." },
   { icon: File01Icon, title: "Batch documentation", body: "COA, MSDS and technical documents reviewed batch-wise and shared with buyers." },
   { icon: DeliveryTruck01Icon, title: "Pre-dispatch check", body: "Packaging, handling and storage checked before every dispatch." },
+] as const;
+
+const DOCUMENTS = [
+  { title: "COA", body: "Certificate of Analysis for the supplied batch" },
+  { title: "MSDS", body: "Material Safety Data Sheet for safe handling" },
+  { title: "Technical documents", body: "Specifications and data sheets where applicable" },
+  { title: "Manufacturer details", body: "Source information for imported chemicals" },
 ] as const;
 
 export default function QualityPage() {
@@ -71,12 +78,42 @@ export default function QualityPage() {
         </ol>
       </section>
 
-      {/* Body copy */}
-      <section className="shell pb-20">
-        <div className="prose-spec max-w-3xl">
-          {qualityParagraphs.slice(1).map((p) => (
-            <p key={p.slice(0, 24)}>{p}</p>
-          ))}
+      {/* Body — two columns aligned with hero */}
+      <section className="shell grid items-start gap-10 pb-20 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
+        <div>
+          <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">How we assure quality</h2>
+          <div className="prose-spec mt-5">
+            {qualityParagraphs.slice(1, -1).map((p) => (
+              <p key={p.slice(0, 24)}>{p}</p>
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-4 lg:sticky lg:top-40">
+          <div className="rounded-[var(--radius-surface)] bg-surface p-5 hairline md:p-7">
+            <p className="text-xs font-bold uppercase tracking-widest text-gold">With every order</p>
+            <ul className="mt-4 divide-y divide-line">
+              {DOCUMENTS.map((d) => (
+                <li key={d.title} className="flex gap-3 py-3 first:pt-0 last:pb-0">
+                  <span className="mt-0.5 text-gold">
+                    <Icon icon={CheckmarkCircle02Icon} size={20} />
+                  </span>
+                  <div>
+                    <p className="font-semibold">{d.title}</p>
+                    <p className="text-sm text-ink-3">{d.body}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <figure className="rounded-[var(--radius-surface)] border-l-2 border-gold bg-surface p-5 hairline md:p-7">
+            <span className="text-gold">
+              <Icon icon={QuoteDownIcon} size={22} />
+            </span>
+            <blockquote className="mt-3 text-lg font-medium leading-snug tracking-tight">{qualityParagraphs[qualityParagraphs.length - 1]}</blockquote>
+            <figcaption className="mt-3 text-sm text-ink-3">Our commitment</figcaption>
+          </figure>
         </div>
       </section>
     </>
