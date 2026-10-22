@@ -40,7 +40,7 @@ export const organizationLd = {
   priceRange: "Request a quote",
   address: {
     "@type": "PostalAddress",
-    streetAddress: company.address.lines.slice(0, 3).join(", "),
+    streetAddress: "56, Vivan Industrial Park, Kathwada GIDC",
     addressLocality: "Ahmedabad",
     addressRegion: "Gujarat",
     postalCode: "382430",
@@ -54,7 +54,7 @@ export const organizationLd = {
   ],
   founder: { "@type": "Person", name: company.ceo },
   sameAs: company.social,
-  hasMap: company.address.mapHref,
+  hasMap: company.office.mapHref,
 };
 
 export const websiteLd = {
@@ -82,7 +82,7 @@ export const homeFaqs: Faq[] = [
   },
   {
     q: "Where is Sampratiti Exim located?",
-    a: `The warehouse is at ${company.address.lines.join(", ")}. The corporate office is at ${company.corporateOffice.lines.join(", ")}.`,
+    a: `The office is at ${company.office.lines.join(", ")}. Warehouses are in ${company.warehouses.map((w) => `${w.places.join(", ")} (${w.region})`).join(" and ")}.`,
   },
   {
     q: "Which chemicals and ingredients does Sampratiti Exim supply?",

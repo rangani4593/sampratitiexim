@@ -18,6 +18,7 @@ export const company = {
   ],
   responseRate: "85%",
   established: "2022",
+  yearsInBusiness: new Date().getFullYear() - 2022,
   gst: "24ABJCS3281Q1ZP",
   catalogue: { href: "/downloads/sampratiti-exim-catalogue.pdf", size: "35 MB" },
   fssai: {
@@ -25,41 +26,30 @@ export const company = {
     issued: "02-10-2024 (Renewal)",
     validUpto: "03-12-2029",
     kind: "Trade/Retail: Wholesaler, Distributor, Retailer",
-    image: "/images/company/fssai-licence-2024.jpg",
   },
   contactPerson: { name: "Mayur Patel", role: "Managing Director" },
   ceo: "Urmil R Ramani",
-  address: {
-    label: "Warehouse",
-    lines: ["Shed-56, Vivan Industrial Park", "Singarva-Kathwada Road, Kathwada", "B/H Bahuchargreen Party Plot", "Ahmedabad 382430, Gujarat, India"],
+  office: {
+    label: "Office",
+    lines: ["56, Vivan Industrial Park", "Kathwada GIDC, Ahmedabad", "Gujarat 382430, India"],
     mapHref: "https://maps.google.com?q=23.03899000,72.69154000",
   },
-  corporateOffice: {
-    label: "Corporate office",
-    lines: ["Shop 414, 4th Floor, Maruti Plaza Apartment", "Thakkarbapa Nagar Road, Krishna Nagar", "Opp. Vijay Park BRTS Stand", "Ahmedabad 382345"],
-  },
+  warehouses: [
+    { region: "Gujarat", places: ["Kathwada", "Aslali", "Narol"] },
+    { region: "Maharashtra", places: ["Bhiwandi"] },
+  ],
   tagline:
     "Chemical Importer, Trader & Bulk Supplier of Food, Pharma, Nutraceutical, Industrial & Water Treatment Chemicals. Imported Quality Products, Competitive Pricing, COA/MSDS Support & Pan-India Supply from Ahmedabad.",
   facts: [
     { label: "Nature of business", value: "Exporter, Importer, Wholesaler, Trader and Supplier" },
     { label: "Additional business", value: "Retail Business, Wholesale Business, Service Provider" },
-    { label: "Company CEO", value: "Urmil R Ramani" },
     { label: "Year of establishment", value: "2022" },
     { label: "Location", value: "Ahmedabad, Gujarat, India" },
-    { label: "Number of employees", value: "Upto 10 People" },
     { label: "GST registration date", value: "12-10-2022" },
-    { label: "Legal status of firm", value: "Limited Company" },
-    { label: "Annual turnover", value: "INR 4 Crore (1.5 - 5 Cr band)" },
-    { label: "Import percentage", value: "80%" },
-    { label: "Export percentage", value: "50%" },
-    { label: "GST partner names", value: "Ramani Urmil Rameshbhai, Mayurkumar Vasoya" },
-    { label: "Banker", value: "IndusInd Bank" },
   ],
   registrations: [
     { label: "GST No.", value: "24ABJCS3281Q1ZP" },
-    { label: "Import Export Code (IEC)", value: "ABJCS3281Q" },
     { label: "CIN No.", value: "U51909GJ2022PTC135224" },
-    { label: "TAN No.", value: "AHMS44559E" },
     { label: "FSSAI Licence", value: "10723026002936" },
   ],
   registeredAddress: "Shop 414, 4th, Maruti Plaza Apartment, Thakkarbapa Nagar Road, Ahmedabad 382345, Gujarat, India",
@@ -194,19 +184,8 @@ export const reviews: Review[] = [
   { name: "IndiaMART Buyer", place: "India", date: "22 Dec 2023", text: "Thank you team Sampratiti, have a great deal with you." },
 ];
 
-export const companyPhotos = [
-  { src: "/images/company/warehouse.jpg", title: "Our Warehouse", caption: "Our Warehouse" },
-  { src: "/images/company/iso-certificate.jpg", title: "ISO Certification", caption: "An ISO certified company" },
-  { src: "/images/company/company-board.jpg", title: "Our Infrastructure", caption: "Our Company Board" },
-  { src: "/images/company/iso-certificate-2.jpg", title: "Our Certifications", caption: "An ISO certified company" },
-  { src: "/images/company/company-exterior.jpg", title: "Infrastructure Facilities", caption: "Our Company Exterior" },
-  { src: "/images/company/fssai-licence.jpg", title: "Quality Certificates", caption: "FSSAI" },
-  { src: "/images/company/fssai-licence-2024.jpg", title: "FSSAI Licence 2024", caption: "FSSAI licence, valid up to 03-12-2029" },
-];
-
 export const companyTabs = [
   { href: "/profile", label: "Introduction" },
-  { href: "/testimonial", label: "Testimonial" },
   { href: "/quality-and-compliance", label: "Quality" },
   { href: "/company-insights", label: "Custom Profile" },
   { href: "/about-us", label: "About Us" },
