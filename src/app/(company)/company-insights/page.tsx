@@ -37,6 +37,7 @@ export default function InsightsPage() {
               src="/images/company/profile-lab.webp"
               alt="Sampratiti Exim — global chemical logistics"
               fill
+              quality={90}
               sizes="(min-width: 1024px) 48vw, 100vw"
               className="object-cover"
               priority

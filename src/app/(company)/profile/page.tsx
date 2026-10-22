@@ -40,6 +40,7 @@ export default function ProfilePage() {
               src="/images/company/intro-ship.webp"
               alt="Sampratiti Exim — global chemical sourcing and supply"
               fill
+              quality={90}
               sizes="(min-width: 1024px) 45vw, 100vw"
               className="object-cover"
               priority

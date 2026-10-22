@@ -10,7 +10,7 @@ import { Icon } from "@/components/ui/Icon";
 import { InquiryButton } from "@/components/ui/InquiryButton";
 import { Faq } from "@/components/ui/Faq";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
-import { advantageIntro, advantages, company, mission, ratings, welcomeParagraphs } from "@/data/company";
+import { advantageIntro, advantages, company, ratings, welcomeParagraphs } from "@/data/company";
 import { industryPages } from "@/data/industries";
 import { homeFaqs } from "@/lib/seo";
 import { featured, productCount, productTypes } from "@/lib/catalog";
@@ -152,9 +152,10 @@ export default function Home() {
           <div className="overflow-hidden rounded-[var(--radius-surface)] hairline">
             <div className="relative aspect-[4/5]">
               <Image
-                src="/images/company/port-terminal.webp"
-                alt="Sampratiti Exim chemical storage facility, Ahmedabad"
+                src="/images/company/home-about.webp"
+                alt="Container cranes and cargo ship at a port terminal"
                 fill
+                quality={90}
                 sizes="(min-width: 1024px) 45vw, 100vw"
                 className="object-cover"
               />
@@ -226,10 +227,6 @@ export default function Home() {
           <div className="lg:sticky lg:top-28 lg:self-start">
             <h2 className="text-3xl font-semibold tracking-tight md:text-5xl">Why choose Sampratiti Exim</h2>
             <p className="mt-5 max-w-[46ch] text-lg leading-relaxed text-ink-2">{advantageIntro}</p>
-            <figure className="mt-8 border-l-2 border-gold pl-5">
-              <blockquote className="max-w-[48ch] leading-relaxed text-ink-2">{mission.split(". ")[0]}.</blockquote>
-              <figcaption className="mt-2 text-sm font-semibold">Our mission</figcaption>
-            </figure>
           </div>
           <AdvantageList items={advantages} />
         </div>

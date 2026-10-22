@@ -39,6 +39,7 @@ export default function AdvantagePage() {
               src="/images/company/advantage-partners.webp"
               alt="Sampratiti Exim — reliable chemical supply"
               fill
+              quality={90}
               sizes="(min-width: 1024px) 48vw, 100vw"
               className="object-cover"
               priority

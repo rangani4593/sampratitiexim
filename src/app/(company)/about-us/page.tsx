@@ -36,6 +36,7 @@ export default function AboutPage() {
               src="/images/company/about-chemist.webp"
               alt="Sampratiti Exim — chemical import and supply"
               fill
+              quality={90}
               sizes="(min-width: 1024px) 48vw, 100vw"
               className="object-cover"
               priority
