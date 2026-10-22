@@ -152,7 +152,7 @@ export default function Home() {
           <div className="overflow-hidden rounded-[var(--radius-surface)] hairline">
             <div className="relative aspect-[4/5]">
               <Image
-                src="/images/company/port-night.webp"
+                src="/images/company/port-terminal.webp"
                 alt="Sampratiti Exim chemical storage facility, Ahmedabad"
                 fill
                 sizes="(min-width: 1024px) 45vw, 100vw"
