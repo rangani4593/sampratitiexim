@@ -56,15 +56,6 @@ export default function ProfilePage() {
             ))}
           </div>
 
-          {/* Registration numbers */}
-          {(gstReg || cinReg) && (
-            <div className="mt-6 grid gap-2 rounded-[var(--radius-surface)] bg-surface p-3 hairline sm:grid-cols-2">
-              {[gstReg, cinReg].filter(Boolean).map((r) => (
-                <CopyValue key={r!.label} label={r!.label} value={r!.value} className="rounded-xl p-2.5 hover:bg-surface-2" />
-              ))}
-            </div>
-          )}
-
           <div className="mt-8 flex flex-wrap gap-3">
             <InquiryButton />
             <Link href="/enquiry" className="btn btn-ghost px-5">
