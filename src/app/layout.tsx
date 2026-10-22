@@ -67,7 +67,7 @@ const navFamilies: NavFamily[] = productTypes.map((t) => ({
 }));
 
 const productNames = Object.fromEntries(products.map((p) => [productHref(p.slug), p.name]));
-const companyLinks = [...companyTabs, { href: "/photos", label: "Photos" }];
+const companyLinks = [...companyTabs];
 const phone = { display: company.phoneDisplay, href: company.phoneHref };
 
 const THEME_SCRIPT = `try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.dataset.theme=t;var c=t==="dark"?"#0a1823":"#edf1f3";document.querySelectorAll('meta[name="theme-color"]').forEach(function(m){m.content=c})}}catch(e){}`;

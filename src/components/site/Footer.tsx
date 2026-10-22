@@ -1,17 +1,29 @@
-import { Call02Icon, Download04Icon, Facebook01Icon, Linkedin01Icon, Location01Icon, NewTwitterIcon, UserIcon } from "@hugeicons/core-free-icons";
+import { ArrowRight01Icon, Call02Icon, Facebook01Icon, Linkedin01Icon, Location01Icon, Mail01Icon, WarehouseIcon, YoutubeIcon } from "@hugeicons/core-free-icons";
 import Image from "next/image";
 import Link from "next/link";
 import { LogoBadge } from "@/components/brand/Logo";
 import { EnquiryForm } from "@/components/enquiry/EnquiryForm";
 import { Icon } from "@/components/ui/Icon";
-import { company, companyTabs } from "@/data/company";
-import { productTypes, products } from "@/lib/catalog";
+import { company } from "@/data/company";
+import { productTypes } from "@/lib/catalog";
 
-const shareIcons = { Facebook: Facebook01Icon, X: NewTwitterIcon, LinkedIn: Linkedin01Icon } as const;
+const COMPANY_LINKS = [
+  { href: "/profile", label: "Introduction" },
+  { href: "/about-us", label: "About Us" },
+  { href: "/quality-and-compliance", label: "Quality" },
+  { href: "/our-advantage", label: "Our Advantage" },
+  { href: "/industry", label: "Industries" },
+] as const;
+
+// Same order as company.social: Facebook, LinkedIn, YouTube.
+const SOCIAL = [
+  { label: "Facebook", icon: Facebook01Icon },
+  { label: "LinkedIn", icon: Linkedin01Icon },
+  { label: "YouTube", icon: YoutubeIcon },
+] as const;
 
 export function Footer() {
   const phone = { display: company.phoneDisplay, href: company.phoneHref };
-  const topProducts = products.slice(0, 10);
 
   return (
     <footer className="relative isolate overflow-hidden bg-brand text-on-brand">
@@ -26,7 +38,7 @@ export function Footer() {
         <div id="contact">
           <h2 className="max-w-[16ch] text-[2rem] font-semibold leading-[1.08] tracking-tight md:text-5xl">Get in touch with us for best deals</h2>
           <p className="mt-4 max-w-[46ch] text-on-brand/75">
-            Tell us the product, grade and quantity. {company.contactPerson.name}, {company.contactPerson.role}, replies with price and availability.
+            Tell us the product, grade and quantity. We reply with price and availability.
           </p>
           <div className="mt-8 max-w-xl">
             <EnquiryForm tone="brand" phone={phone} />
@@ -34,119 +46,131 @@ export function Footer() {
         </div>
 
         <div className="grid content-start gap-8 sm:grid-cols-2 lg:pt-3">
-          <div className="sm:col-span-2">
-            <div className="flex items-center gap-3">
-              <LogoBadge size={44} className="ring-1 ring-gold/40" />
-              <div>
-                <p className="font-semibold">{company.name}</p>
-                <p className="text-sm text-on-brand/70">GST {company.gst}</p>
-              </div>
+          <div className="flex items-center gap-4 sm:col-span-2">
+            <LogoBadge size={56} className="ring-1 ring-gold/40" />
+            <div>
+              <p className="text-lg font-bold tracking-[0.04em] text-gold">SAMPRATITI EXIM</p>
+              <p className="text-sm text-on-brand/70">GST {company.gst}</p>
             </div>
           </div>
-          <div className="grid gap-3 text-sm">
-            <p className="flex items-center gap-2 font-semibold text-gold">
-              <Icon icon={UserIcon} size={18} />
-              Contact person
-            </p>
-            <p>
-              {company.contactPerson.name}
-              <br />
-              <span className="text-on-brand/70">{company.contactPerson.role}</span>
-            </p>
-            <a href={company.phoneHref} className="flex items-center gap-2 text-base font-semibold">
-              <Icon icon={Call02Icon} size={18} />
-              {company.phoneOwner}: {company.phoneDisplay}
-            </a>
-            <a href={company.altPhoneHref} className="flex items-center gap-2 text-on-brand/80">
-              <Icon icon={Call02Icon} size={18} />
-              {company.altPhoneOwner}: {company.altPhoneDisplay}
-            </a>
-            <p className="text-on-brand/60">Call response rate {company.responseRate}</p>
-          </div>
-          <div className="grid gap-5 text-sm">
-            {[company.address, company.corporateOffice].map((a) => (
-              <div key={a.label} className="grid gap-1.5">
-                <p className="flex items-center gap-2 font-semibold text-gold">
-                  <Icon icon={Location01Icon} size={18} />
-                  {a.label}
-                </p>
-                <address className="not-italic leading-relaxed text-on-brand/80">
-                  {a.lines.map((l) => (
-                    <span key={l} className="block">
-                      {l}
-                    </span>
-                  ))}
-                </address>
-                {"mapHref" in a && (
-                  <a href={a.mapHref} target="_blank" rel="noopener noreferrer" className="w-fit font-semibold underline underline-offset-4">
-                    Get directions
-                  </a>
-                )}
+
+          <ul className="divide-y divide-on-brand/15 border-y border-on-brand/15 sm:col-span-2">
+            <li className="flex gap-4 py-5">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-on-brand/10 text-gold">
+                <Icon icon={Call02Icon} size={19} />
+              </span>
+              <div className="min-w-0">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-on-brand/55">Call us</p>
+                <div className="mt-1.5 flex flex-wrap gap-x-6 gap-y-1">
+                  <a href={company.phoneHref} className="text-lg font-semibold transition-colors hover:text-gold">+91 {company.phoneDisplay}</a>
+                  <a href={company.altPhoneHref} className="text-lg font-semibold transition-colors hover:text-gold">+91 {company.altPhoneDisplay}</a>
+                </div>
               </div>
-            ))}
-          </div>
-          <a href={company.catalogue.href} download className="btn btn-on-brand w-fit sm:col-span-2">
-            <Icon icon={Download04Icon} size={18} />
-            Download catalogue PDF ({company.catalogue.size})
+            </li>
+
+            <li className="flex gap-4 py-5">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-on-brand/10 text-gold">
+                <Icon icon={Location01Icon} size={19} />
+              </span>
+              <div className="min-w-0">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-on-brand/55">{company.office.label}</p>
+                <address className="mt-1.5 not-italic leading-relaxed text-on-brand/85">{company.office.lines.join(", ")}</address>
+                <a
+                  href={company.office.mapHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-gold hover:underline hover:underline-offset-4"
+                >
+                  Get directions
+                  <Icon icon={ArrowRight01Icon} size={14} />
+                </a>
+              </div>
+            </li>
+
+            <li className="flex gap-4 py-5">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-on-brand/10 text-gold">
+                <Icon icon={WarehouseIcon} size={19} />
+              </span>
+              <div className="min-w-0">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-on-brand/55">Warehouses</p>
+                <dl className="mt-1.5 grid gap-1 text-on-brand/85">
+                  {company.warehouses.map((w) => (
+                    <div key={w.region} className="flex flex-wrap gap-x-2">
+                      <dt className="font-semibold text-on-brand">{w.region}</dt>
+                      <dd>{w.places.join(" · ")}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <nav aria-label="Footer" className="shell grid gap-10 border-t border-on-brand/15 py-12 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr] lg:gap-12">
+        <div className="max-w-xs">
+          <p className="font-semibold">{company.shortName}</p>
+          <p className="mt-3 text-sm leading-relaxed text-on-brand/70">
+            Importer, trader and bulk supplier of food, pharma and industrial chemicals from Ahmedabad since {company.established}.
+          </p>
+          <a href={`mailto:${company.email}`} className="mt-4 inline-flex items-center gap-2 text-sm font-semibold hover:text-gold">
+            <Icon icon={Mail01Icon} size={18} />
+            {company.email}
           </a>
         </div>
-      </div>
 
-      <div className="shell grid gap-10 border-t border-on-brand/15 py-12 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <p className="text-sm font-semibold text-gold">Our company</p>
-          <ul className="mt-4 grid gap-2.5 text-sm text-on-brand/80">
-            {[...companyTabs, { href: "/products-and-services", label: "Our Products" }, { href: "/industry", label: "Industries" }, { href: "/photos", label: "Photos" }, { href: "/enquiry", label: "Contact Us" }, { href: "/sitemap", label: "Sitemap" }].map((l) => (
+          <p className="text-sm font-semibold text-gold">Company</p>
+          <ul className="mt-4 grid gap-2.5 text-sm text-on-brand/75">
+            {COMPANY_LINKS.map((l) => (
               <li key={l.href}>
-                <Link href={l.href} className="hover:text-on-brand hover:underline hover:underline-offset-4">
-                  {l.label}
-                </Link>
+                <Link href={l.href} className="transition-colors hover:text-on-brand">{l.label}</Link>
               </li>
             ))}
           </ul>
         </div>
-        <div>
-          <p className="text-sm font-semibold text-gold">Product groups</p>
-          <ul className="mt-4 grid gap-2.5 text-sm text-on-brand/80">
-            {productTypes.map((f) => (
-              <li key={f.slug}>
-                <Link href={`/products-and-services#${f.slug}`} className="hover:text-on-brand hover:underline hover:underline-offset-4">
-                  {f.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="sm:col-span-2">
-          <p className="text-sm font-semibold text-gold">Our products</p>
-          <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2.5 text-sm text-on-brand/80">
-            {topProducts.map((c) => (
-              <li key={c.slug}>
-                <Link href={`/${c.slug}`} className="hover:text-on-brand hover:underline hover:underline-offset-4">
-                  {c.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
 
-      <div className="shell flex flex-col gap-4 border-t border-on-brand/15 pb-[calc(6.5rem+env(safe-area-inset-bottom))] pt-6 text-sm text-on-brand/65 md:flex-row md:items-center md:justify-between md:pb-8">
+        <div>
+          <p className="text-sm font-semibold text-gold">Products</p>
+          <ul className="mt-4 grid gap-2.5 text-sm text-on-brand/75">
+            {productTypes.map((t) => (
+              <li key={t.slug}>
+                <Link href={`/products-and-services#${t.slug}`} className="transition-colors hover:text-on-brand">{t.name}</Link>
+              </li>
+            ))}
+            <li>
+              <Link href="/products-and-services" className="inline-flex items-center gap-1 font-semibold text-on-brand hover:text-gold">
+                All products
+                <Icon icon={ArrowRight01Icon} size={14} />
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <p className="text-sm font-semibold text-gold">Follow us</p>
+          <div className="mt-4 flex gap-2">
+            {SOCIAL.map((s, i) => (
+              <a
+                key={s.label}
+                href={company.social[i]}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${company.shortName} on ${s.label}`}
+                className="grid h-10 w-10 place-items-center rounded-full ring-1 ring-on-brand/25 transition-colors hover:bg-on-brand hover:text-brand"
+              >
+                <Icon icon={s.icon} size={18} />
+              </a>
+            ))}
+          </div>
+        </div>
+      </nav>
+
+      <div className="shell flex flex-col gap-3 border-t border-on-brand/15 pb-[calc(6.5rem+env(safe-area-inset-bottom))] pt-6 text-sm text-on-brand/60 md:flex-row md:items-center md:justify-between md:pb-8">
         <p>© {company.name}. All rights reserved.</p>
-        <div className="flex items-center gap-2">
-          <span className="mr-1">Share us on</span>
-          {company.share.map((s) => (
-            <a
-              key={s.label}
-              href={s.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`Share on ${s.label}`}
-              className="grid h-10 w-10 place-items-center rounded-full text-on-brand ring-1 ring-on-brand/25 transition-colors hover:bg-on-brand hover:text-brand"
-            >
-              <Icon icon={shareIcons[s.label as keyof typeof shareIcons]} size={18} />
-            </a>
-          ))}
+        <div className="flex gap-5">
+          <Link href="/sitemap" className="hover:text-on-brand">Sitemap</Link>
+          <Link href="/enquiry" className="hover:text-on-brand">Contact</Link>
         </div>
       </div>
     </footer>

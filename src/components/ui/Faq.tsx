@@ -3,9 +3,15 @@ import { Icon } from "@/components/ui/Icon";
 import { JsonLd } from "@/components/ui/JsonLd";
 import { faqLd, type Faq as FaqItem } from "@/lib/seo";
 
-export function Faq({ title, items, id }: { title: string; items: FaqItem[]; id?: string }) {
+export function Faq({ title, items, id, eyebrow }: { title: string; items: FaqItem[]; id?: string; eyebrow?: string }) {
   return (
     <section id={id} aria-labelledby={id ? `${id}-title` : undefined}>
+      {eyebrow && (
+        <p className="mb-4 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-gold">
+          <span className="h-px w-8 shrink-0 bg-gold" />
+          {eyebrow}
+        </p>
+      )}
       <h2 id={id ? `${id}-title` : undefined} className="text-2xl font-semibold tracking-tight md:text-3xl">
         {title}
       </h2>

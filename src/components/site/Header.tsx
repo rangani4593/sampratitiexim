@@ -101,7 +101,6 @@ export function Header({ families, companyLinks, productCount, phone }: Props) {
             </button>
             {[
               { href: "/industry", label: "Industries" },
-              { href: "/photos", label: "Photos" },
               { href: "/enquiry", label: "Contact" },
             ].map((l) => (
               <Link
