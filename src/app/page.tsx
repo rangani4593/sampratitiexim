@@ -15,6 +15,8 @@ import { industryPages } from "@/data/industries";
 import { homeFaqs } from "@/lib/seo";
 import { featured, productCount, productTypes } from "@/lib/catalog";
 
+export const dynamic = "force-dynamic";
+
 const HEADLINE = "Your trusted chemical solutions partner";
 
 export default function Home() {
@@ -221,7 +223,7 @@ export default function Home() {
       </section>
 
       {/* Advantages */}
-      <section className="bg-surface-2/60 py-20 md:py-28">
+      <section className="bg-surface-2/60 py-10 md:py-14">
         <div className="shell grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
           <div className="lg:sticky lg:top-28 lg:self-start">
             <h2 className="text-3xl font-semibold tracking-tight md:text-5xl">Why choose Sampratiti Exim</h2>

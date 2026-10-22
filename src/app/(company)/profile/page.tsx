@@ -9,6 +9,8 @@ import { InquiryButton } from "@/components/ui/InquiryButton";
 import { company, profileParagraphs } from "@/data/company";
 import { productCount } from "@/lib/catalog";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Introduction & Company Profile",
   description: "Sampratiti Exim Pvt. Ltd. factsheet: established 2022 in Ahmedabad, GST 24ABJCS3281Q1ZP, IEC ABJCS3281Q, importer, exporter, wholesaler and supplier of chemicals.",
@@ -74,50 +76,44 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        {/* Right — visual panel */}
+        {/* Right — stats + registration panel */}
         <div className="sticky top-24 space-y-4">
 
-          {/* Warehouse image */}
-          <div className="overflow-hidden rounded-[var(--radius-surface)] hairline">
-            <div className="relative aspect-[4/3]">
-              <Image
-                src="/images/company/warehouse.webp"
-                alt="Sampratiti Exim chemical storage facility, Ahmedabad"
-                fill
-                sizes="(min-width: 1024px) 44vw, 100vw"
-                className="object-cover"
-                priority
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-5">
-                <p className="text-xs font-semibold tracking-widest text-white/70 uppercase">Our Warehouse</p>
-                <p className="mt-1 text-base font-bold text-white">Kathwada, Ahmedabad</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Stat strip */}
-          <div className="grid grid-cols-3 gap-3">
+          {/* Stats grid */}
+          <div className="grid grid-cols-2 gap-3">
             {[
-              { v: `${productCount}+`, label: "Products" },
-              { v: `${new Date().getFullYear() - parseInt(company.established)}+`, label: "Years" },
+              { v: `${productCount}+`, label: "Products Supplied" },
+              { v: `${new Date().getFullYear() - parseInt(company.established)}+`, label: "Years Active" },
               { v: "Pan-India", label: "Delivery" },
+              { v: "COA & MSDS", label: "Documentation" },
             ].map((s) => (
-              <div key={s.label} className="rounded-2xl bg-surface px-3 py-4 text-center hairline">
-                <p className="text-xl font-bold tracking-tight md:text-2xl">{s.v}</p>
+              <div key={s.label} className="rounded-2xl bg-surface px-4 py-5 hairline">
+                <p className="text-2xl font-bold tracking-tight">{s.v}</p>
                 <p className="mt-0.5 text-xs text-ink-3">{s.label}</p>
               </div>
             ))}
           </div>
 
-          {/* Contact person card */}
-          <div className="rounded-[var(--radius-surface)] bg-surface p-5 hairline">
-            <p className="text-xs font-bold uppercase tracking-widest text-gold">Contact person</p>
-            <p className="mt-3 text-base font-semibold">{company.contactPerson.name}</p>
-            <p className="text-sm text-ink-3">{company.contactPerson.role}</p>
-            <a href={company.phoneHref} className="mt-4 inline-flex items-center gap-2 text-sm font-semibold underline underline-offset-4">
-              {company.phoneDisplay}
-            </a>
+          {/* Registration numbers */}
+          {(gstReg || cinReg) && (
+            <div className="rounded-[var(--radius-surface)] bg-surface p-4 hairline">
+              <p className="mb-3 text-xs font-bold uppercase tracking-widest text-gold">Registration</p>
+              <div className="grid gap-2">
+                {[gstReg, cinReg].filter(Boolean).map((r) => (
+                  <CopyValue key={r!.label} label={r!.label} value={r!.value} className="rounded-xl p-2.5 hover:bg-surface-2" />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Address */}
+          <div className="rounded-[var(--radius-surface)] bg-surface p-4 hairline">
+            <p className="mb-3 text-xs font-bold uppercase tracking-widest text-gold">Warehouse</p>
+            <address className="not-italic text-sm leading-relaxed text-ink-2">
+              {company.address.lines.map((l) => (
+                <span key={l} className="block">{l}</span>
+              ))}
+            </address>
           </div>
         </div>
 
