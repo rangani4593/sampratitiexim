@@ -26,7 +26,6 @@ export const company = {
     issued: "02-10-2024 (Renewal)",
     validUpto: "03-12-2029",
     kind: "Trade/Retail: Wholesaler, Distributor, Retailer",
-    image: "/images/company/fssai-licence-2024.jpg",
   },
   contactPerson: { name: "Mayur Patel", role: "Managing Director" },
   ceo: "Urmil R Ramani",
@@ -192,16 +191,6 @@ export const reviews: Review[] = [
     text: "I had a fantastic experience with Sampratiti Exim for our industrial and pharma chemical needs. The product quality, including citric acid, xanthan gum, and sucralose, exceeded expectations, enhancing our production efficiency.",
   },
   { name: "IndiaMART Buyer", place: "India", date: "22 Dec 2023", text: "Thank you team Sampratiti, have a great deal with you." },
-];
-
-export const companyPhotos = [
-  { src: "/images/company/warehouse.jpg", title: "Our Warehouse", caption: "Our Warehouse" },
-  { src: "/images/company/iso-certificate.jpg", title: "ISO Certification", caption: "An ISO certified company" },
-  { src: "/images/company/company-board.jpg", title: "Our Infrastructure", caption: "Our Company Board" },
-  { src: "/images/company/iso-certificate-2.jpg", title: "Our Certifications", caption: "An ISO certified company" },
-  { src: "/images/company/company-exterior.jpg", title: "Infrastructure Facilities", caption: "Our Company Exterior" },
-  { src: "/images/company/fssai-licence.jpg", title: "Quality Certificates", caption: "FSSAI" },
-  { src: "/images/company/fssai-licence-2024.jpg", title: "FSSAI Licence 2024", caption: "FSSAI licence, valid up to 03-12-2029" },
 ];
 
 export const companyTabs = [
