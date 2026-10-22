@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 const PILLARS = [
   { icon: CheckmarkBadge02Icon, title: "Quality First", body: "Every product sourced with COA and MSDS documentation, from verified manufacturers." },
   { icon: Package01Icon, title: "Bulk Supply", body: "Consistent bulk supply capability for manufacturers, distributors and industrial users." },
-  { icon: GlobalIcon, title: "Pan-India Reach", body: "Efficient order coordination, storage and dispatch from our Ahmedabad warehouse." },
+  { icon: GlobalIcon, title: "Pan-India Reach", body: "Order coordination, storage and dispatch from our Gujarat and Maharashtra warehouses." },
   { icon: UserGroupIcon, title: "Long-Term Partnerships", body: "Transparent commercial practices and dedicated support to build lasting relationships." },
 ] as const;
 
@@ -57,7 +57,7 @@ export default function AboutPage() {
             { k: "Products", v: `${productCount}+` },
             { k: "Years Active", v: `${company.yearsInBusiness}+` },
             { k: "Industries", v: `${industryPages.length}` },
-            { k: "Pan-India", v: "Delivery" },
+            { k: "Delivery", v: "Pan-India" },
           ].map((s) => (
             <div key={s.k} className="bg-surface p-5 text-center md:p-6">
               <dd className="text-3xl font-bold tracking-tight md:text-4xl">{s.v}</dd>
@@ -67,30 +67,35 @@ export default function AboutPage() {
         </dl>
       </section>
 
-      {/* About body */}
-      <section className="shell pb-16">
-        <div className="prose-spec max-w-3xl">
-          {aboutParagraphs.slice(1).map((p) => (
-            <p key={p.slice(0, 24)}>{p}</p>
-          ))}
+      {/* Who we are — text left, pillars right (aligned with hero columns) */}
+      <section className="shell grid items-start gap-10 pb-16 lg:grid-cols-2 lg:gap-12">
+        <div>
+          <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-gold">
+            <span className="h-px w-8 shrink-0 bg-gold" />
+            Who we are
+          </p>
+          <div className="prose-spec mt-5">
+            {aboutParagraphs.slice(1, -1).map((p) => (
+              <p key={p.slice(0, 24)}>{p}</p>
+            ))}
+          </div>
         </div>
-      </section>
 
-      {/* Four pillars */}
-      <section className="shell pb-16">
-        <h2 className="mb-8 text-2xl font-semibold tracking-tight md:text-3xl">What sets us apart</h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {PILLARS.map((p) => (
-            <div key={p.title} className="flex flex-col gap-4 rounded-[var(--radius-surface)] bg-surface p-5 hairline">
-              <span className="grid h-10 w-10 place-items-center rounded-xl bg-gold-soft text-gold">
-                <Icon icon={p.icon} size={20} />
-              </span>
-              <div>
-                <p className="font-semibold">{p.title}</p>
-                <p className="mt-1 text-sm leading-relaxed text-ink-2">{p.body}</p>
+        <div className="lg:sticky lg:top-40">
+          <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">What sets us apart</h2>
+          <div className="mt-6 grid gap-3 sm:grid-cols-2">
+            {PILLARS.map((p) => (
+              <div key={p.title} className="group flex flex-col gap-4 rounded-[var(--radius-surface)] bg-surface p-5 transition duration-300 hairline hover:-translate-y-1 hover:bg-surface-2">
+                <span className="grid h-10 w-10 place-items-center rounded-xl bg-gold-soft text-gold transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110">
+                  <Icon icon={p.icon} size={20} />
+                </span>
+                <div>
+                  <p className="font-semibold">{p.title}</p>
+                  <p className="mt-1 text-sm leading-relaxed text-ink-2">{p.body}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
@@ -108,26 +113,24 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Welcome section */}
-      <section className="shell grid gap-10 py-14 md:py-20 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-        <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">Welcome to Sampratiti Exim</h2>
+      {/* Welcome — sticky heading + industries left, story right */}
+      <section className="shell grid items-start gap-10 py-14 md:py-20 lg:grid-cols-2 lg:gap-12">
+        <div className="lg:sticky lg:top-40">
+          <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">Welcome to Sampratiti Exim</h2>
+          <p className="mt-8 text-xs font-bold uppercase tracking-[0.15em] text-gold">Industries we serve</p>
+          <ul className="mt-4 flex flex-wrap gap-2">
+            {industries.map((i) => (
+              <li key={i} className="rounded-full bg-surface px-4 py-2 text-sm font-medium transition-colors hairline hover:bg-gold hover:text-on-gold">
+                {i}
+              </li>
+            ))}
+          </ul>
+        </div>
         <div className="prose-spec">
           {welcomeParagraphs.map((p) => (
             <p key={p.slice(0, 24)}>{p}</p>
           ))}
         </div>
-      </section>
-
-      {/* Industries */}
-      <section className="shell pb-20">
-        <h2 className="mb-6 text-2xl font-semibold tracking-tight md:text-3xl">Industries we serve</h2>
-        <ul className="flex flex-wrap gap-2">
-          {industries.map((i) => (
-            <li key={i} className="rounded-full bg-surface px-4 py-2 text-sm font-medium hairline">
-              {i}
-            </li>
-          ))}
-        </ul>
       </section>
     </>
   );

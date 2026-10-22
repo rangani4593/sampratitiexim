@@ -60,7 +60,7 @@ export default function AdvantagePage() {
             { k: "Products", v: `${productCount}+` },
             { k: "Years Active", v: `${company.yearsInBusiness}+` },
             { k: "Industries", v: `${industryPages.length}` },
-            { k: "Pan-India", v: "Delivery" },
+            { k: "Delivery", v: "Pan-India" },
           ].map((s) => (
             <div key={s.k} className="bg-surface p-5 text-center md:p-6">
               <dd className="text-3xl font-bold tracking-tight md:text-4xl">{s.v}</dd>
