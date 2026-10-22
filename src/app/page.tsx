@@ -144,23 +144,81 @@ export default function Home() {
       </section>
 
       {/* About */}
-      <section className="shell py-20 md:py-28">
-        <Reveal>
-          <h2 className="text-3xl font-semibold tracking-tight md:text-5xl">A trusted sourcing partner since {company.established}</h2>
-          <p className="mt-5 max-w-[56ch] text-lg leading-relaxed text-ink-2">{welcomeParagraphs[0]}</p>
-          <p className="mt-4 max-w-[56ch] leading-relaxed text-ink-2">
-            Imported materials are sourced from established manufacturers and supplied with applicable product documentation such as COA and MSDS.
-          </p>
-          <div className="mt-8 grid gap-2 rounded-[var(--radius-surface)] bg-surface p-3 hairline sm:grid-cols-2">
-            {company.registrations.filter((r) => r.label === "GST No." || r.label === "CIN No.").map((r) => (
-              <CopyValue key={r.label} label={r.label} value={r.value} className="rounded-xl p-2.5 hover:bg-surface-2" />
+      <section className="shell grid items-center gap-12 py-20 md:py-28 lg:grid-cols-2 lg:gap-16">
+
+        {/* Left — image with overlaid badges */}
+        <div className="relative order-2 lg:order-1">
+          {/* Main image */}
+          <div className="overflow-hidden rounded-[var(--radius-surface)] hairline">
+            <div className="relative aspect-[4/5]">
+              <Image
+                src="/images/company/warehouse.jpg"
+                alt="Sampratiti Exim warehouse, Ahmedabad"
+                fill
+                sizes="(min-width: 1024px) 45vw, 100vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
+            </div>
+          </div>
+
+          {/* Floating info cards over image */}
+          <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between gap-3">
+            <div className="rounded-xl bg-white/95 px-4 py-3 shadow-lg backdrop-blur-sm">
+              <p className="text-[11px] font-medium text-gray-500">Our Warehouse</p>
+              <p className="mt-0.5 text-sm font-bold text-gray-900">Kathwada, Ahmedabad</p>
+            </div>
+            <div className="rounded-xl bg-gold px-4 py-3 shadow-lg text-on-gold">
+              <p className="text-[11px] font-medium opacity-75">Est.</p>
+              <p className="mt-0.5 text-sm font-bold">{company.established}</p>
+            </div>
+          </div>
+
+          {/* Stat strip below image */}
+          <div className="mt-4 grid grid-cols-3 gap-3">
+            {[
+              { v: `${productCount}+`, label: "Products" },
+              { v: `${industryPages.length}`, label: "Industries" },
+              { v: "Pan-India", label: "Delivery" },
+            ].map((s) => (
+              <div key={s.label} className="rounded-2xl bg-surface px-3 py-4 text-center hairline">
+                <p className="text-xl font-bold tracking-tight md:text-2xl">{s.v}</p>
+                <p className="mt-0.5 text-xs text-ink-3">{s.label}</p>
+              </div>
             ))}
           </div>
+        </div>
+
+        {/* Right — copy */}
+        <div className="order-1 lg:order-2">
+          <p className="flex items-center gap-2 text-xs font-bold tracking-[0.15em] text-gold uppercase">
+            <span className="h-px w-8 bg-gold shrink-0" />
+            Ahmedabad, Gujarat · Since {company.established}
+          </p>
+          <h2 className="mt-4 text-3xl font-semibold tracking-tight md:text-4xl lg:text-5xl">
+            A trusted sourcing partner since {company.established}
+          </h2>
+          <p className="mt-5 text-lg leading-relaxed text-ink-2">
+            {welcomeParagraphs[0]}
+          </p>
+          <p className="mt-4 leading-relaxed text-ink-2">
+            All materials are sourced from established manufacturers and supplied with COA and MSDS documentation.
+          </p>
+
+          {/* Registration info */}
+          <div className="mt-8 grid gap-2 rounded-[var(--radius-surface)] bg-surface p-3 hairline sm:grid-cols-2">
+            {company.registrations
+              .filter((r) => r.label === "GST No." || r.label === "CIN No.")
+              .map((r) => (
+                <CopyValue key={r.label} label={r.label} value={r.value} className="rounded-xl p-2.5 hover:bg-surface-2" />
+              ))}
+          </div>
+
           <Link href="/profile" className="mt-6 inline-flex items-center gap-1.5 font-semibold">
             Company introduction
             <Icon icon={ArrowRight01Icon} size={18} />
           </Link>
-        </Reveal>
+        </div>
       </section>
 
       {/* Advantages */}
