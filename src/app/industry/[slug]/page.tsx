@@ -78,7 +78,7 @@ export default async function IndustryDetail({ params }: PageProps<"/industry/[s
       </section>
 
       <section className="shell pb-14">
-        <div className="max-w-3xl">
+        <div className="mx-auto max-w-3xl">
           <Faq id="faq" title={`${ind.name} industry FAQs`} items={faqs} />
         </div>
       </section>

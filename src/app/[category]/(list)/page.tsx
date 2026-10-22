@@ -138,7 +138,7 @@ export default async function ProductPage({ params }: PageProps<"/[category]">) 
       </section>
 
       <section className="shell py-14 md:py-20">
-        <div className="max-w-3xl">
+        <div className="mx-auto max-w-3xl">
           <Faq id="faq" title={`${product.name} FAQs`} items={faqs} />
         </div>
       </section>
