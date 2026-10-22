@@ -16,7 +16,6 @@ const pages = [
   ...companyTabs,
   { href: "/products-and-services", label: "Products & Services" },
   { href: "/industry", label: "Industries" },
-  { href: "/photos", label: "Photos" },
   { href: "/enquiry", label: "Contact Us" },
 ];
 

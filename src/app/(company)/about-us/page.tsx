@@ -1,7 +1,11 @@
+import { CheckmarkBadge02Icon, GlobalIcon, Package01Icon, UserGroupIcon } from "@hugeicons/core-free-icons";
+import Image from "next/image";
 import type { Metadata } from "next";
-import { PageIntro } from "@/components/company/PageIntro";
-import { Reveal } from "@/components/ui/Reveal";
-import { aboutParagraphs, customerApproach, industries, mission, welcomeParagraphs } from "@/data/company";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import { Icon } from "@/components/ui/Icon";
+import { aboutParagraphs, customerApproach, industries, mission, welcomeParagraphs, company } from "@/data/company";
+import { industryPages } from "@/data/industries";
+import { productCount } from "@/lib/catalog";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -9,11 +13,60 @@ export const metadata: Metadata = {
   alternates: { canonical: "/about-us" },
 };
 
+const PILLARS = [
+  { icon: CheckmarkBadge02Icon, title: "Quality First", body: "Every product sourced with COA and MSDS documentation, from verified manufacturers." },
+  { icon: Package01Icon, title: "Bulk Supply", body: "Consistent bulk supply capability for manufacturers, distributors and industrial users." },
+  { icon: GlobalIcon, title: "Pan-India Reach", body: "Efficient order coordination, storage and dispatch from our Ahmedabad warehouse." },
+  { icon: UserGroupIcon, title: "Long-Term Partnerships", body: "Transparent commercial practices and dedicated support to build lasting relationships." },
+] as const;
+
 export default function AboutPage() {
   return (
     <>
-      <PageIntro title="About Us" lead={aboutParagraphs[0]} crumbs={[{ href: "/profile", label: "Company" }, { label: "About Us" }]} />
+      {/* Hero */}
+      <section className="shell grid items-center gap-8 pb-6 pt-5 md:pt-8 lg:grid-cols-2 lg:gap-12">
+        <div>
+          <Breadcrumbs items={[{ href: "/profile", label: "Company" }, { label: "About Us" }]} />
+          <h1 className="mt-6 text-balance text-[2.3rem] font-semibold leading-[1.05] tracking-tight md:mt-8 md:text-6xl">About Us</h1>
+          <p className="mt-4 max-w-[52ch] text-lg leading-relaxed text-ink-2">{aboutParagraphs[0]}</p>
+        </div>
+        <div className="overflow-hidden rounded-[var(--radius-surface)] hairline">
+          <div className="relative aspect-[16/9]">
+            <Image
+              src="/images/company/hero-industry.webp"
+              alt="Sampratiti Exim — chemical import and supply"
+              fill
+              sizes="(min-width: 1024px) 48vw, 100vw"
+              className="object-cover"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
+            <div className="absolute bottom-4 left-4">
+              <p className="text-xs font-semibold uppercase tracking-widest text-white/70">Est. {company.established}</p>
+              <p className="mt-0.5 text-sm font-bold text-white">Ahmedabad, Gujarat</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
+      {/* Stats strip */}
+      <section className="shell pb-12">
+        <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-[var(--radius-surface)] bg-line md:grid-cols-4">
+          {[
+            { k: "Products", v: `${productCount}+` },
+            { k: "Years Active", v: `${company.yearsInBusiness}+` },
+            { k: "Industries", v: `${industryPages.length}` },
+            { k: "Pan-India", v: "Delivery" },
+          ].map((s) => (
+            <div key={s.k} className="bg-surface p-5 text-center md:p-6">
+              <dd className="text-3xl font-bold tracking-tight md:text-4xl">{s.v}</dd>
+              <dt className="mt-1 text-sm text-ink-3">{s.k}</dt>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      {/* About body */}
       <section className="shell pb-16">
         <div className="prose-spec max-w-3xl">
           {aboutParagraphs.slice(1).map((p) => (
@@ -22,20 +75,40 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-brand py-16 text-on-brand md:py-24">
-        <div className="shell grid gap-10 lg:grid-cols-2 lg:gap-16">
-          <Reveal>
-            <h2 className="text-sm font-semibold text-gold">Our mission</h2>
-            <p className="mt-4 text-2xl font-medium leading-snug tracking-tight md:text-3xl">{mission}</p>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <h2 className="text-sm font-semibold text-gold">Customer-centric approach</h2>
-            <p className="mt-4 leading-relaxed text-on-brand/80 md:text-lg">{customerApproach}</p>
-          </Reveal>
+      {/* Four pillars */}
+      <section className="shell pb-16">
+        <h2 className="mb-8 text-2xl font-semibold tracking-tight md:text-3xl">What sets us apart</h2>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {PILLARS.map((p) => (
+            <div key={p.title} className="flex flex-col gap-4 rounded-[var(--radius-surface)] bg-surface p-5 hairline">
+              <span className="grid h-10 w-10 place-items-center rounded-xl bg-gold-soft text-gold">
+                <Icon icon={p.icon} size={20} />
+              </span>
+              <div>
+                <p className="font-semibold">{p.title}</p>
+                <p className="mt-1 text-sm leading-relaxed text-ink-2">{p.body}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
-      <section className="shell grid gap-10 py-16 md:py-24 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+      {/* Mission + Approach */}
+      <section className="bg-brand py-14 text-on-brand md:py-20">
+        <div className="shell grid gap-10 lg:grid-cols-2 lg:gap-16">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-widest text-gold">Our mission</p>
+            <p className="mt-4 text-xl font-medium leading-snug tracking-tight md:text-2xl">{mission}</p>
+          </div>
+          <div>
+            <p className="text-xs font-bold uppercase tracking-widest text-gold">Customer-centric approach</p>
+            <p className="mt-4 leading-relaxed text-on-brand/80 md:text-lg">{customerApproach}</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Welcome section */}
+      <section className="shell grid gap-10 py-14 md:py-20 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
         <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">Welcome to Sampratiti Exim</h2>
         <div className="prose-spec">
           {welcomeParagraphs.map((p) => (
@@ -44,11 +117,12 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Industries */}
       <section className="shell pb-20">
-        <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">Industries we serve</h2>
-        <ul className="mt-6 flex flex-wrap gap-2">
+        <h2 className="mb-6 text-2xl font-semibold tracking-tight md:text-3xl">Industries we serve</h2>
+        <ul className="flex flex-wrap gap-2">
           {industries.map((i) => (
-            <li key={i} className="rounded-full bg-surface px-4 py-2 font-medium hairline">
+            <li key={i} className="rounded-full bg-surface px-4 py-2 text-sm font-medium hairline">
               {i}
             </li>
           ))}
