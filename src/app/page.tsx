@@ -1,7 +1,7 @@
 import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import Image from "next/image";
 import Link from "next/link";
-import { AdvantageList } from "@/components/home/AdvantageList";
+import { WhyChoose } from "@/components/home/WhyChoose";
 import { HorizontalShelf } from "@/components/home/HorizontalShelf";
 import { ProductDeck, type DeckSlide } from "@/components/home/ProductDeck";
 import { ProductCard } from "@/components/product/ProductCard";
@@ -221,16 +221,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Advantages */}
-      <section className="bg-surface-2/60 py-10 md:py-14">
-        <div className="shell grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
-          <div className="lg:sticky lg:top-28 lg:self-start">
-            <h2 className="text-3xl font-semibold tracking-tight md:text-5xl">Why choose Sampratiti Exim</h2>
-            <p className="mt-5 max-w-[46ch] text-lg leading-relaxed text-ink-2">{advantageIntro}</p>
-          </div>
-          <AdvantageList items={advantages} />
-        </div>
-      </section>
+      <WhyChoose intro={advantageIntro} items={advantages} />
 
       {/* FAQ */}
       <section className="shell py-20 md:py-28">

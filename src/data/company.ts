@@ -46,9 +46,6 @@ export const company = {
     { label: "Year of establishment", value: "2022" },
     { label: "Location", value: "Ahmedabad, Gujarat, India" },
     { label: "GST registration date", value: "12-10-2022" },
-    { label: "Legal status of firm", value: "Limited Company" },
-    { label: "GST partner names", value: "Ramani Urmil Rameshbhai, Mayurkumar Vasoya" },
-    { label: "Banker", value: "IndusInd Bank" },
   ],
   registrations: [
     { label: "GST No.", value: "24ABJCS3281Q1ZP" },
