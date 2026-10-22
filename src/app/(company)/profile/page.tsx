@@ -10,7 +10,7 @@ import { productCount } from "@/lib/catalog";
 
 export const metadata: Metadata = {
   title: "Introduction & Company Profile",
-  description: "Sampratiti Exim Pvt. Ltd. factsheet: established 2022 in Ahmedabad, GST 24ABJCS3281Q1ZP, IEC ABJCS3281Q, importer, exporter, wholesaler and supplier of chemicals.",
+  description: "Sampratiti Exim Pvt. Ltd. factsheet: established 2022 in Ahmedabad, GST 24ABJCS3281Q1ZP, importer, exporter, wholesaler and supplier of chemicals.",
   alternates: { canonical: "/profile" },
 };
 
@@ -111,14 +111,27 @@ export default function ProfilePage() {
             </div>
           )}
 
-          {/* Address */}
-          <div className="rounded-[var(--radius-surface)] bg-surface p-4 hairline">
-            <p className="mb-3 text-xs font-bold uppercase tracking-widest text-gold">Warehouse</p>
-            <address className="not-italic text-sm leading-relaxed text-ink-2">
-              {company.address.lines.map((l) => (
-                <span key={l} className="block">{l}</span>
-              ))}
-            </address>
+          {/* Office + warehouses */}
+          <div className="grid gap-4 rounded-[var(--radius-surface)] bg-surface p-4 hairline sm:grid-cols-2">
+            <div>
+              <p className="mb-2 text-xs font-bold uppercase tracking-widest text-gold">Office</p>
+              <address className="not-italic text-sm leading-relaxed text-ink-2">
+                {company.office.lines.map((l) => (
+                  <span key={l} className="block">{l}</span>
+                ))}
+              </address>
+            </div>
+            <div>
+              <p className="mb-2 text-xs font-bold uppercase tracking-widest text-gold">Warehouses</p>
+              <dl className="text-sm leading-relaxed text-ink-2">
+                {company.warehouses.map((w) => (
+                  <div key={w.region}>
+                    <dt className="font-semibold text-ink">{w.region}</dt>
+                    <dd>{w.places.join(", ")}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
           </div>
         </div>
 

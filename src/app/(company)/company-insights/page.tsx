@@ -10,7 +10,7 @@ import { productCount } from "@/lib/catalog";
 
 export const metadata: Metadata = {
   title: "Custom Profile",
-  description: "Key facts of Sampratiti Exim Pvt. Ltd.: year of establishment, import and export share, turnover and why buyers choose us.",
+  description: "Key facts of Sampratiti Exim Pvt. Ltd.: year of establishment, registrations and why buyers choose us.",
   alternates: { canonical: "/company-insights" },
 };
 

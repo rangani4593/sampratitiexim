@@ -1,4 +1,4 @@
-import { ArrowRight01Icon, Call02Icon, Facebook01Icon, Linkedin01Icon, Location01Icon, Mail01Icon, UserIcon, YoutubeIcon } from "@hugeicons/core-free-icons";
+import { ArrowRight01Icon, Call02Icon, Facebook01Icon, Linkedin01Icon, Location01Icon, Mail01Icon, WarehouseIcon, YoutubeIcon } from "@hugeicons/core-free-icons";
 import Image from "next/image";
 import Link from "next/link";
 import { LogoBadge } from "@/components/brand/Logo";
@@ -38,7 +38,7 @@ export function Footer() {
         <div id="contact">
           <h2 className="max-w-[16ch] text-[2rem] font-semibold leading-[1.08] tracking-tight md:text-5xl">Get in touch with us for best deals</h2>
           <p className="mt-4 max-w-[46ch] text-on-brand/75">
-            Tell us the product, grade and quantity. {company.contactPerson.name}, {company.contactPerson.role}, replies with price and availability.
+            Tell us the product, grade and quantity. We reply with price and availability.
           </p>
           <div className="mt-8 max-w-xl">
             <EnquiryForm tone="brand" phone={phone} />
@@ -46,57 +46,50 @@ export function Footer() {
         </div>
 
         <div className="grid content-start gap-8 sm:grid-cols-2 lg:pt-3">
-          <div className="sm:col-span-2">
-            <div className="flex items-center gap-3">
-              <LogoBadge size={44} className="ring-1 ring-gold/40" />
-              <div>
-                <p className="font-semibold">{company.name}</p>
-                <p className="text-sm text-on-brand/70">GST {company.gst}</p>
-              </div>
+          <div className="flex items-center gap-4 sm:col-span-2">
+            <LogoBadge size={56} className="ring-1 ring-gold/40" />
+            <div>
+              <p className="text-lg font-bold tracking-[0.04em] text-gold">SAMPRATITI EXIM</p>
+              <p className="text-sm text-on-brand/70">GST {company.gst}</p>
             </div>
           </div>
+
+          <div className="grid content-start gap-3 text-sm">
+            <p className="flex items-center gap-2 font-semibold text-gold">
+              <Icon icon={Call02Icon} size={18} />
+              Call us
+            </p>
+            <a href={company.phoneHref} className="text-base font-semibold hover:text-gold">+91 {company.phoneDisplay}</a>
+            <a href={company.altPhoneHref} className="text-base font-semibold hover:text-gold">+91 {company.altPhoneDisplay}</a>
+          </div>
+
           <div className="grid content-start gap-1.5 text-sm">
             <p className="flex items-center gap-2 font-semibold text-gold">
-              <Icon icon={UserIcon} size={18} />
-              Contact person
+              <Icon icon={Location01Icon} size={18} />
+              {company.office.label}
             </p>
-            <p className="leading-relaxed">
-              {company.contactPerson.name}
-              <br />
-              <span className="text-on-brand/70">{company.contactPerson.role}</span>
-            </p>
-            <div className="mt-3 grid gap-2">
-              <a href={company.phoneHref} className="flex items-center gap-2 text-base font-semibold hover:text-gold">
-                <Icon icon={Call02Icon} size={18} />
-                {company.phoneOwner}: {company.phoneDisplay}
-              </a>
-              <a href={company.altPhoneHref} className="flex items-center gap-2 text-on-brand/80 hover:text-gold">
-                <Icon icon={Call02Icon} size={18} />
-                {company.altPhoneOwner}: {company.altPhoneDisplay}
-              </a>
-            </div>
+            <address className="not-italic leading-relaxed text-on-brand/80">
+              {company.office.lines.map((l) => (
+                <span key={l} className="block">{l}</span>
+              ))}
+            </address>
+            <a href={company.office.mapHref} target="_blank" rel="noopener noreferrer" className="w-fit font-semibold underline underline-offset-4">
+              Get directions
+            </a>
           </div>
-          <div className="grid content-start gap-5 text-sm">
-            {[company.address, company.corporateOffice].map((a) => (
-              <div key={a.label} className="grid gap-1.5">
-                <p className="flex items-center gap-2 font-semibold text-gold">
-                  <Icon icon={Location01Icon} size={18} />
-                  {a.label}
+
+          <div className="grid content-start gap-2 text-sm sm:col-span-2">
+            <p className="flex items-center gap-2 font-semibold text-gold">
+              <Icon icon={WarehouseIcon} size={18} />
+              Warehouses
+            </p>
+            <div className="flex flex-wrap gap-x-8 gap-y-1 text-on-brand/80">
+              {company.warehouses.map((w) => (
+                <p key={w.region}>
+                  <span className="font-semibold text-on-brand">{w.region}:</span> {w.places.join(", ")}
                 </p>
-                <address className="not-italic leading-relaxed text-on-brand/80">
-                  {a.lines.map((l) => (
-                    <span key={l} className="block">
-                      {l}
-                    </span>
-                  ))}
-                </address>
-                {"mapHref" in a && (
-                  <a href={a.mapHref} target="_blank" rel="noopener noreferrer" className="w-fit font-semibold underline underline-offset-4">
-                    Get directions
-                  </a>
-                )}
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>

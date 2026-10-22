@@ -29,15 +29,15 @@ export const company = {
   },
   contactPerson: { name: "Mayur Patel", role: "Managing Director" },
   ceo: "Urmil R Ramani",
-  address: {
-    label: "Warehouse",
-    lines: ["Shed-56, Vivan Industrial Park", "Singarva-Kathwada Road, Kathwada", "B/H Bahuchargreen Party Plot", "Ahmedabad 382430, Gujarat, India"],
+  office: {
+    label: "Office",
+    lines: ["56, Vivan Industrial Park", "Kathwada GIDC, Ahmedabad", "Gujarat 382430, India"],
     mapHref: "https://maps.google.com?q=23.03899000,72.69154000",
   },
-  corporateOffice: {
-    label: "Corporate office",
-    lines: ["Shop 414, 4th Floor, Maruti Plaza Apartment", "Thakkarbapa Nagar Road, Krishna Nagar", "Opp. Vijay Park BRTS Stand", "Ahmedabad 382345"],
-  },
+  warehouses: [
+    { region: "Gujarat", places: ["Kathwada", "Aslali", "Narol"] },
+    { region: "Maharashtra", places: ["Bhiwandi"] },
+  ],
   tagline:
     "Chemical Importer, Trader & Bulk Supplier of Food, Pharma, Nutraceutical, Industrial & Water Treatment Chemicals. Imported Quality Products, Competitive Pricing, COA/MSDS Support & Pan-India Supply from Ahmedabad.",
   facts: [
@@ -45,20 +45,14 @@ export const company = {
     { label: "Additional business", value: "Retail Business, Wholesale Business, Service Provider" },
     { label: "Year of establishment", value: "2022" },
     { label: "Location", value: "Ahmedabad, Gujarat, India" },
-    { label: "Number of employees", value: "Upto 10 People" },
     { label: "GST registration date", value: "12-10-2022" },
     { label: "Legal status of firm", value: "Limited Company" },
-    { label: "Annual turnover", value: "INR 4 Crore (1.5 - 5 Cr band)" },
-    { label: "Import percentage", value: "80%" },
-    { label: "Export percentage", value: "50%" },
     { label: "GST partner names", value: "Ramani Urmil Rameshbhai, Mayurkumar Vasoya" },
     { label: "Banker", value: "IndusInd Bank" },
   ],
   registrations: [
     { label: "GST No.", value: "24ABJCS3281Q1ZP" },
-    { label: "Import Export Code (IEC)", value: "ABJCS3281Q" },
     { label: "CIN No.", value: "U51909GJ2022PTC135224" },
-    { label: "TAN No.", value: "AHMS44559E" },
     { label: "FSSAI Licence", value: "10723026002936" },
   ],
   registeredAddress: "Shop 414, 4th, Maruti Plaza Apartment, Thakkarbapa Nagar Road, Ahmedabad 382345, Gujarat, India",

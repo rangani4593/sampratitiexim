@@ -1,4 +1,4 @@
-import { Call02Icon, Location01Icon } from "@hugeicons/core-free-icons";
+import { Call02Icon, Location01Icon, WarehouseIcon } from "@hugeicons/core-free-icons";
 import type { Metadata } from "next";
 import { PageIntro } from "@/components/company/PageIntro";
 import { EnquiryForm } from "@/components/enquiry/EnquiryForm";
@@ -42,30 +42,38 @@ export default function EnquiryPage() {
             </a>
           </div>
 
-          {[company.address, company.corporateOffice].map((a) => (
-            <div key={a.label} className="rounded-[var(--radius-surface)] bg-surface p-5 hairline">
-              <p className="flex items-center gap-2 text-sm font-semibold">
-                <Icon icon={Location01Icon} size={18} /> {a.label}
-              </p>
-              <address className="mt-2 not-italic leading-relaxed text-ink-2">
-                {company.name}
-                {a.lines.map((l) => (
-                  <span key={l} className="block">
-                    {l}
-                  </span>
-                ))}
-              </address>
-              {"mapHref" in a && (
-                <a href={a.mapHref} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block font-semibold underline underline-offset-4">
-                  Get directions
-                </a>
-              )}
-            </div>
-          ))}
+          <div className="rounded-[var(--radius-surface)] bg-surface p-5 hairline">
+            <p className="flex items-center gap-2 text-sm font-semibold">
+              <Icon icon={Location01Icon} size={18} /> {company.office.label}
+            </p>
+            <address className="mt-2 not-italic leading-relaxed text-ink-2">
+              {company.name}
+              {company.office.lines.map((l) => (
+                <span key={l} className="block">{l}</span>
+              ))}
+            </address>
+            <a href={company.office.mapHref} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block font-semibold underline underline-offset-4">
+              Get directions
+            </a>
+          </div>
+
+          <div className="rounded-[var(--radius-surface)] bg-surface p-5 hairline">
+            <p className="flex items-center gap-2 text-sm font-semibold">
+              <Icon icon={WarehouseIcon} size={18} /> Warehouses
+            </p>
+            <dl className="mt-2 grid gap-1 leading-relaxed text-ink-2">
+              {company.warehouses.map((w) => (
+                <div key={w.region}>
+                  <dt className="inline font-semibold text-ink">{w.region}: </dt>
+                  <dd className="inline">{w.places.join(", ")}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
 
           <div className="overflow-hidden rounded-[var(--radius-surface)] hairline">
             <iframe
-              title="Sampratiti Exim warehouse location on Google Maps"
+              title="Sampratiti Exim office location on Google Maps"
               src="https://maps.google.com/maps?q=23.03899,72.69154&z=15&output=embed"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"

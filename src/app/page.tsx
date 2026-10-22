@@ -39,7 +39,7 @@ export default function Home() {
             ))}
           </h1>
           <p className="fade-in mt-5 max-w-[40ch] text-lg leading-relaxed text-ink-2 md:text-xl" style={{ ["--d" as string]: "420ms" }}>
-            Food, pharma and water-treatment chemicals, imported and supplied in bulk across India with COA and MSDS support.
+            Food, pharma and industrial chemicals, imported and supplied in bulk across India with COA and MSDS support.
           </p>
           <div className="fade-in mt-8 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap" style={{ ["--d" as string]: "560ms" }}>
             <InquiryButton className="btn btn-gold px-4" />
@@ -61,7 +61,7 @@ export default function Home() {
             { k: "Satisfied Customers", v: `${ratings.count}+`, d: "verified buyers across India" },
             { k: "Industries Served", v: String(industryPages.length), d: "food, pharma and industrial" },
             { k: "Years in Business", v: `${company.yearsInBusiness}+`, d: `since ${company.established}` },
-            { k: "Delivery", v: "Pan-India", d: "from Ahmedabad warehouse" },
+            { k: "Delivery", v: "Pan-India", d: "from Gujarat & Maharashtra warehouses" },
           ].map((s) => (
             <div key={s.k} className="bg-surface p-4 md:p-6">
               <dt className="text-sm text-ink-3">{s.k}</dt>
@@ -163,8 +163,8 @@ export default function Home() {
               {/* Floating info cards — inside overflow-hidden so they stay within image */}
               <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between gap-3">
                 <div className="rounded-xl bg-white/95 px-4 py-3 shadow-lg backdrop-blur-sm">
-                  <p className="text-[11px] font-medium text-gray-500">Our Warehouse</p>
-                  <p className="mt-0.5 text-sm font-bold text-gray-900">Kathwada, Ahmedabad</p>
+                  <p className="text-[11px] font-medium text-gray-500">Warehouses</p>
+                  <p className="mt-0.5 text-sm font-bold text-gray-900">{company.warehouses.map((w) => w.region).join(" · ")}</p>
                 </div>
                 <div className="rounded-xl bg-gold px-4 py-3 shadow-lg text-on-gold">
                   <p className="text-[11px] font-medium opacity-75">Est.</p>
