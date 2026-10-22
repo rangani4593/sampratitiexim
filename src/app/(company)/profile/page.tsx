@@ -9,8 +9,6 @@ import { InquiryButton } from "@/components/ui/InquiryButton";
 import { company, profileParagraphs } from "@/data/company";
 import { productCount } from "@/lib/catalog";
 
-export const dynamic = "force-dynamic";
-
 export const metadata: Metadata = {
   title: "Introduction & Company Profile",
   description: "Sampratiti Exim Pvt. Ltd. factsheet: established 2022 in Ahmedabad, GST 24ABJCS3281Q1ZP, IEC ABJCS3281Q, importer, exporter, wholesaler and supplier of chemicals.",
@@ -83,7 +81,7 @@ export default function ProfilePage() {
           <div className="grid grid-cols-2 gap-3">
             {[
               { v: `${productCount}+`, label: "Products Supplied" },
-              { v: `${new Date().getFullYear() - parseInt(company.established)}+`, label: "Years Active" },
+              { v: `${company.yearsInBusiness}+`, label: "Years Active" },
               { v: "Pan-India", label: "Delivery" },
               { v: "COA & MSDS", label: "Documentation" },
             ].map((s) => (

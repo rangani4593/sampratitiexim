@@ -15,8 +15,6 @@ import { industryPages } from "@/data/industries";
 import { homeFaqs } from "@/lib/seo";
 import { featured, productCount, productTypes } from "@/lib/catalog";
 
-export const dynamic = "force-dynamic";
-
 const HEADLINE = "Your trusted chemical solutions partner";
 
 export default function Home() {
@@ -62,7 +60,7 @@ export default function Home() {
           {[
             { k: "Satisfied Customers", v: `${ratings.count}+`, d: "verified buyers across India" },
             { k: "Industries Served", v: String(industryPages.length), d: "food, pharma and industrial" },
-            { k: "Years in Business", v: `${new Date().getFullYear() - parseInt(company.established)}+`, d: `since ${company.established}` },
+            { k: "Years in Business", v: `${company.yearsInBusiness}+`, d: `since ${company.established}` },
             { k: "Delivery", v: "Pan-India", d: "from Ahmedabad warehouse" },
           ].map((s) => (
             <div key={s.k} className="bg-surface p-4 md:p-6">

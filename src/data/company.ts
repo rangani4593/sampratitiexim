@@ -18,6 +18,7 @@ export const company = {
   ],
   responseRate: "85%",
   established: "2022",
+  yearsInBusiness: new Date().getFullYear() - 2022,
   gst: "24ABJCS3281Q1ZP",
   catalogue: { href: "/downloads/sampratiti-exim-catalogue.pdf", size: "35 MB" },
   fssai: {
