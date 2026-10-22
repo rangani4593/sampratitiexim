@@ -44,7 +44,6 @@ export const company = {
   facts: [
     { label: "Nature of business", value: "Exporter, Importer, Wholesaler, Trader and Supplier" },
     { label: "Additional business", value: "Retail Business, Wholesale Business, Service Provider" },
-    { label: "Company CEO", value: "Urmil R Ramani" },
     { label: "Year of establishment", value: "2022" },
     { label: "Location", value: "Ahmedabad, Gujarat, India" },
     { label: "Number of employees", value: "Upto 10 People" },
