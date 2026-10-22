@@ -63,9 +63,7 @@ export function Header({ families, companyLinks, productCount, phone }: Props) {
   return (
     <header style={{ viewTransitionName: "site-header" }} className="sticky top-0 z-40" onKeyDown={(e) => e.key === "Escape" && setMenu(null)}>
       <div
-        className={`transition-[background-color,box-shadow,backdrop-filter] duration-300 ${
-          scrolled || menu ? "bg-bg/95 shadow-[0_1px_0_var(--line)] backdrop-blur-xl" : "bg-bg/0"
-        }`}
+        className={`bg-bg transition-shadow duration-300 ${scrolled || menu ? "shadow-[0_1px_0_var(--line),0_8px_24px_-12px_rgb(var(--shadow-rgb)/0.25)]" : ""}`}
       >
         <div className="shell flex h-16 items-center gap-4 md:h-[72px]">
           <Logo />

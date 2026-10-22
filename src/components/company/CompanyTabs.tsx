@@ -11,7 +11,7 @@ export function CompanyTabs({ tabs }: { tabs: readonly { href: string; label: st
     bar.current?.querySelector<HTMLElement>('[aria-current="page"]')?.scrollIntoView({ inline: "center", block: "nearest" });
   }, [pathname]);
   return (
-    <nav aria-label="Company" className="sticky top-16 z-30 border-y border-line bg-bg/90 backdrop-blur-xl md:top-[72px]">
+    <nav aria-label="Company" className="sticky top-16 z-30 border-y border-line bg-bg md:top-[72px]">
       <div ref={bar} className="shell no-scrollbar flex gap-2 overflow-x-auto py-3">
         {tabs.map((t) => (
           <Link key={t.href} href={t.href} aria-current={pathname === t.href ? "page" : undefined} className="chip shrink-0">

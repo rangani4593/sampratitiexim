@@ -42,7 +42,7 @@ export default function ProductsPage() {
         </div>
       </section>
 
-      <nav aria-label="Product groups" className="sticky top-16 z-30 mt-8 border-y border-line bg-bg/90 backdrop-blur-xl md:top-[72px]">
+      <nav aria-label="Product groups" className="sticky top-16 z-30 mt-8 border-y border-line bg-bg md:top-[72px]">
         <div className="shell no-scrollbar flex gap-2 overflow-x-auto py-3">
           {productTypes.map((t) => (
             <a key={t.slug} href={`#${t.slug}`} className="chip shrink-0">
