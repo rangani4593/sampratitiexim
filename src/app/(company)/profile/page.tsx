@@ -28,7 +28,7 @@ export default function ProfilePage() {
   return (
     <>
       {/* Hero — two-column: title left, image right */}
-      <section className="shell grid items-center gap-8 pb-6 pt-5 md:pt-8 lg:grid-cols-2 lg:gap-12">
+      <section className="shell grid items-center gap-8 pb-12 pt-5 md:pt-8 lg:grid-cols-[1fr_0.9fr] lg:gap-16">
         <div>
           <Breadcrumbs items={[{ href: "/profile", label: "Company" }, { label: "Introduction" }]} />
           <h1 className="mt-6 text-balance text-[2.3rem] font-semibold leading-[1.05] tracking-tight md:mt-8 md:text-6xl">Introduction</h1>
@@ -40,7 +40,7 @@ export default function ProfilePage() {
               src="/images/company/port-terminal.webp"
               alt="Sampratiti Exim — global chemical sourcing and supply"
               fill
-              sizes="(min-width: 1024px) 48vw, 100vw"
+              sizes="(min-width: 1024px) 45vw, 100vw"
               className="object-cover"
               priority
             />
