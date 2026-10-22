@@ -3,7 +3,7 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Icon } from "@/components/ui/Icon";
-import { aboutParagraphs, customerApproach, industries, mission, welcomeParagraphs, company } from "@/data/company";
+import { aboutParagraphs, company, customerApproach, industries, mission, ratings, welcomeParagraphs } from "@/data/company";
 import { industryPages } from "@/data/industries";
 import { productCount } from "@/lib/catalog";
 
@@ -57,7 +57,7 @@ export default function AboutPage() {
             { k: "Products", v: `${productCount}+` },
             { k: "Years Active", v: `${company.yearsInBusiness}+` },
             { k: "Industries", v: `${industryPages.length}` },
-            { k: "Delivery", v: "Pan-India" },
+            { k: "Happy Customers", v: `${ratings.count}+` },
           ].map((s) => (
             <div key={s.k} className="bg-surface p-5 text-center md:p-6">
               <dd className="text-3xl font-bold tracking-tight md:text-4xl">{s.v}</dd>

@@ -6,7 +6,7 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Icon } from "@/components/ui/Icon";
-import { advantageIntro, advantageOutro, advantages, company } from "@/data/company";
+import { advantageIntro, advantageOutro, advantages, company, ratings } from "@/data/company";
 import { industryPages } from "@/data/industries";
 import { productCount } from "@/lib/catalog";
 
@@ -60,7 +60,7 @@ export default function AdvantagePage() {
             { k: "Products", v: `${productCount}+` },
             { k: "Years Active", v: `${company.yearsInBusiness}+` },
             { k: "Industries", v: `${industryPages.length}` },
-            { k: "Delivery", v: "Pan-India" },
+            { k: "Happy Customers", v: `${ratings.count}+` },
           ].map((s) => (
             <div key={s.k} className="bg-surface p-5 text-center md:p-6">
               <dd className="text-3xl font-bold tracking-tight md:text-4xl">{s.v}</dd>

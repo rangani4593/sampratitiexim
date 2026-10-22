@@ -61,7 +61,7 @@ export default function Home() {
             { k: "Satisfied Customers", v: `${ratings.count}+`, d: "verified buyers across India" },
             { k: "Industries Served", v: String(industryPages.length), d: "food, pharma and industrial" },
             { k: "Years in Business", v: `${company.yearsInBusiness}+`, d: `since ${company.established}` },
-            { k: "Delivery", v: "Pan-India", d: "from Gujarat & Maharashtra warehouses" },
+            { k: "Products", v: `${productCount}+`, d: `across ${productTypes.length} product groups` },
           ].map((s) => (
             <div key={s.k} className="bg-surface p-4 md:p-6">
               <dt className="text-sm text-ink-3">{s.k}</dt>
@@ -179,7 +179,7 @@ export default function Home() {
             {[
               { v: `${productCount}+`, label: "Products" },
               { v: `${industryPages.length}`, label: "Industries" },
-              { v: "Pan-India", label: "Delivery" },
+              { v: String(company.warehouses.flatMap((w) => w.places).length), label: "Warehouses" },
             ].map((s) => (
               <div key={s.label} className="rounded-2xl bg-surface px-3 py-4 text-center hairline">
                 <p className="text-xl font-bold tracking-tight md:text-2xl">{s.v}</p>
