@@ -1,8 +1,5 @@
-import { Download04Icon } from "@hugeicons/core-free-icons";
 import type { Metadata } from "next";
 import { PageIntro } from "@/components/company/PageIntro";
-import { Icon } from "@/components/ui/Icon";
-import { InquiryButton } from "@/components/ui/InquiryButton";
 import { company, profileParagraphs } from "@/data/company";
 
 export const metadata: Metadata = {
@@ -23,13 +20,6 @@ export default function ProfilePage() {
             {profileParagraphs.map((p) => (
               <p key={p.slice(0, 24)}>{p}</p>
             ))}
-          </div>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <InquiryButton />
-            <a href={company.catalogue.href} download className="btn btn-ghost">
-              <Icon icon={Download04Icon} size={18} />
-              Catalogue PDF ({company.catalogue.size})
-            </a>
           </div>
         </div>
       </section>

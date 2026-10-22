@@ -148,7 +148,7 @@ export default function Home() {
 
         {/* Left — image with overlaid badges */}
         <div className="relative order-2 lg:order-1">
-          {/* Main image */}
+          {/* Main image with overlaid badges */}
           <div className="overflow-hidden rounded-[var(--radius-surface)] hairline">
             <div className="relative aspect-[4/5]">
               <Image
@@ -159,18 +159,17 @@ export default function Home() {
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
-            </div>
-          </div>
-
-          {/* Floating info cards over image */}
-          <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between gap-3">
-            <div className="rounded-xl bg-white/95 px-4 py-3 shadow-lg backdrop-blur-sm">
-              <p className="text-[11px] font-medium text-gray-500">Our Warehouse</p>
-              <p className="mt-0.5 text-sm font-bold text-gray-900">Kathwada, Ahmedabad</p>
-            </div>
-            <div className="rounded-xl bg-gold px-4 py-3 shadow-lg text-on-gold">
-              <p className="text-[11px] font-medium opacity-75">Est.</p>
-              <p className="mt-0.5 text-sm font-bold">{company.established}</p>
+              {/* Floating info cards — inside overflow-hidden so they stay within image */}
+              <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between gap-3">
+                <div className="rounded-xl bg-white/95 px-4 py-3 shadow-lg backdrop-blur-sm">
+                  <p className="text-[11px] font-medium text-gray-500">Our Warehouse</p>
+                  <p className="mt-0.5 text-sm font-bold text-gray-900">Kathwada, Ahmedabad</p>
+                </div>
+                <div className="rounded-xl bg-gold px-4 py-3 shadow-lg text-on-gold">
+                  <p className="text-[11px] font-medium opacity-75">Est.</p>
+                  <p className="mt-0.5 text-sm font-bold">{company.established}</p>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -241,7 +240,7 @@ export default function Home() {
 
       {/* FAQ */}
       <section className="shell pb-20 md:pb-28">
-        <div className="max-w-3xl">
+        <div className="mx-auto max-w-3xl">
           <Faq id="faq" title="Frequently asked questions" items={homeFaqs} />
         </div>
       </section>

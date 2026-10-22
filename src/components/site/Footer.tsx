@@ -1,4 +1,4 @@
-import { Call02Icon, Download04Icon, Facebook01Icon, Linkedin01Icon, Location01Icon, NewTwitterIcon, UserIcon } from "@hugeicons/core-free-icons";
+import { Call02Icon, Facebook01Icon, Linkedin01Icon, Location01Icon, NewTwitterIcon, UserIcon } from "@hugeicons/core-free-icons";
 import Image from "next/image";
 import Link from "next/link";
 import { LogoBadge } from "@/components/brand/Logo";
@@ -61,7 +61,6 @@ export function Footer() {
               <Icon icon={Call02Icon} size={18} />
               {company.altPhoneOwner}: {company.altPhoneDisplay}
             </a>
-            <p className="text-on-brand/60">Call response rate {company.responseRate}</p>
           </div>
           <div className="grid gap-5 text-sm">
             {[company.address, company.corporateOffice].map((a) => (
@@ -85,10 +84,6 @@ export function Footer() {
               </div>
             ))}
           </div>
-          <a href={company.catalogue.href} download className="btn btn-on-brand w-fit sm:col-span-2">
-            <Icon icon={Download04Icon} size={18} />
-            Download catalogue PDF ({company.catalogue.size})
-          </a>
         </div>
       </div>
 
