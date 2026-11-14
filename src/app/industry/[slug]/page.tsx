@@ -9,6 +9,7 @@ import { InquiryButton } from "@/components/ui/InquiryButton";
 import { getIndustry, industryPages } from "@/data/industries";
 import { company } from "@/data/company";
 import { getProduct } from "@/lib/catalog";
+import { baseOpenGraph } from "@/lib/seo";
 
 export const instant = false;
 
@@ -20,7 +21,7 @@ export async function generateMetadata({ params }: PageProps<"/industry/[slug]">
   const { slug } = await params;
   const ind = getIndustry(slug);
   if (!ind) return {};
-  return { title: ind.title, description: ind.blurb, alternates: { canonical: `/industry/${ind.slug}` }, openGraph: { images: [{ url: ind.image }] } };
+  return { title: ind.title, description: ind.blurb, alternates: { canonical: `/industry/${ind.slug}` }, openGraph: { ...baseOpenGraph, url: `/industry/${ind.slug}`, images: [{ url: ind.image }] } };
 }
 
 export default async function IndustryDetail({ params }: PageProps<"/industry/[slug]">) {
@@ -63,7 +64,7 @@ export default async function IndustryDetail({ params }: PageProps<"/industry/[s
           <h2 className="text-2xl font-semibold tracking-tight">Need ingredients for {ind.name.toLowerCase()}?</h2>
           <p className="mt-2 text-on-brand/75">Tell us the product and quantity. We reply with price, COA and dispatch time.</p>
           <div className="mt-5">
-            <InquiryButton product={`${ind.name} industry`} />
+            <InquiryButton />
           </div>
         </div>
       </section>

@@ -12,7 +12,7 @@ import { productCount } from "@/lib/catalog";
 
 export const metadata: Metadata = {
   title: "Our Advantage",
-  description: advantageIntro,
+  description: "Why buyers choose Sampratiti Exim: reliable sourcing, competitive bulk pricing, COA/MSDS support and pan-India supply from Ahmedabad.",
   alternates: { canonical: "/our-advantage" },
 };
 

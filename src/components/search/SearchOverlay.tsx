@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { useUI } from "@/components/providers/UIProvider";
 import { Icon } from "@/components/ui/Icon";
-import type { SearchItem } from "@/lib/catalog";
+import { searchProducts, type SearchItem } from "@/lib/catalog";
 import { useModal } from "@/lib/use-modal";
 
 type Props = {
@@ -27,20 +27,7 @@ export function SearchOverlay({ items, quickLinks }: Props) {
   const dialog = useRef<HTMLDivElement>(null);
   useModal(dialog, searchOpen);
 
-  const results = useMemo(() => {
-    const q = deferred.trim().toLowerCase();
-    if (!q) return [];
-    const words = q.split(/\s+/);
-    return items
-      .filter((it) => words.every((w) => it.keywords.includes(w)))
-      .map((it) => {
-        const n = it.name.toLowerCase();
-        return { it, score: (n.startsWith(q) ? 3 : 0) + (n.includes(q) ? 2 : 0) + (it.category.toLowerCase().includes(q) ? 1 : 0) };
-      })
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 40)
-      .map((r) => r.it);
-  }, [deferred, items]);
+  const results = useMemo(() => searchProducts(items, deferred), [deferred, items]);
 
   const [lastDeferred, setLastDeferred] = useState(deferred);
   if (deferred !== lastDeferred) {

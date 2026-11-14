@@ -3,6 +3,37 @@ import { industriesFor, typeOf, type Product } from "@/lib/catalog";
 import { SITE_URL } from "@/lib/site";
 
 export { SITE_URL };
+
+/**
+ * Open Graph fields every page shares. Pages that set their own openGraph must spread
+ * this in: Next replaces the parent's openGraph object instead of merging it.
+ * There is deliberately no `url` — a shared one made every page claim to be the homepage.
+ */
+const TITLE_SUFFIX = " | Sampratiti Exim";
+const MAX_TITLE = 60; // roughly what Google shows before cutting the title off
+const MAX_DESCRIPTION = 160;
+
+/** Product page title that fits in a search result: drops "& Importer", then the site name. */
+export function productTitle(name: string): { text: string; absolute: boolean } {
+  const full = `${name} Supplier & Importer in Ahmedabad`;
+  if ((full + TITLE_SUFFIX).length <= MAX_TITLE) return { text: full, absolute: false };
+  const short = `${name} Supplier in Ahmedabad`;
+  if ((short + TITLE_SUFFIX).length <= MAX_TITLE) return { text: short, absolute: false };
+  return { text: short, absolute: true };
+}
+
+/** Joins sentences while they fit the description limit; trims a too-long first one at a word. */
+export function fitDescription(parts: string[], max = MAX_DESCRIPTION): string {
+  const joined = parts.reduce((acc, part) => {
+    const next = acc ? `${acc} ${part}` : part;
+    return next.length <= max ? next : acc;
+  }, "");
+  if (joined) return joined;
+  const cut = parts[0].slice(0, max - 1);
+  return `${cut.slice(0, cut.lastIndexOf(" "))}…`;
+}
+
+export const baseOpenGraph = { type: "website", siteName: "Sampratiti Exim Pvt Ltd", locale: "en_IN" } as const;
 export const abs = (path: string) => `${SITE_URL}${path}`;
 
 const plainText = (html: string) =>

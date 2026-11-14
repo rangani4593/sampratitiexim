@@ -8,6 +8,7 @@ export function Reveal({ delay = 0, y = 22, children, ...rest }: Props) {
   const reduce = useReducedMotion();
   return (
     <motion.div
+      data-reveal
       initial={reduce ? false : { opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
@@ -37,6 +38,7 @@ export function RevealGroup({ children, className, stagger = 0.06 }: { children:
 export function RevealItem({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
     <motion.div
+      data-reveal
       className={className}
       variants={{ hidden: { opacity: 0, y: 18 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } } }}
     >

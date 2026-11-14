@@ -11,7 +11,7 @@ import { company, companyTabs } from "@/data/company";
 import { productCount, productHref, productTypes, products, searchIndex } from "@/lib/catalog";
 import { JsonLd } from "@/components/ui/JsonLd";
 import { launchBootScript, launchConfig } from "@/lib/launch";
-import { organizationLd, websiteLd } from "@/lib/seo";
+import { baseOpenGraph, organizationLd, websiteLd } from "@/lib/seo";
 import "./globals.css";
 import { SITE_URL } from "@/lib/site";
 
@@ -21,7 +21,7 @@ const martian = Martian_Mono({ variable: "--font-martian", subsets: ["latin"], a
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Sampratiti Exim | Chemical Importer & Bulk Supplier, Ahmedabad",
+    default: "Sampratiti Exim | Chemical Importer & Supplier, Ahmedabad",
     template: "%s | Sampratiti Exim",
   },
   description:
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   category: "Chemicals",
   alternates: { canonical: "/" },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
-  openGraph: { type: "website", siteName: "Sampratiti Exim Pvt Ltd", locale: "en_IN", url: "/" },
+  openGraph: baseOpenGraph,
   twitter: { card: "summary_large_image" },
   other: { "geo.region": "IN-GJ", "geo.placename": "Ahmedabad", "geo.position": "23.03899;72.69154", ICBM: "23.03899, 72.69154" },
   formatDetection: { telephone: true, email: true, address: true },
@@ -81,6 +81,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <head>
         {/* Apply a saved light/dark choice before first paint so the page never flashes the wrong theme. */}
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+        {/* Scroll-reveal content is served at opacity 0 and faded in by JavaScript; without
+            JavaScript it would simply never appear. */}
+        <noscript dangerouslySetInnerHTML={{ __html: "<style>[data-reveal]{opacity:1!important;transform:none!important}</style>" }} />
         {/* Decide the launch phase before first paint, so the gate never flashes either way. */}
         {launchConfig.enabled && <script dangerouslySetInnerHTML={{ __html: launchBootScript() }} />}
       </head>

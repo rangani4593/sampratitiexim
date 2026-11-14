@@ -1,5 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { LogoBadge } from "@/components/brand/Logo";
+
+// Without its own title the 404 page reused the homepage's, so a missing URL looked like the
+// homepage in browser tabs, history and any report that lists titles.
+export const metadata: Metadata = {
+  title: "Page not found",
+  robots: { index: false, follow: true },
+};
 
 export default function NotFound() {
   return (

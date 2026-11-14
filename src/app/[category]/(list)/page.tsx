@@ -13,7 +13,7 @@ import { Faq } from "@/components/ui/Faq";
 import { JsonLd } from "@/components/ui/JsonLd";
 import { company } from "@/data/company";
 import { getProduct, industriesFor, productHref, products, relatedProducts, typeOf } from "@/lib/catalog";
-import { productFaqs, productLd, productQuickAnswer } from "@/lib/seo";
+import { baseOpenGraph, fitDescription, productFaqs, productLd, productQuickAnswer, productTitle } from "@/lib/seo";
 
 export const instant = false;
 
@@ -25,14 +25,21 @@ export async function generateMetadata({ params }: PageProps<"/[category]">): Pr
   const { category: slug } = await params;
   const p = getProduct(slug);
   if (!p) return {};
-  const desc = `${p.name}${p.code ? ` (${p.code})` : ""}: ${p.short} Bulk supply across India from Ahmedabad. COA and MSDS available. Send an inquiry for price.`;
-  const title = `${p.name} Supplier & Importer in Ahmedabad`;
+  // Kept within what Google shows (about 60 / 160 characters); longer ones were cut off mid-word.
+  const desc = fitDescription([
+    `${p.name}${p.code ? ` (${p.code})` : ""}: ${p.short}`,
+    "Bulk supply across India from Ahmedabad.",
+    "COA and MSDS available.",
+    "Send an inquiry for price.",
+  ]);
+  const t = productTitle(p.name);
+  const title = t.text;
   return {
-    title,
+    title: t.absolute ? { absolute: title } : title,
     description: desc,
     keywords: [`${p.name} supplier in Ahmedabad`, `${p.name} importer India`, `buy ${p.name} in bulk`, `${p.name} price`, p.name, ...(p.code ? [p.code] : [])],
     alternates: { canonical: productHref(p.slug) },
-    openGraph: { type: "website", title, description: desc, url: productHref(p.slug), images: [{ url: p.image, width: 1600, height: 1200, alt: `${p.name} supplier in Ahmedabad` }] },
+    openGraph: { ...baseOpenGraph, title, description: desc, url: productHref(p.slug), images: [{ url: p.image, width: 1600, height: 1200, alt: `${p.name} supplier in Ahmedabad` }] },
     twitter: { card: "summary_large_image", title, description: desc, images: [p.image] },
   };
 }
