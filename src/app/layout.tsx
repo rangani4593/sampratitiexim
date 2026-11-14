@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Familjen_Grotesk, Martian_Mono } from "next/font/google";
 import { EnquirySheet } from "@/components/enquiry/EnquirySheet";
+import { LaunchGate } from "@/components/launch/LaunchGate";
 import { UIProvider } from "@/components/providers/UIProvider";
 import { SearchOverlay } from "@/components/search/SearchOverlay";
 import { Footer } from "@/components/site/Footer";
@@ -9,6 +10,7 @@ import { MobileDock } from "@/components/site/MobileDock";
 import { company, companyTabs } from "@/data/company";
 import { productCount, productHref, productTypes, products, searchIndex } from "@/lib/catalog";
 import { JsonLd } from "@/components/ui/JsonLd";
+import { launchBootScript, launchConfig } from "@/lib/launch";
 import { organizationLd, websiteLd } from "@/lib/seo";
 import "./globals.css";
 
@@ -78,6 +80,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <head>
         {/* Apply a saved light/dark choice before first paint so the page never flashes the wrong theme. */}
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+        {/* Decide the launch phase before first paint, so the gate never flashes either way. */}
+        {launchConfig.enabled && <script dangerouslySetInnerHTML={{ __html: launchBootScript() }} />}
       </head>
       <body className="min-h-dvh">
         <a href="#main" className="sr-only z-[90] rounded-full bg-gold px-4 py-2 font-semibold text-on-gold focus:not-sr-only focus:fixed focus:left-4 focus:top-3">
@@ -93,6 +97,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <SearchOverlay items={searchIndex} quickLinks={productTypes.map((t) => ({ href: `/products-and-services#${t.slug}`, label: t.name }))} />
           <EnquirySheet phone={phone} />
         </UIProvider>
+        {launchConfig.enabled && <LaunchGate />}
       </body>
     </html>
   );
