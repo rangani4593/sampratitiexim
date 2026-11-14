@@ -38,12 +38,15 @@ hosting dashboard for production — a change needs a redeploy):
 | `NEXT_PUBLIC_LAUNCH_PREVIEW` | *(blank)* | Force a phase: `countdown`, `celebrate` or `off`. |
 
 **Rehearsing the animation.** Add `?launch=celebrate` to any URL to replay the live moment
-on the spot (`?launch=countdown` forces the countdown, `?launch=off` skips the gate). The
-query param wins over `NEXT_PUBLIC_LAUNCH_PREVIEW`, and both win over the clock — so the
-animation can be checked on the real deployment without touching the launch time.
+on the spot (`?launch=countdown` forces the countdown). The query param wins over
+`NEXT_PUBLIC_LAUNCH_PREVIEW`, and both win over the clock — so the animation can be checked
+on the real deployment without touching the launch time. `?launch=off` (skip the gate) only
+works in `next dev`: on a production build anyone with the link could walk past the gate, so
+there it is ignored. To open a deployment without the gate, set `NEXT_PUBLIC_LAUNCH_PREVIEW=off`
+on that deployment.
 
 **On launch day** the gate shows the countdown until 7:00 AM IST; after that, every fresh
-load inside the celebrate window replays the one-second reveal, and once the window passes
+load inside the celebrate window replays the reveal (about 3.4 s: WE'RE LIVE for 1.9 s, then the burst), and once the window passes
 the site opens normally. Set `NEXT_PUBLIC_LAUNCH_MODE=off` afterwards to drop the feature
 entirely.
 
