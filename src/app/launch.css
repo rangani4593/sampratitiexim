@@ -45,14 +45,18 @@ html[data-launch="countdown"],
 html[data-launch="celebrate"] {
   overflow: hidden;
 }
+/* Once the countdown is on its way out there is nothing left to scroll to. */
+.launch-gate[data-stage="live"],
+.launch-gate[data-stage="burst"],
+.launch-gate[data-released] {
+  overflow: hidden;
+}
 .launch-gate[data-released] {
   pointer-events: none;
-  overflow: hidden;
 }
 
 .launch-sky,
-.launch-panel,
-.launch-live {
+.launch-panel {
   grid-area: stack;
 }
 
@@ -385,7 +389,12 @@ html[data-launch="celebrate"] {
 
 /* ---------- the live moment ---------- */
 
+/* Pinned to the viewport rather than sharing the panel's grid cell: the panel's
+   exit keeps its layout box (visibility, not display), so leaving the word in that
+   cell left the gate scrolling the full height of a countdown nobody can see. */
 .launch-live {
+  position: fixed;
+  inset: 0;
   z-index: 1;
   display: grid;
   place-items: center;
