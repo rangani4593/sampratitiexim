@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Familjen_Grotesk, Martian_Mono } from "next/font/google";
 import { EnquirySheet } from "@/components/enquiry/EnquirySheet";
-import { LaunchGate } from "@/components/launch/LaunchGate";
+import { LaunchGateClient } from "@/components/launch/LaunchGateClient";
 import { UIProvider } from "@/components/providers/UIProvider";
 import { SearchOverlay } from "@/components/search/SearchOverlay";
 import { Footer } from "@/components/site/Footer";
@@ -98,7 +98,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <SearchOverlay items={searchIndex} quickLinks={productTypes.map((t) => ({ href: `/products-and-services#${t.slug}`, label: t.name }))} />
           <EnquirySheet phone={phone} />
         </UIProvider>
-        {launchConfig.enabled && <LaunchGate />}
+        {launchConfig.enabled && <LaunchGateClient />}
       </body>
     </html>
   );

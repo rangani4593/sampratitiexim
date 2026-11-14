@@ -14,6 +14,21 @@ const nextConfig: NextConfig = {
     qualities: [75, 90],
     localPatterns: [{ pathname: "/images/**", search: "" }],
   },
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          // No other site may frame these pages (clickjacking).
+          { key: "Content-Security-Policy", value: "frame-ancestors 'self'; base-uri 'self'; object-src 'none'; form-action 'self'" },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), payment=(), usb=()" },
+        ],
+      },
+    ];
+  },
   async redirects() {
     return [
       // old category, variant and sampratitiexim.co.in URLs now point at the single product pages

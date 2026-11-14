@@ -219,7 +219,7 @@ export default function Home() {
 
         {/* Right — copy */}
         <div className="order-1 lg:order-2">
-          <p className="flex items-center gap-2 text-xs font-bold tracking-[0.15em] text-gold uppercase">
+          <p className="flex items-center gap-2 text-xs font-bold tracking-[0.15em] text-gold-ink uppercase">
             <span className="h-px w-8 bg-gold shrink-0" />
             Ahmedabad, Gujarat · Since {company.established}
           </p>

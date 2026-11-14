@@ -11,7 +11,43 @@ type Enquiry = {
   message?: string;
   page?: string;
   company_website?: string;
+  fill_ms?: number;
 };
+
+/*
+  Abuse limits. Every accepted enquiry sends a Gmail SMTP message, and Gmail stops at
+  roughly 500 a day — a script flooding this endpoint would silence real customers.
+  - per connection: 5 enquiries per 10 minutes
+  - per server instance: 60 enquiries per hour
+  The counters live in memory, so each serverless instance keeps its own; that is still
+  enough to stop a flood from one client without any extra infrastructure.
+*/
+const PER_IP = 5;
+const PER_IP_WINDOW_MS = 10 * 60_000;
+const PER_INSTANCE = 60;
+const PER_INSTANCE_WINDOW_MS = 60 * 60_000;
+// A person needs more than a couple of seconds to fill product, mobile, name and requirement.
+const MIN_FILL_MS = 2500;
+
+const hitsByIp = new Map<string, number[]>();
+let instanceHits: number[] = [];
+
+function overLimit(ip: string, now: number): boolean {
+  const recent = (hitsByIp.get(ip) ?? []).filter((t) => now - t < PER_IP_WINDOW_MS);
+  instanceHits = instanceHits.filter((t) => now - t < PER_INSTANCE_WINDOW_MS);
+  if (recent.length >= PER_IP || instanceHits.length >= PER_INSTANCE) {
+    hitsByIp.set(ip, recent);
+    return true;
+  }
+  recent.push(now);
+  instanceHits.push(now);
+  if (hitsByIp.size > 5000) hitsByIp.clear(); // keep memory bounded
+  hitsByIp.set(ip, recent);
+  return false;
+}
+
+const clientIp = (request: Request) =>
+  request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || request.headers.get("x-real-ip") || "unknown";
 
 const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdKNdRK4UDSCrhNxfvVykAZCYXNRgaA2hWq06j0LPLZJifDHQ/formResponse";
 const ENTRY = {
@@ -120,6 +156,10 @@ async function sendEmail(e: { product: string; name: string; mobile: string; ema
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: { user, pass },
+    // Fail fast instead of holding the visitor (and the serverless function) for minutes.
+    connectionTimeout: 10_000,
+    greetingTimeout: 10_000,
+    socketTimeout: 15_000,
   });
 
   await transporter.sendMail({
@@ -153,7 +193,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: "Invalid request." }, { status: 400 });
   }
 
+  // Bots: a filled honeypot, or a form "filled" faster than a person can type. Answer as if
+  // it worked so they learn nothing.
   if (clip(body.company_website, 200)) return NextResponse.json({ ok: true });
+  if (typeof body.fill_ms === "number" && body.fill_ms < MIN_FILL_MS) return NextResponse.json({ ok: true });
+
+  if (overLimit(clientIp(request), Date.now())) {
+    return NextResponse.json({ message: "Too many inquiries were sent from this connection just now." }, { status: 429 });
+  }
 
   const enquiry = {
     product: clip(body.product, 200),

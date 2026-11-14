@@ -102,7 +102,7 @@ export default function ProfilePage() {
           {/* Registration numbers */}
           {(gstReg || cinReg) && (
             <div className="rounded-[var(--radius-surface)] bg-surface p-4 hairline">
-              <p className="mb-3 text-xs font-bold uppercase tracking-widest text-gold">Registration</p>
+              <p className="mb-3 text-xs font-bold uppercase tracking-widest text-gold-ink">Registration</p>
               <div className="grid gap-2">
                 {[gstReg, cinReg].filter(Boolean).map((r) => (
                   <CopyValue key={r!.label} label={r!.label} value={r!.value} className="rounded-xl p-2.5 hover:bg-surface-2" />
@@ -114,7 +114,7 @@ export default function ProfilePage() {
           {/* Office + warehouses */}
           <div className="grid gap-4 rounded-[var(--radius-surface)] bg-surface p-4 hairline sm:grid-cols-2">
             <div>
-              <p className="mb-2 text-xs font-bold uppercase tracking-widest text-gold">Office</p>
+              <p className="mb-2 text-xs font-bold uppercase tracking-widest text-gold-ink">Office</p>
               <address className="not-italic text-sm leading-relaxed text-ink-2">
                 {company.office.lines.map((l) => (
                   <span key={l} className="block">{l}</span>
@@ -122,7 +122,7 @@ export default function ProfilePage() {
               </address>
             </div>
             <div>
-              <p className="mb-2 text-xs font-bold uppercase tracking-widest text-gold">Warehouses</p>
+              <p className="mb-2 text-xs font-bold uppercase tracking-widest text-gold-ink">Warehouses</p>
               <dl className="text-sm leading-relaxed text-ink-2">
                 {company.warehouses.map((w) => (
                   <div key={w.region}>

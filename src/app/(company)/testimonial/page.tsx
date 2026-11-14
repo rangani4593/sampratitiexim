@@ -5,6 +5,8 @@ export const metadata: Metadata = {
   title: "Testimonials",
   description: "Customer testimonials for Sampratiti Exim Pvt. Ltd., chemical importer and bulk supplier from Ahmedabad.",
   alternates: { canonical: "/testimonial" },
+  // Placeholder until real testimonials are added: a thin "coming soon" page should not be indexed.
+  robots: { index: false, follow: true },
 };
 
 export default function TestimonialPage() {

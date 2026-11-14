@@ -163,7 +163,7 @@ export function ThemeToggle() {
             >
               <Icon icon={o.icon} size={17} />
               <span className="flex-1">{o.label}</span>
-              {theme === o.value && <Icon icon={Tick02Icon} size={16} className="text-gold" />}
+              {theme === o.value && <Icon icon={Tick02Icon} size={16} className="text-gold-ink" />}
             </button>
           ))}
         </div>

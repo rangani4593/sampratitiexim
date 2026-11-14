@@ -80,7 +80,7 @@ export default function AdvantagePage() {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {advantages.map((a, i) => (
             <div key={a.key} className="flex gap-4 rounded-[var(--radius-surface)] bg-surface p-5 hairline">
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gold-soft text-gold">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gold-soft text-gold-ink">
                 <Icon icon={ICONS[i % ICONS.length]} size={20} />
               </span>
               <div>

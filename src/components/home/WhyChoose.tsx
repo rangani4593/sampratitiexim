@@ -63,10 +63,10 @@ export function WhyChoose({ intro, items }: { intro: string; items: readonly Ite
               <article className="group relative h-full overflow-hidden rounded-[var(--radius-surface)] bg-surface p-5 hairline transition duration-300 hover:-translate-y-1 hover:bg-surface-2 md:p-6">
                 <span className="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-gradient-to-r from-gold via-gold/60 to-transparent transition-transform duration-500 group-hover:scale-x-100" />
                 <div className="flex items-start justify-between">
-                  <span className="grid h-11 w-11 place-items-center rounded-[14px] bg-gold-soft text-gold transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110">
+                  <span className="grid h-11 w-11 place-items-center rounded-[14px] bg-gold-soft text-gold-ink transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110">
                     <Icon icon={ICONS[a.key as keyof typeof ICONS]} size={21} />
                   </span>
-                  <span className="font-mono text-sm text-ink-3 transition-colors group-hover:text-gold">{String(i + 2).padStart(2, "0")}</span>
+                  <span className="font-mono text-sm text-ink-3 transition-colors group-hover:text-gold-ink">{String(i + 2).padStart(2, "0")}</span>
                 </div>
                 <h3 className="mt-5 text-lg font-semibold tracking-tight">{a.title}</h3>
                 <p className="mt-1.5 text-sm leading-relaxed text-ink-2">{a.body}</p>

@@ -19,6 +19,8 @@
   --brand-deep: #132f44;
   --on-brand: #eef3f6;
   --gold: #e3b04b;
+  /* Gold for text and icons on light surfaces: --gold itself is only 1.75:1 on --bg. */
+  --gold-ink: #835e12;
   --gold-soft: rgb(227 176 75 / 0.16);
   --on-gold: #10283a;
   --well: #ffffff;
@@ -51,6 +53,7 @@
   --brand-deep: #0e2232;
   --on-brand: #eef3f6;
   --gold: #e8b957;
+  --gold-ink: #e8b957;
   --gold-soft: rgb(232 185 87 / 0.14);
   --on-gold: #10283a;
   --well: #f2f5f7;
@@ -72,6 +75,7 @@
     --brand-deep: #0e2232;
     --on-brand: #eef3f6;
     --gold: #e8b957;
+    --gold-ink: #e8b957;
     --gold-soft: rgb(232 185 87 / 0.14);
     --on-gold: #10283a;
     --well: #f2f5f7;
@@ -93,6 +97,7 @@
   --color-brand-deep: var(--brand-deep);
   --color-on-brand: var(--on-brand);
   --color-gold: var(--gold);
+  --color-gold-ink: var(--gold-ink);
   --color-gold-soft: var(--gold-soft);
   --color-on-gold: var(--on-gold);
   --color-well: var(--well);

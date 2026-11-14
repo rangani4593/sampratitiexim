@@ -17,7 +17,12 @@ export function ShareButton({ title }: { title: string }) {
           await navigator.share({ title, url }).catch(() => undefined);
           return;
         }
-        await navigator.clipboard.writeText(url).catch(() => undefined);
+        // Only confirm a copy that actually happened (clipboard access can be denied).
+        try {
+          await navigator.clipboard.writeText(url);
+        } catch {
+          return;
+        }
         setCopied(true);
         setTimeout(() => setCopied(false), 1600);
       }}

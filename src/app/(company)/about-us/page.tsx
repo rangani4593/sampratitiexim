@@ -70,7 +70,7 @@ export default function AboutPage() {
       {/* Who we are — text left, pillars right (aligned with hero columns) */}
       <section className="shell grid items-start gap-10 pb-16 lg:grid-cols-2 lg:gap-12">
         <div>
-          <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-gold">
+          <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-gold-ink">
             <span className="h-px w-8 shrink-0 bg-gold" />
             Who we are
           </p>
@@ -86,7 +86,7 @@ export default function AboutPage() {
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
             {PILLARS.map((p) => (
               <div key={p.title} className="group flex flex-col gap-4 rounded-[var(--radius-surface)] bg-surface p-5 transition duration-300 hairline hover:-translate-y-1 hover:bg-surface-2">
-                <span className="grid h-10 w-10 place-items-center rounded-xl bg-gold-soft text-gold transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110">
+                <span className="grid h-10 w-10 place-items-center rounded-xl bg-gold-soft text-gold-ink transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110">
                   <Icon icon={p.icon} size={20} />
                 </span>
                 <div>
@@ -103,11 +103,11 @@ export default function AboutPage() {
       <section className="bg-brand py-14 text-on-brand md:py-20">
         <div className="shell grid gap-10 lg:grid-cols-2 lg:gap-16">
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-gold">Our mission</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-gold-ink">Our mission</p>
             <p className="mt-4 text-xl font-medium leading-snug tracking-tight md:text-2xl">{mission}</p>
           </div>
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-gold">Customer-centric approach</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-gold-ink">Customer-centric approach</p>
             <p className="mt-4 leading-relaxed text-on-brand/80 md:text-lg">{customerApproach}</p>
           </div>
         </div>
@@ -117,7 +117,7 @@ export default function AboutPage() {
       <section className="shell grid items-start gap-10 py-14 md:py-20 lg:grid-cols-2 lg:gap-12">
         <div className="lg:sticky lg:top-40">
           <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">Welcome to Sampratiti Exim</h2>
-          <p className="mt-8 text-xs font-bold uppercase tracking-[0.15em] text-gold">Industries we serve</p>
+          <p className="mt-8 text-xs font-bold uppercase tracking-[0.15em] text-gold-ink">Industries we serve</p>
           <ul className="mt-4 flex flex-wrap gap-2">
             {industries.map((i) => (
               <li key={i} className="rounded-full bg-surface px-4 py-2 text-sm font-medium transition-colors hairline hover:bg-gold hover:text-on-gold">

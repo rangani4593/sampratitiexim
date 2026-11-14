@@ -7,7 +7,7 @@ export function Faq({ title, items, id, eyebrow }: { title: string; items: FaqIt
   return (
     <section id={id} aria-labelledby={id ? `${id}-title` : undefined}>
       {eyebrow && (
-        <p className="mb-4 flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-gold">
+        <p className="mb-4 flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-gold-ink">
           <span className="h-px w-8 shrink-0 bg-gold" />
           {eyebrow}
           <span className="h-px w-8 shrink-0 bg-gold" />

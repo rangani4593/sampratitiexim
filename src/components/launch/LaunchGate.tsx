@@ -6,7 +6,7 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { ConfettiBurst } from "@/components/launch/ConfettiBurst";
 import { Icon } from "@/components/ui/Icon";
 import { company } from "@/data/company";
-import { launchConfig, launchDateLine, phaseAt, type LaunchPhase } from "@/lib/launch";
+import { LAUNCH_SEEN_KEY, launchConfig, launchDateLine, phaseAt, type LaunchPhase } from "@/lib/launch";
 
 /*
   Full-screen launch gate. It sits above the finished site, which is already in the
@@ -67,6 +67,11 @@ export function LaunchGate() {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const root = document.documentElement;
     const timers: number[] = [];
+    // The gate renders only in the browser; this tells the CSS it is up, so it can stop
+    // hiding the site underneath (see launch.css).
+    root.dataset.gate = "ready";
+    // A rehearsal (?launch=… or a preview env) must not count as having seen the real thing.
+    const rehearsal = !!new URLSearchParams(window.location.search).get("launch") || !!launchConfig.preview;
 
     const finish = () => {
       root.dataset.launch = "done";
@@ -84,6 +89,11 @@ export function LaunchGate() {
 
     const celebrate = () => {
       root.dataset.launch = "celebrate";
+      if (!rehearsal) {
+        try {
+          localStorage.setItem(LAUNCH_SEEN_KEY, "1");
+        } catch {}
+      }
       setStage("live");
       timers.push(window.setTimeout(() => setStage("burst"), LIVE_HOLD_MS));
       if (reduce) {
@@ -113,11 +123,17 @@ export function LaunchGate() {
       };
     }
 
+    // The phase was picked from the visitor's own clock. A phone running an hour slow would
+    // keep them locked out for an hour after launch, so correct against the server's clock.
+    let offset = 0;
     let interval = 0;
+    let stopped = false;
     const tick = () => {
-      const left = launchConfig.at - Date.now();
+      if (stopped) return;
+      const left = launchConfig.at - (Date.now() + offset);
       setRemaining(left);
       if (left > 0) return;
+      stopped = true;
       window.clearInterval(interval);
       celebrate();
     };
@@ -125,7 +141,20 @@ export function LaunchGate() {
     const firstFrame = window.requestAnimationFrame(tick);
     interval = window.setInterval(tick, 500);
 
+    const sent = Date.now();
+    fetch("/api/now", { cache: "no-store" })
+      .then((r) => (r.ok ? (r.json() as Promise<{ now?: number }>) : null))
+      .then((d) => {
+        if (stopped || typeof d?.now !== "number") return;
+        const skew = d.now - (sent + Date.now()) / 2; // server time vs. the request's midpoint
+        if (Math.abs(skew) < 2000) return;
+        offset = skew;
+        tick();
+      })
+      .catch(() => undefined);
+
     return () => {
+      stopped = true;
       window.cancelAnimationFrame(firstFrame);
       window.clearInterval(interval);
       timers.forEach(window.clearTimeout);
@@ -135,7 +164,7 @@ export function LaunchGate() {
 
   if (stage === "done") return null;
 
-  // Server render and first client render both show zeros; the clock fills them in on mount.
+  // The first render shows zeros; the clock fills them in on the next frame.
   const values = split(remaining ?? 0);
 
   return (

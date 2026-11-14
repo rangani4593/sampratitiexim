@@ -60,7 +60,7 @@ export function Footer() {
                 <Icon icon={Call02Icon} size={19} />
               </span>
               <div className="min-w-0">
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-on-brand/55">Call us</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-on-brand/70">Call us</p>
                 <div className="mt-1.5 flex flex-wrap gap-x-6 gap-y-1">
                   <a href={company.phoneHref} className="text-lg font-semibold transition-colors hover:text-gold">+91 {company.phoneDisplay}</a>
                   <a href={company.altPhoneHref} className="text-lg font-semibold transition-colors hover:text-gold">+91 {company.altPhoneDisplay}</a>
@@ -73,7 +73,7 @@ export function Footer() {
                 <Icon icon={Location01Icon} size={19} />
               </span>
               <div className="min-w-0">
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-on-brand/55">{company.office.label}</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-on-brand/70">{company.office.label}</p>
                 <address className="mt-1.5 not-italic leading-relaxed text-on-brand/85">{company.office.lines.join(", ")}</address>
                 <a
                   href={company.office.mapHref}
@@ -92,7 +92,7 @@ export function Footer() {
                 <Icon icon={WarehouseIcon} size={19} />
               </span>
               <div className="min-w-0">
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-on-brand/55">Warehouses</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-on-brand/70">Warehouses</p>
                 <dl className="mt-1.5 grid gap-1 text-on-brand/85">
                   {company.warehouses.map((w) => (
                     <div key={w.region} className="flex flex-wrap gap-x-2">
@@ -166,7 +166,7 @@ export function Footer() {
         </div>
       </nav>
 
-      <div className="shell flex flex-col gap-3 border-t border-on-brand/15 pb-[calc(6.5rem+env(safe-area-inset-bottom))] pt-6 text-sm text-on-brand/60 md:flex-row md:items-center md:justify-between lg:pb-8">
+      <div className="shell flex flex-col gap-3 border-t border-on-brand/15 pb-[calc(6.5rem+env(safe-area-inset-bottom))] pt-6 text-sm text-on-brand/70 md:flex-row md:items-center md:justify-between lg:pb-8">
         <p>© {company.name}. All rights reserved.</p>
         <div className="flex gap-5">
           <Link href="/sitemap" className="inline-block py-1 hover:text-on-brand">Sitemap</Link>

@@ -139,7 +139,10 @@ export const productLd = (p: Product) => ({
   image: abs(p.image),
   description: firstSentences(plainText(p.html), 480) || p.short,
   category: typeOf(p).name,
-  brand: { "@type": "Brand", name: company.name },
+  // Sampratiti Exim imports and supplies these products; it is not their brand or maker, so
+  // it is stated as the seller. Prices are quoted on enquiry and are not published, so no
+  // price or stock claim is made here.
+  offers: { "@type": "Offer", url: abs(`/${p.slug}`), seller: { "@id": abs("/#organization") } },
   ...(p.code ? { additionalProperty: [{ "@type": "PropertyValue", name: "Code", value: p.code }] } : {}),
   isRelatedTo: industriesFor(p).map((i) => ({ "@type": "Thing", name: `${i.title}`, url: abs(`/industry/${i.slug}`) })),
 });

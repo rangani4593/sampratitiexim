@@ -1,7 +1,7 @@
 "use client";
 
 import { Alert02Icon, CheckmarkBadge02Icon, Loading03Icon, SentIcon, WhatsappIcon } from "@hugeicons/core-free-icons";
-import { useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { company } from "@/data/company";
 import { isValidMobile, normaliseMobile } from "@/lib/phone";
@@ -51,6 +51,11 @@ export function EnquiryForm({
   const [status, setStatus] = useState<Status>("idle");
   const [serverMessage, setServerMessage] = useState("");
   const [sentLink, setSentLink] = useState("");
+  // When the form appeared, so the API can tell a person from a script that posts instantly.
+  const shownAt = useRef(0);
+  useEffect(() => {
+    shownAt.current = Date.now();
+  }, []);
 
   if (product !== lastProp) {
     setLastProp(product);
@@ -83,7 +88,7 @@ export function EnquiryForm({
       const res = await fetch("/api/enquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...values, mobile: normaliseMobile(values.mobile), company_website: honeypot, page: window.location.pathname }),
+        body: JSON.stringify({ ...values, mobile: normaliseMobile(values.mobile), company_website: honeypot, fill_ms: Date.now() - shownAt.current, page: window.location.pathname }),
       });
       const body = (await res.json().catch(() => ({}))) as { message?: string };
       if (!res.ok) throw new Error(body.message ?? "Could not send your inquiry.");

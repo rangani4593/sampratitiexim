@@ -37,7 +37,7 @@ export default function QualityPage() {
         </div>
 
         <aside className="rounded-[var(--radius-surface)] bg-surface p-5 hairline md:p-7">
-          <p className="text-xs font-bold uppercase tracking-widest text-gold">FSSAI licence</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-gold-ink">FSSAI licence</p>
           <CopyValue label="Licence number" value={company.fssai.number} className="-mx-2 mt-3 rounded-xl p-2 hover:bg-surface-2" />
           <dl className="mt-4 grid gap-4 border-t border-line pt-4 text-sm sm:grid-cols-2">
             {[
@@ -64,7 +64,7 @@ export default function QualityPage() {
           {STEPS.map((s, i) => (
             <li key={s.title} className="flex flex-col gap-4 rounded-[var(--radius-surface)] bg-surface p-5 hairline">
               <div className="flex items-center justify-between">
-                <span className="grid h-10 w-10 place-items-center rounded-xl bg-gold-soft text-gold">
+                <span className="grid h-10 w-10 place-items-center rounded-xl bg-gold-soft text-gold-ink">
                   <Icon icon={s.icon} size={20} />
                 </span>
                 <span className="font-mono text-sm text-ink-3">0{i + 1}</span>
@@ -91,11 +91,11 @@ export default function QualityPage() {
 
         <div className="space-y-4 lg:sticky lg:top-40">
           <div className="rounded-[var(--radius-surface)] bg-surface p-5 hairline md:p-7">
-            <p className="text-xs font-bold uppercase tracking-widest text-gold">With every order</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-gold-ink">With every order</p>
             <ul className="mt-4 divide-y divide-line">
               {DOCUMENTS.map((d) => (
                 <li key={d.title} className="flex gap-3 py-3 first:pt-0 last:pb-0">
-                  <span className="mt-0.5 text-gold">
+                  <span className="mt-0.5 text-gold-ink">
                     <Icon icon={CheckmarkCircle02Icon} size={20} />
                   </span>
                   <div>
@@ -108,7 +108,7 @@ export default function QualityPage() {
           </div>
 
           <figure className="rounded-[var(--radius-surface)] border-l-2 border-gold bg-surface p-5 hairline md:p-7">
-            <span className="text-gold">
+            <span className="text-gold-ink">
               <Icon icon={QuoteDownIcon} size={22} />
             </span>
             <blockquote className="mt-3 text-lg font-medium leading-snug tracking-tight">{qualityParagraphs[qualityParagraphs.length - 1]}</blockquote>

@@ -50,6 +50,17 @@ html[data-launch="celebrate"] {
   scrollbar-gutter: stable;
   background-color: #0a1823;
 }
+/* The gate renders only in the browser. Until it has mounted, keep the finished site
+   underneath hidden so it never flashes before launch (the root is already painted the
+   gate's navy above). LaunchGate sets data-gate once it is up. */
+html[data-launch="countdown"]:not([data-gate]) body > *,
+html[data-launch="celebrate"]:not([data-gate]) body > * {
+  visibility: hidden;
+}
+html[data-launch="countdown"]:not([data-gate]) body,
+html[data-launch="celebrate"]:not([data-gate]) body {
+  background: #0a1823;
+}
 /* Focus sits on the gate (it is the scroll container); it needs no focus ring. */
 .launch-gate:focus {
   outline: none;

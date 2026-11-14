@@ -22,6 +22,13 @@
 
 export type LaunchPhase = "countdown" | "celebrate" | "done";
 
+/**
+ * Set in localStorage once a visitor has seen the "we're live" reveal on the clock, so
+ * the celebrate window does not lock every new tab, refresh and search click for ~3.4 s.
+ * Rehearsals (?launch=celebrate, NEXT_PUBLIC_LAUNCH_PREVIEW) always play and never set it.
+ */
+export const LAUNCH_SEEN_KEY = "launch-celebrated";
+
 /** Monday, 16 November 2026, 7:00 AM IST. */
 const DEFAULT_LAUNCH_AT = "2026-11-16T07:00:00+05:30";
 const DEFAULT_CELEBRATE_HOURS = 24;
@@ -33,7 +40,11 @@ function readTime(raw: string | undefined): number {
 }
 
 function readHours(raw: string | undefined): number {
-  const n = Number((raw ?? "").trim());
+  const text = (raw ?? "").trim();
+  // Unset must mean the default: Number("") is 0, which silently made the celebrate window
+  // zero hours long whenever the variable was not configured.
+  if (!text) return DEFAULT_CELEBRATE_HOURS;
+  const n = Number(text);
   return Number.isFinite(n) && n >= 0 ? n : DEFAULT_CELEBRATE_HOURS;
 }
 
@@ -92,5 +103,5 @@ export function launchBootScript(): string {
     preview,
   )}).toLowerCase();if(f==="live")f="celebrate";if(f==="off")f="done";if(f==="done"&&q&&!${JSON.stringify(allowSkip)})f="";var p;if(f==="countdown"||f==="celebrate"||f==="done"){p=f}else{var n=Date.now();p=n<${at}?"countdown":(n<${
     at + celebrateMs
-  }?"celebrate":"done")}document.documentElement.dataset.launch=p}catch(e){document.documentElement.dataset.launch="done"}})()`;
+  }?"celebrate":"done");if(p==="celebrate"){try{if(localStorage.getItem(${JSON.stringify(LAUNCH_SEEN_KEY)}))p="done"}catch(e){}}}document.documentElement.dataset.launch=p}catch(e){document.documentElement.dataset.launch="done"}})()`;
 }

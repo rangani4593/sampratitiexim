@@ -16,7 +16,7 @@ export function SectionHeading({
   return (
     <Reveal className="grid items-end gap-6 lg:grid-cols-2 lg:gap-16">
       <div>
-        <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-gold">
+        <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-gold-ink">
           <span className="h-px w-8 shrink-0 bg-gold" />
           {eyebrow}
         </p>

@@ -46,14 +46,17 @@ there it is ignored. To open a deployment without the gate, set `NEXT_PUBLIC_LAU
 on that deployment.
 
 **On launch day** the gate shows the countdown until 7:00 AM IST; after that, every fresh
-load inside the celebrate window replays the reveal (about 3.4 s: WE'RE LIVE for 1.9 s, then the burst), and once the window passes
+load inside the celebrate window plays the reveal (about 3.4 s: WE'RE LIVE for 1.9 s, then the burst) — once per visitor: after that, a `launch-celebrated` flag in localStorage lets their next tabs and refreshes open the site directly, and once the window passes
 the site opens normally. Set `NEXT_PUBLIC_LAUNCH_MODE=off` afterwards to drop the feature
 entirely.
 
 Notes: the phase is decided in the browser (a tiny script in `<head>` runs before first
 paint), so static pages stay cacheable and there is no flash in either direction; without
 JavaScript the visitor goes straight to the site; `prefers-reduced-motion` replaces the
-confetti and fly-apart with plain fades.
+confetti and fly-apart with plain fades. The gate itself is rendered only in the browser,
+so its markup never appears in the server HTML that crawlers and link previews read. The
+countdown checks the server clock (`/api/now`), so a visitor whose device clock is wrong is
+not held behind the gate after launch.
 
 ## Learn More
 
