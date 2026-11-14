@@ -2,8 +2,9 @@ import type { MetadataRoute } from "next";
 import { companyTabs } from "@/data/company";
 import { industryPages } from "@/data/industries";
 import { products } from "@/lib/catalog";
+import { SITE_URL } from "@/lib/site";
 
-const BASE = "https://www.sampratitiexim.in";
+const BASE = SITE_URL;
 const BUILT = new Date();
 
 export default function sitemap(): MetadataRoute.Sitemap {

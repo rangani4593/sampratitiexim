@@ -2,6 +2,7 @@ import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import Link from "next/link";
 import { Icon } from "./Icon";
 import { JsonLd } from "./JsonLd";
+import { SITE_URL } from "@/lib/site";
 
 export function Breadcrumbs({ items }: { items: { href?: string; label: string }[] }) {
   const all = [{ href: "/", label: "Home" }, ...items];
@@ -12,7 +13,7 @@ export function Breadcrumbs({ items }: { items: { href?: string; label: string }
       "@type": "ListItem",
       position: i + 1,
       name: it.label,
-      ...(it.href ? { item: `https://www.sampratitiexim.in${it.href}` } : {}),
+      ...(it.href ? { item: `${SITE_URL}${it.href}` } : {}),
     })),
   };
   return (
