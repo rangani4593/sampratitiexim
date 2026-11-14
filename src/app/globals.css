@@ -1,4 +1,6 @@
 @import "tailwindcss";
+/* Launch gate — temporary; delete this line with src/app/launch.css when the site is live. */
+@import "./launch.css";
 
 /*
   Palette is sampled from the Sampratiti logo: navy ground #1E435E and gold foil.
