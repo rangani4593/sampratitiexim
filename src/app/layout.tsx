@@ -13,12 +13,13 @@ import { JsonLd } from "@/components/ui/JsonLd";
 import { launchBootScript, launchConfig } from "@/lib/launch";
 import { organizationLd, websiteLd } from "@/lib/seo";
 import "./globals.css";
+import { SITE_URL } from "@/lib/site";
 
 const familjen = Familjen_Grotesk({ variable: "--font-familjen", subsets: ["latin"], display: "swap" });
 const martian = Martian_Mono({ variable: "--font-martian", subsets: ["latin"], axes: ["wdth"], display: "swap" });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.sampratitiexim.in"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Sampratiti Exim | Chemical Importer & Bulk Supplier, Ahmedabad",
     template: "%s | Sampratiti Exim",
@@ -39,7 +40,7 @@ export const metadata: Metadata = {
     "Sampratiti Exim",
   ],
   applicationName: "Sampratiti Exim",
-  authors: [{ name: "Sampratiti Exim Pvt Ltd", url: "https://www.sampratitiexim.in" }],
+  authors: [{ name: "Sampratiti Exim Pvt Ltd", url: SITE_URL }],
   creator: "Sampratiti Exim Pvt Ltd",
   publisher: "Sampratiti Exim Pvt Ltd",
   category: "Chemicals",

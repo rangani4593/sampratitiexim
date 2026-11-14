@@ -7,7 +7,20 @@ import { Icon } from "@/components/ui/Icon";
 type Item = { name: string; category: string };
 let cache: Item[] | null = null;
 
-export function ProductPicker({ value, onChange, invalid, describedBy }: { value: string; onChange: (v: string) => void; invalid?: boolean; describedBy?: string }) {
+export function ProductPicker({
+  id: inputId,
+  value,
+  onChange,
+  invalid,
+  describedBy,
+}: {
+  /** The input's id, so the form's <label htmlFor> can point at it. */
+  id?: string;
+  value: string;
+  onChange: (v: string) => void;
+  invalid?: boolean;
+  describedBy?: string;
+}) {
   const id = useId();
   const [items, setItems] = useState<Item[]>(cache ?? []);
   const [open, setOpen] = useState(false);
@@ -52,12 +65,13 @@ export function ProductPicker({ value, onChange, invalid, describedBy }: { value
     <div ref={root} className="relative">
       <Icon icon={Search01Icon} size={18} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-ink-3" />
       <input
-        id={`${id}-input`}
+        id={inputId ?? `${id}-input`}
         name="product"
         value={value}
         role="combobox"
         aria-expanded={open}
-        aria-controls={`${id}-list`}
+        aria-controls={open ? `${id}-list` : undefined}
+        aria-activedescendant={open && results[cursor] ? `${id}-opt-${cursor}` : undefined}
         aria-autocomplete="list"
         aria-invalid={invalid ? true : undefined}
         aria-describedby={describedBy}
@@ -99,9 +113,10 @@ export function ProductPicker({ value, onChange, invalid, describedBy }: { value
         >
           {results.length === 0 && <li className="px-3 py-3 text-sm text-ink-2">{items.length ? "No matching product. You can still type your own." : "Loading products..."}</li>}
           {results.map((r, i) => (
-            <li key={`${r.category}-${r.name}-${i}`} role="option" aria-selected={i === cursor} data-i={i}>
+            <li key={`${r.category}-${r.name}-${i}`} id={`${id}-opt-${i}`} role="option" aria-selected={i === cursor} data-i={i}>
               <button
                 type="button"
+                tabIndex={-1}
                 onPointerDown={(e) => e.preventDefault()}
                 onClick={() => pick(r.name)}
                 onMouseMove={() => setCursor(i)}

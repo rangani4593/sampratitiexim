@@ -5,10 +5,13 @@ import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState, ViewTransition } from "react";
 import { Icon } from "@/components/ui/Icon";
+import { useModal } from "@/lib/use-modal";
 
 export function Lightbox({ images, alt, start, onClose }: { images: string[]; alt: string; start: number; onClose: () => void }) {
   const [i, setI] = useState(start);
   const track = useRef<HTMLDivElement>(null);
+  const dialog = useRef<HTMLDivElement>(null);
+  useModal(dialog, true);
 
   const go = useCallback(
     (n: number) => {
@@ -19,24 +22,25 @@ export function Lightbox({ images, alt, start, onClose }: { images: string[]; al
     [images.length],
   );
 
+  // Land on the photo that was clicked — once. This used to share an effect with the key
+  // handler, which re-ran on every slide change and snapped the strip back to `start`.
   useEffect(() => {
     track.current?.children[start]?.scrollIntoView({ inline: "center", block: "nearest" });
+  }, [start]);
+
+  useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
       if (e.key === "ArrowRight") go(i + 1);
       if (e.key === "ArrowLeft") go(i - 1);
     };
     window.addEventListener("keydown", onKey);
-    const { overflow } = document.body.style;
-    document.body.style.overflow = "hidden";
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = overflow;
-    };
-  }, [go, i, onClose, start]);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [go, i, onClose]);
 
   return (
     <motion.div
+      ref={dialog}
       role="dialog"
       aria-modal="true"
       aria-label={`${alt} photos`}

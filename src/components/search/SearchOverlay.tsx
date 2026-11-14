@@ -9,6 +9,7 @@ import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { useUI } from "@/components/providers/UIProvider";
 import { Icon } from "@/components/ui/Icon";
 import type { SearchItem } from "@/lib/catalog";
+import { useModal } from "@/lib/use-modal";
 
 type Props = {
   items: SearchItem[];
@@ -23,6 +24,8 @@ export function SearchOverlay({ items, quickLinks }: Props) {
   const deferred = useDeferredValue(query);
   const input = useRef<HTMLInputElement>(null);
   const list = useRef<HTMLUListElement>(null);
+  const dialog = useRef<HTMLDivElement>(null);
+  useModal(dialog, searchOpen);
 
   const results = useMemo(() => {
     const q = deferred.trim().toLowerCase();
@@ -80,6 +83,7 @@ export function SearchOverlay({ items, quickLinks }: Props) {
         <div className="fixed inset-0 z-[60] flex justify-center md:items-start md:px-6 md:pt-[9vh]">
           <motion.button
             type="button"
+            tabIndex={-1}
             aria-label="Close search"
             className="absolute inset-0 bg-[#06121b]/55 backdrop-blur-[2px]"
             initial={{ opacity: 0 }}
@@ -88,6 +92,7 @@ export function SearchOverlay({ items, quickLinks }: Props) {
             onClick={closeSearch}
           />
           <motion.div
+            ref={dialog}
             role="dialog"
             aria-modal="true"
             aria-label="Search products"
@@ -105,10 +110,13 @@ export function SearchOverlay({ items, quickLinks }: Props) {
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={onInputKey}
                 type="search"
+                role="combobox"
+                aria-expanded={results.length > 0}
+                aria-autocomplete="list"
                 enterKeyHint="search"
                 placeholder="Search sucralose, E211, xanthan, TCCA..."
                 aria-label="Search products"
-                aria-controls="search-results"
+                aria-controls={results.length ? "search-results" : undefined}
                 aria-activedescendant={results.length ? `search-opt-${cursor}` : undefined}
                 className="h-12 min-w-0 flex-1 bg-transparent text-[1.05rem] text-ink outline-none placeholder:text-ink-3"
               />

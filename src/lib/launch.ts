@@ -11,8 +11,10 @@
                                                          on a fresh load, default 24)
     NEXT_PUBLIC_LAUNCH_PREVIEW            countdown | celebrate | off
 
-  A `?launch=countdown|celebrate|off` query param overrides the phase for one page
-  load, which is the quickest way to rehearse the animation on any deployment.
+  A `?launch=countdown|celebrate` query param overrides the phase for one page load,
+  which is the quickest way to rehearse the animation on any deployment.
+  `?launch=off` (skip the gate) only works in development: on a production build it
+  would let anyone with the link walk past the gate before launch.
 
   Time is never read on the server: the phase is decided in the browser, so static
   pages stay cacheable and the countdown is correct for every visitor.
@@ -85,9 +87,10 @@ export const launchDateLine = `${new Intl.DateTimeFormat("en-IN", DATE_FORMAT).f
 */
 export function launchBootScript(): string {
   const { at, celebrateMs, preview } = launchConfig;
+  const allowSkip = process.env.NODE_ENV !== "production";
   return `(function(){try{var q=new URLSearchParams(location.search).get("launch")||"";var f=(q||${JSON.stringify(
     preview,
-  )}).toLowerCase();if(f==="live")f="celebrate";if(f==="off")f="done";var p;if(f==="countdown"||f==="celebrate"||f==="done"){p=f}else{var n=Date.now();p=n<${at}?"countdown":(n<${
+  )}).toLowerCase();if(f==="live")f="celebrate";if(f==="off")f="done";if(f==="done"&&q&&!${JSON.stringify(allowSkip)})f="";var p;if(f==="countdown"||f==="celebrate"||f==="done"){p=f}else{var n=Date.now();p=n<${at}?"countdown":(n<${
     at + celebrateMs
   }?"celebrate":"done")}document.documentElement.dataset.launch=p}catch(e){document.documentElement.dataset.launch="done"}})()`;
 }

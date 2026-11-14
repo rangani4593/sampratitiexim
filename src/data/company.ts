@@ -1,3 +1,5 @@
+import { SITE_URL } from "@/lib/site";
+
 export const company = {
   name: "Sampratiti Exim Private Limited",
   shortName: "Sampratiti Exim",
@@ -17,6 +19,7 @@ export const company = {
     "https://www.youtube.com/channel/UC_tdJhji8jBnLEVb3fqtTHg",
   ],
   responseRate: "85%",
+  customers: 1500,
   established: "2022",
   yearsInBusiness: new Date().getFullYear() - 2022,
   gst: "24ABJCS3281Q1ZP",
@@ -54,9 +57,9 @@ export const company = {
   ],
   registeredAddress: "Shop 414, 4th, Maruti Plaza Apartment, Thakkarbapa Nagar Road, Ahmedabad 382345, Gujarat, India",
   share: [
-    { label: "Facebook", href: "https://www.facebook.com/sharer.php?u=https://www.sampratitiexim.in/" },
-    { label: "X", href: "https://twitter.com/share?url=https://www.sampratitiexim.in/&text=Sampratiti Exim Private Limited" },
-    { label: "LinkedIn", href: "https://www.linkedin.com/cws/share?url=https://www.sampratitiexim.in/" },
+    { label: "Facebook", href: `https://www.facebook.com/sharer.php?u=${encodeURIComponent(`${SITE_URL}/`)}` },
+    { label: "X", href: `https://twitter.com/share?url=${encodeURIComponent(`${SITE_URL}/`)}&text=${encodeURIComponent("Sampratiti Exim Private Limited")}` },
+    { label: "LinkedIn", href: `https://www.linkedin.com/cws/share?url=${encodeURIComponent(`${SITE_URL}/`)}` },
   ],
 } as const;
 

@@ -12,7 +12,7 @@ import { Faq } from "@/components/ui/Faq";
 import { CountUp } from "@/components/ui/CountUp";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { advantageIntro, advantages, company, ratings, welcomeParagraphs } from "@/data/company";
+import { advantageIntro, advantages, company, welcomeParagraphs } from "@/data/company";
 import { industryPages } from "@/data/industries";
 import { homeFaqs } from "@/lib/seo";
 import { featured, productCount, productTypes } from "@/lib/catalog";
@@ -62,7 +62,7 @@ export default function Home() {
           <dl className="relative grid grid-cols-2 overflow-hidden rounded-[var(--radius-surface)] bg-surface hairline md:grid-cols-4">
             <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/70 to-transparent" />
             {[
-              { k: "Satisfied Customers", v: `${ratings.count}+`, d: "verified buyers across India" },
+              { k: "Satisfied Customers", v: `${company.customers}+`, d: "verified buyers across India" },
               { k: "Industries Served", v: String(industryPages.length), d: "food, pharma and industrial" },
               { k: "Years in Business", v: `${company.yearsInBusiness}+`, d: `since ${company.established}` },
               { k: "Products", v: `${productCount}+`, d: `across ${productTypes.length} product groups` },

@@ -4,6 +4,7 @@ import { Alert02Icon, CheckmarkBadge02Icon, Loading03Icon, SentIcon, WhatsappIco
 import { useId, useState } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { company } from "@/data/company";
+import { isValidMobile, normaliseMobile } from "@/lib/phone";
 import { ProductPicker } from "./ProductPicker";
 
 type Field = "product" | "mobile" | "email" | "name" | "message";
@@ -11,12 +12,11 @@ type Errors = Partial<Record<Field, string>>;
 type Status = "idle" | "sending" | "sent" | "error";
 
 
-export const normaliseMobile = (v: string) => v.replace(/[^\d]/g, "").replace(/^(91|0)(?=\d{10}$)/, "");
 
 function validate(v: Record<Field, string>): Errors {
   const e: Errors = {};
   if (!v.product.trim()) e.product = "Select or type the product you need.";
-  if (!/^[6-9]\d{9}$/.test(normaliseMobile(v.mobile))) e.mobile = "Enter a 10-digit Indian mobile number.";
+  if (!isValidMobile(normaliseMobile(v.mobile))) e.mobile = "Enter a 10-digit mobile number, or add the country code (e.g. +971 50 123 4567).";
   if (v.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.email.trim())) e.email = "Enter a valid email address, or leave it empty.";
   if (v.name.trim().length < 2) e.name = "Please enter your name.";
   if (v.message.trim().length < 10) e.message = "Tell us the grade, quantity and delivery city you need.";
@@ -64,6 +64,7 @@ export function EnquiryForm({
   const set = (name: Field) => (value: string) => {
     setValues((v) => ({ ...v, [name]: value }));
     if (errors[name]) setErrors((e) => ({ ...e, [name]: undefined }));
+    if (status === "error") setStatus("idle");
   };
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -138,10 +139,10 @@ export function EnquiryForm({
   return (
     <form noValidate onSubmit={onSubmit} className="grid gap-4">
       <div className="grid gap-2">
-        <label htmlFor={`${id}-input`} className={`text-sm font-medium ${label}`}>
+        <label htmlFor={`${id}-product`} className={`text-sm font-medium ${label}`}>
           Product
         </label>
-        <ProductPicker value={values.product} onChange={set("product")} invalid={!!errors.product} describedBy={errors.product ? `${id}-product-error` : undefined} />
+        <ProductPicker id={`${id}-product`} value={values.product} onChange={set("product")} invalid={!!errors.product} describedBy={errors.product ? `${id}-product-error` : undefined} />
         {fieldError("product")}
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
@@ -149,10 +150,7 @@ export function EnquiryForm({
           <label htmlFor={`${id}-mobile`} className={`text-sm font-medium ${label}`}>
             Your mobile number
           </label>
-          <div className="relative">
-            <span className="pointer-events-none absolute inset-y-0 left-4 flex items-center font-mono text-sm text-ink-3">+91</span>
-            <input {...field("mobile")} type="tel" inputMode="numeric" autoComplete="tel-national" className="field pl-14" placeholder="98XXXXXXXX" />
-          </div>
+          <input {...field("mobile")} type="tel" inputMode="tel" autoComplete="tel" className="field" placeholder="+91 98XXX XXXXX" />
           {fieldError("mobile")}
         </div>
         <div className="grid gap-2">

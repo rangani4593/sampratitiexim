@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft01Icon, ArrowRight01Icon, ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
+import { ArrowLeft01Icon, ArrowRight01Icon, ArrowUpRight01Icon, PauseIcon, PlayIcon } from "@hugeicons/core-free-icons";
 import { AnimatePresence, motion, useReducedMotion, type PanInfo } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,7 +16,8 @@ export function ProductDeck({ slides, autoPlay = true }: { slides: DeckSlide[]; 
   const reduce = useReducedMotion();
   const [index, setIndex] = useState(0);
   const [dir, setDir] = useState(1);
-  const [paused, setPaused] = useState(false);
+  const [paused, setPaused] = useState(false); // hover / focus inside
+  const [stopped, setStopped] = useState(false); // the visitor pressed pause
 
   const go = useCallback(
     (step: number) => {
@@ -27,10 +28,12 @@ export function ProductDeck({ slides, autoPlay = true }: { slides: DeckSlide[]; 
   );
 
   useEffect(() => {
-    if (!autoPlay || reduce || paused || slides.length < 2) return;
+    if (!autoPlay || reduce || paused || stopped || slides.length < 2) return;
     const t = setInterval(() => !document.hidden && go(1), 4200);
     return () => clearInterval(t);
-  }, [autoPlay, reduce, paused, go, slides.length]);
+  }, [autoPlay, reduce, paused, stopped, go, slides.length]);
+
+  const rotating = autoPlay && !reduce && !stopped && slides.length > 1;
 
   const onDragEnd = (_: unknown, info: PanInfo) => {
     if (info.offset.x < -SWIPE || info.velocity.x < -500) go(1);
@@ -46,6 +49,7 @@ export function ProductDeck({ slides, autoPlay = true }: { slides: DeckSlide[]; 
       onMouseLeave={() => setPaused(false)}
       onFocusCapture={() => setPaused(true)}
       onBlurCapture={() => setPaused(false)}
+      role="region"
       aria-roledescription="carousel"
       aria-label="Industries we supply"
     >
@@ -87,9 +91,13 @@ export function ProductDeck({ slides, autoPlay = true }: { slides: DeckSlide[]; 
                         alt={top ? slide.title : ""}
                         fill
                         draggable={false}
-                        sizes="(min-width: 1024px) 44rem, 160vw"
+                        // The card is at most 21rem wide; the old 44rem / 160vw sizes made phones
+                        // download images several times larger than they show.
+                        sizes="(min-width: 640px) 21rem, 19rem"
                         quality={90}
-                        loading={d === 0 && index === 0 ? "eager" : "lazy"}
+                        // Every card in the stack is on screen in the hero, and whichever is on
+                        // top becomes the LCP element as the deck rotates: none can be lazy.
+                        loading="eager"
                         fetchPriority={d === 0 && index === 0 ? "high" : "auto"}
                         className="select-none object-cover"
                       />
@@ -118,10 +126,22 @@ export function ProductDeck({ slides, autoPlay = true }: { slides: DeckSlide[]; 
 
       {slides.length > 1 && (
         <div className="relative mt-6 flex items-center justify-between gap-4">
-          <p className="font-mono text-xs text-on-brand/70" aria-live="polite">
+          {/* Announce slide changes only when the visitor drives them; an auto-rotating live
+              region would make a screen reader read "02 / 08" every four seconds. */}
+          <p className="font-mono text-xs text-on-brand/70" aria-live={rotating && !paused ? "off" : "polite"}>
             <span className="text-on-brand">{String(index + 1).padStart(2, "0")}</span> / {String(slides.length).padStart(2, "0")}
           </p>
           <div className="flex gap-2">
+            {autoPlay && !reduce && (
+              <button
+                type="button"
+                onClick={() => setStopped((s) => !s)}
+                className="grid h-11 w-11 place-items-center rounded-full text-on-brand ring-1 ring-on-brand/30 transition-colors hover:bg-on-brand hover:text-brand"
+                aria-label={stopped ? "Play slideshow" : "Pause slideshow"}
+              >
+                <Icon icon={stopped ? PlayIcon : PauseIcon} size={18} />
+              </button>
+            )}
             <button
               type="button"
               onClick={() => go(-1)}

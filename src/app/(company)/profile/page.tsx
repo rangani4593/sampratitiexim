@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { CopyValue } from "@/components/ui/CopyValue";
 import { Icon } from "@/components/ui/Icon";
-import { company, profileParagraphs, ratings } from "@/data/company";
+import { company, profileParagraphs } from "@/data/company";
 import { industryPages } from "@/data/industries";
 import { productCount } from "@/lib/catalog";
 
@@ -90,7 +90,7 @@ export default function ProfilePage() {
               { v: `${productCount}+`, label: "Products" },
               { v: `${company.yearsInBusiness}+`, label: "Years Active" },
               { v: `${industryPages.length}`, label: "Industries" },
-              { v: `${ratings.count}+`, label: "Happy Customers" },
+              { v: `${company.customers}+`, label: "Happy Customers" },
             ].map((s) => (
               <div key={s.label} className="rounded-2xl bg-surface px-4 py-5 hairline">
                 <p className="text-2xl font-bold tracking-tight">{s.v}</p>

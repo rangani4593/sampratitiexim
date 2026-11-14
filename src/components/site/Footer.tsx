@@ -79,7 +79,7 @@ export function Footer() {
                   href={company.office.mapHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-gold hover:underline hover:underline-offset-4"
+                  className="mt-1 inline-flex items-center gap-1 py-1 text-sm font-semibold text-gold hover:underline hover:underline-offset-4"
                 >
                   Get directions
                   <Icon icon={ArrowRight01Icon} size={14} />
@@ -113,7 +113,7 @@ export function Footer() {
           <p className="mt-3 text-sm leading-relaxed text-on-brand/70">
             Importer, trader and bulk supplier of food, pharma and industrial chemicals from Ahmedabad since {company.established}.
           </p>
-          <a href={`mailto:${company.email}`} className="mt-4 inline-flex items-center gap-2 text-sm font-semibold hover:text-gold">
+          <a href={`mailto:${company.email}`} className="mt-3 inline-flex items-center gap-2 py-1 text-sm font-semibold hover:text-gold">
             <Icon icon={Mail01Icon} size={18} />
             {company.email}
           </a>
@@ -121,10 +121,10 @@ export function Footer() {
 
         <div>
           <p className="text-sm font-semibold text-gold">Company</p>
-          <ul className="mt-4 grid gap-2.5 text-sm text-on-brand/75">
+          <ul className="mt-3 grid gap-0.5 text-sm text-on-brand/75">
             {COMPANY_LINKS.map((l) => (
               <li key={l.href}>
-                <Link href={l.href} className="transition-colors hover:text-on-brand">{l.label}</Link>
+                <Link href={l.href} className="inline-block py-1 transition-colors hover:text-on-brand">{l.label}</Link>
               </li>
             ))}
           </ul>
@@ -132,14 +132,14 @@ export function Footer() {
 
         <div>
           <p className="text-sm font-semibold text-gold">Products</p>
-          <ul className="mt-4 grid gap-2.5 text-sm text-on-brand/75">
+          <ul className="mt-3 grid gap-0.5 text-sm text-on-brand/75">
             {productTypes.map((t) => (
               <li key={t.slug}>
-                <Link href={`/products-and-services#${t.slug}`} className="transition-colors hover:text-on-brand">{t.name}</Link>
+                <Link href={`/products-and-services#${t.slug}`} className="inline-block py-1 transition-colors hover:text-on-brand">{t.name}</Link>
               </li>
             ))}
             <li>
-              <Link href="/products-and-services" className="inline-flex items-center gap-1 font-semibold text-on-brand hover:text-gold">
+              <Link href="/products-and-services" className="inline-flex items-center gap-1 py-1 font-semibold text-on-brand hover:text-gold">
                 All products
                 <Icon icon={ArrowRight01Icon} size={14} />
               </Link>
@@ -166,11 +166,11 @@ export function Footer() {
         </div>
       </nav>
 
-      <div className="shell flex flex-col gap-3 border-t border-on-brand/15 pb-[calc(6.5rem+env(safe-area-inset-bottom))] pt-6 text-sm text-on-brand/60 md:flex-row md:items-center md:justify-between md:pb-8">
+      <div className="shell flex flex-col gap-3 border-t border-on-brand/15 pb-[calc(6.5rem+env(safe-area-inset-bottom))] pt-6 text-sm text-on-brand/60 md:flex-row md:items-center md:justify-between lg:pb-8">
         <p>© {company.name}. All rights reserved.</p>
         <div className="flex gap-5">
-          <Link href="/sitemap" className="hover:text-on-brand">Sitemap</Link>
-          <Link href="/enquiry" className="hover:text-on-brand">Contact</Link>
+          <Link href="/sitemap" className="inline-block py-1 hover:text-on-brand">Sitemap</Link>
+          <Link href="/enquiry" className="inline-block py-1 hover:text-on-brand">Contact</Link>
         </div>
       </div>
     </footer>

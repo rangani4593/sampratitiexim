@@ -17,13 +17,14 @@ export function MobileDock({ phoneHref, productNames, companyPaths }: Props) {
   const { openEnquiry } = useUI();
   const productName = productNames[pathname];
 
-  const wrap = "fixed inset-x-0 bottom-0 z-40 md:hidden";
+  // The header nav only appears at lg (1024px), so the dock covers phones and tablets alike.
+  const wrap = "fixed inset-x-0 bottom-0 z-40 lg:hidden";
   const pad = { paddingBottom: "max(env(safe-area-inset-bottom), 0.5rem)", viewTransitionName: "mobile-dock" } as const;
 
   if (productName) {
     return (
       <div className={wrap} style={pad}>
-        <div className="mx-3 mb-1 flex items-center gap-2 rounded-[22px] bg-surface/95 p-2 backdrop-blur-xl lift hairline">
+        <div className="mx-3 mb-1 flex items-center gap-2 rounded-[22px] bg-surface/95 p-2 backdrop-blur-xl lift hairline md:mx-auto md:max-w-xl">
           <a href={phoneHref} className="btn btn-ghost h-12 shrink-0 px-4" aria-label="Call Sampratiti Exim">
             <Icon icon={Call02Icon} size={20} />
             Call
@@ -48,7 +49,7 @@ export function MobileDock({ phoneHref, productNames, companyPaths }: Props) {
 
   return (
     <nav aria-label="Quick actions" className={wrap} style={pad}>
-      <div className="mx-3 mb-1 flex items-end rounded-[22px] bg-surface/95 px-1.5 py-1 backdrop-blur-xl lift hairline">
+      <div className="mx-3 mb-1 flex items-end rounded-[22px] bg-surface/95 px-1.5 py-1 backdrop-blur-xl lift hairline md:mx-auto md:max-w-xl">
         {items.map((it) => (
           <Link key={it.href} href={it.href} aria-current={it.active ? "page" : undefined} className={itemClass(it.active)}>
             <Icon icon={it.icon} size={22} strokeWidth={it.active ? 2 : 1.6} />

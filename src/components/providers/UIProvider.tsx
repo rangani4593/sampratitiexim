@@ -35,8 +35,12 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      // While the launch gate is up the site behind it is inert: a shortcut must not
+      // open an invisible search underneath it and steal focus.
+      const gate = document.documentElement.dataset.launch;
+      if (gate === "countdown" || gate === "celebrate") return;
       const target = e.target as HTMLElement | null;
-      const typing = target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable);
+      const typing = target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.tagName === "SELECT" || target.isContentEditable);
       if ((e.key === "k" && (e.metaKey || e.ctrlKey)) || (e.key === "/" && !typing)) {
         e.preventDefault();
         setSearchOpen(true);
@@ -45,16 +49,6 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
-
-  const locked = searchOpen || enquiry.open;
-  useEffect(() => {
-    if (!locked) return;
-    const { overflow } = document.body.style;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = overflow;
-    };
-  }, [locked]);
 
   const value = useMemo(
     () => ({ searchOpen, openSearch, closeSearch, enquiry, openEnquiry, closeEnquiry }),

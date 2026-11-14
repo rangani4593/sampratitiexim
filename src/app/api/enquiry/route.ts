@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { isValidMobile, mobileDisplay, mobileTel, normaliseMobile } from "@/lib/phone";
+import { SITE_URL } from "@/lib/seo";
 
 type Enquiry = {
   product?: string;
@@ -22,12 +24,17 @@ const ENTRY = {
 
 const clip = (v: unknown, max: number) => (typeof v === "string" ? v.trim().slice(0, max) : "");
 
+// Everything in the notification email comes from a public form: escape it, or a visitor
+// can put their own links, images and markup into the company inbox.
+const esc = (v: string) =>
+  v.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
+
 function buildHtml(e: { product: string; name: string; mobile: string; email: string; message: string; page: string }) {
   const row = (label: string, value: string) =>
     value
       ? `<tr>
           <td style="padding:10px 14px;font-weight:600;color:#6b7280;white-space:nowrap;width:140px;vertical-align:top">${label}</td>
-          <td style="padding:10px 14px;color:#111827;border-left:1px solid #f3f4f6">${value.replace(/\n/g, "<br>")}</td>
+          <td style="padding:10px 14px;color:#111827;border-left:1px solid #f3f4f6">${esc(value).replace(/\n/g, "<br>")}</td>
         </tr>`
       : "";
 
@@ -53,7 +60,7 @@ function buildHtml(e: { product: string; name: string; mobile: string; email: st
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;font-size:14px;line-height:1.5">
               ${row("Product", e.product)}
               ${row("Name", e.name)}
-              ${row("Mobile", "+91 " + e.mobile)}
+              ${row("Mobile", mobileDisplay(e.mobile))}
               ${row("Email", e.email || "—")}
               ${row("Requirement", e.message)}
               ${row("Source page", e.page || "—")}
@@ -64,8 +71,8 @@ function buildHtml(e: { product: string; name: string; mobile: string; email: st
         <!-- CTA -->
         <tr>
           <td style="padding:20px 28px 28px">
-            <a href="tel:+91${e.mobile}" style="display:inline-block;background:#c9a84c;color:#000000;font-weight:700;font-size:14px;text-decoration:none;padding:11px 24px;border-radius:8px">
-              Call ${e.name.split(" ")[0]} now →
+            <a href="tel:${esc(mobileTel(e.mobile))}" style="display:inline-block;background:#c9a84c;color:#000000;font-weight:700;font-size:14px;text-decoration:none;padding:11px 24px;border-radius:8px">
+              Call ${esc(e.name.split(" ")[0])} now →
             </a>
           </td>
         </tr>
@@ -73,7 +80,7 @@ function buildHtml(e: { product: string; name: string; mobile: string; email: st
         <!-- Footer -->
         <tr>
           <td style="background:#f3f4f6;padding:14px 28px">
-            <p style="margin:0;font-size:12px;color:#9ca3af">This email was sent automatically when someone submitted the enquiry form on <a href="https://sampratitiexim.vercel.app" style="color:#6b7280">sampratitiexim.vercel.app</a>.</p>
+            <p style="margin:0;font-size:12px;color:#9ca3af">This email was sent automatically when someone submitted the enquiry form on <a href="${SITE_URL}" style="color:#6b7280">${SITE_URL.replace(/^https?:\/\//, "")}</a>.</p>
           </td>
         </tr>
 
@@ -90,7 +97,7 @@ function buildText(e: { product: string; name: string; mobile: string; email: st
     "=".repeat(40),
     `Product   : ${e.product}`,
     `Name      : ${e.name}`,
-    `Mobile    : +91 ${e.mobile}`,
+    `Mobile    : ${mobileDisplay(e.mobile)}`,
     `Email     : ${e.email || "—"}`,
     `Message   : ${e.message}`,
     e.page ? `Source    : ${e.page}` : "",
@@ -150,14 +157,14 @@ export async function POST(request: Request) {
 
   const enquiry = {
     product: clip(body.product, 200),
-    mobile: clip(body.mobile, 20).replace(/[^\d]/g, ""),
+    mobile: normaliseMobile(clip(body.mobile, 24)),
     email: clip(body.email, 200),
     name: clip(body.name, 120),
     message: clip(body.message, 4000),
     page: clip(body.page, 300),
   };
 
-  if (!enquiry.product || !/^[6-9]\d{9}$/.test(enquiry.mobile) || enquiry.name.length < 2 || enquiry.message.length < 10) {
+  if (!enquiry.product || !isValidMobile(enquiry.mobile) || enquiry.name.length < 2 || enquiry.message.length < 10) {
     return NextResponse.json({ message: "Please check product, mobile number, name and requirement." }, { status: 422 });
   }
   if (enquiry.email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(enquiry.email)) {

@@ -125,6 +125,14 @@
     outline-offset: 3px;
     border-radius: 6px;
   }
+  .theme-ic {
+    display: none;
+  }
+  :root:not([data-theme]) .theme-ic-system,
+  :root[data-theme="light"] .theme-ic-light,
+  :root[data-theme="dark"] .theme-ic-dark {
+    display: grid;
+  }
   .font-mono {
     font-stretch: 82%;
     letter-spacing: -0.01em;

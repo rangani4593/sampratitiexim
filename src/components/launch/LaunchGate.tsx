@@ -2,7 +2,7 @@
 
 import { Call02Icon, Facebook01Icon, Linkedin01Icon, Mail01Icon, WhatsappIcon, YoutubeIcon } from "@hugeicons/core-free-icons";
 import Image from "next/image";
-import { useEffect, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { ConfettiBurst } from "@/components/launch/ConfettiBurst";
 import { Icon } from "@/components/ui/Icon";
 import { company } from "@/data/company";
@@ -61,6 +61,7 @@ export function LaunchGate() {
   const [stage, setStage] = useState<Stage>("countdown");
   const [released, setReleased] = useState(false);
   const [remaining, setRemaining] = useState<number | null>(null);
+  const gate = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -100,6 +101,9 @@ export function LaunchGate() {
     }
 
     setBackgroundInert(true);
+    // Put focus on the gate itself: it is the scroll container, so PageDown, Space and the
+    // arrow keys scroll it on short screens, and a screen reader starts inside the dialog.
+    gate.current?.focus({ preventScroll: true });
 
     if (phase === "celebrate") {
       celebrate();
@@ -109,17 +113,21 @@ export function LaunchGate() {
       };
     }
 
-    setRemaining(launchConfig.at - Date.now());
-    const tick = window.setInterval(() => {
+    let interval = 0;
+    const tick = () => {
       const left = launchConfig.at - Date.now();
       setRemaining(left);
       if (left > 0) return;
-      window.clearInterval(tick);
+      window.clearInterval(interval);
       celebrate();
-    }, 500);
+    };
+    // First reading on the next frame (the clock shows zeros until then), then twice a second.
+    const firstFrame = window.requestAnimationFrame(tick);
+    interval = window.setInterval(tick, 500);
 
     return () => {
-      window.clearInterval(tick);
+      window.cancelAnimationFrame(firstFrame);
+      window.clearInterval(interval);
       timers.forEach(window.clearTimeout);
       setBackgroundInert(false);
     };
@@ -132,12 +140,16 @@ export function LaunchGate() {
 
   return (
     <div
+      ref={gate}
+      tabIndex={-1}
       className="launch-gate"
       data-stage={stage}
       data-released={released || undefined}
       role="dialog"
       aria-modal="true"
-      aria-hidden={released || undefined}
+      // Once released the gate is only falling confetti: inert drops its links out of the tab
+      // order too (aria-hidden alone would leave focusable links inside a hidden region).
+      inert={released || undefined}
       aria-label={`${company.shortName} — new website launching soon`}
     >
       <div className="launch-sky" aria-hidden />

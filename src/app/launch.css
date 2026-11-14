@@ -44,6 +44,15 @@ html[data-launch="settle"] .launch-gate {
 html[data-launch="countdown"],
 html[data-launch="celebrate"] {
   overflow: hidden;
+  /* Keep the scrollbar's space reserved while it is hidden, so the site underneath is
+     laid out at its final width and does not jump sideways when the gate lets go. The
+     reserved strip shows the root background, so paint it the gate's navy. */
+  scrollbar-gutter: stable;
+  background-color: #0a1823;
+}
+/* Focus sits on the gate (it is the scroll container); it needs no focus ring. */
+.launch-gate:focus {
+  outline: none;
 }
 /* Once the countdown is on its way out there is nothing left to scroll to. */
 .launch-gate[data-stage="live"],
