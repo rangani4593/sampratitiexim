@@ -1,8 +1,7 @@
 import { company } from "@/data/company";
 import { industriesFor, typeOf, type Product } from "@/lib/catalog";
-import { SITE_URL } from "@/lib/site";
 
-export { SITE_URL };
+export const SITE_URL = "https://www.sampratitiexim.in";
 export const abs = (path: string) => `${SITE_URL}${path}`;
 
 const plainText = (html: string) =>

@@ -1,9 +1,8 @@
 import { company } from "@/data/company";
 import { industryPages } from "@/data/industries";
 import { productTypes } from "@/lib/catalog";
-import { SITE_URL } from "@/lib/site";
 
-const BASE = SITE_URL;
+const BASE = "https://www.sampratitiexim.in";
 
 export function GET() {
   const lines = [
