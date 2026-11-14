@@ -1,6 +1,7 @@
 "use client";
 
 import { Alert02Icon, CheckmarkBadge02Icon, Loading03Icon, SentIcon, WhatsappIcon } from "@hugeicons/core-free-icons";
+import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { company } from "@/data/company";
@@ -8,18 +9,20 @@ import { isValidMobile, normaliseMobile } from "@/lib/phone";
 import { ProductPicker } from "./ProductPicker";
 
 type Field = "product" | "mobile" | "email" | "name" | "message";
-type Errors = Partial<Record<Field, string>>;
+type Errors = Partial<Record<Field | "consent", string>>;
 type Status = "idle" | "sending" | "sent" | "error";
 
 
 
-function validate(v: Record<Field, string>): Errors {
+function validate(v: Record<Field, string>, consent: boolean): Errors {
   const e: Errors = {};
   if (!v.product.trim()) e.product = "Select or type the product you need.";
   if (!isValidMobile(normaliseMobile(v.mobile))) e.mobile = "Enter a 10-digit mobile number, or add the country code (e.g. +971 50 123 4567).";
   if (v.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.email.trim())) e.email = "Enter a valid email address, or leave it empty.";
   if (v.name.trim().length < 2) e.name = "Please enter your name.";
   if (v.message.trim().length < 10) e.message = "Tell us the grade, quantity and delivery city you need.";
+  // DPDP Act 2023 wants consent to be a positive act, so the box starts unticked.
+  if (!consent) e.consent = "Please tick the box so we may use your details to reply.";
   return e;
 }
 
@@ -48,6 +51,7 @@ export function EnquiryForm({
   const [values, setValues] = useState<Record<Field, string>>({ product: product ?? "", mobile: "", email: "", name: "", message: "" });
   const [lastProp, setLastProp] = useState(product);
   const [errors, setErrors] = useState<Errors>({});
+  const [consent, setConsent] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const [serverMessage, setServerMessage] = useState("");
   const [sentLink, setSentLink] = useState("");
@@ -75,7 +79,7 @@ export function EnquiryForm({
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
-    const found = validate(values);
+    const found = validate(values, consent);
     setErrors(found);
     const firstBad = Object.keys(found)[0];
     if (firstBad) {
@@ -95,6 +99,7 @@ export function EnquiryForm({
       setSentLink(whatsappLink(values));
       setStatus("sent");
       setValues({ product: "", mobile: "", email: "", name: "", message: "" });
+      setConsent(false);
     } catch (error) {
       setServerMessage(error instanceof Error ? error.message : "Could not send your inquiry.");
       setStatus("error");
@@ -134,7 +139,7 @@ export function EnquiryForm({
     "aria-describedby": errors[name] ? `${id}-${name}-error` : undefined,
     onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => set(name)(e.target.value),
   });
-  const fieldError = (name: Field) =>
+  const fieldError = (name: Field | "consent") =>
     errors[name] ? (
       <p id={`${id}-${name}-error`} className={`text-sm ${err}`}>
         {errors[name]}
@@ -181,6 +186,32 @@ export function EnquiryForm({
         {fieldError("message")}
       </div>
       <input type="text" name="company_website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden />
+      <div className="grid gap-2">
+        <label htmlFor={`${id}-consent`} className={`flex items-start gap-3 text-sm leading-relaxed ${help}`}>
+          <input
+            id={`${id}-consent`}
+            name="consent"
+            type="checkbox"
+            checked={consent}
+            onChange={(event) => {
+              setConsent(event.target.checked);
+              if (errors.consent) setErrors((prev) => ({ ...prev, consent: undefined }));
+              if (status === "error") setStatus("idle");
+            }}
+            aria-invalid={errors.consent ? true : undefined}
+            aria-describedby={errors.consent ? `${id}-consent-error` : undefined}
+            className="mt-0.5 h-[1.15rem] w-[1.15rem] shrink-0 accent-gold"
+          />
+          <span>
+            I agree that {company.shortName} may use these details to reply to this inquiry, as described in the{" "}
+            <Link href="/privacy-policy" className={`font-semibold underline underline-offset-4 ${label}`}>
+              Privacy Policy
+            </Link>
+            .
+          </span>
+        </label>
+        {fieldError("consent")}
+      </div>
       {status === "error" && (
         <p role="alert" className={`flex items-start gap-2 text-sm ${err}`}>
           <Icon icon={Alert02Icon} size={18} className="mt-0.5 shrink-0" />

@@ -15,6 +15,8 @@ const COMPANY_LINKS = [
   { href: "/industry", label: "Industries" },
 ] as const;
 
+const CIN = company.registrations.find((r) => r.label === "CIN No.")?.value ?? "";
+
 // Same order as company.social: Facebook, LinkedIn, YouTube.
 const SOCIAL = [
   { label: "Facebook", icon: Facebook01Icon },
@@ -166,11 +168,25 @@ export function Footer() {
         </div>
       </nav>
 
-      <div className="shell flex flex-col gap-3 border-t border-on-brand/15 pb-[calc(6.5rem+env(safe-area-inset-bottom))] pt-6 text-sm text-on-brand/70 md:flex-row md:items-center md:justify-between lg:pb-8">
-        <p>© {company.name}. All rights reserved.</p>
-        <div className="flex gap-5">
-          <Link href="/sitemap" className="inline-block py-1 hover:text-on-brand">Sitemap</Link>
-          <Link href="/enquiry" className="inline-block py-1 hover:text-on-brand">Contact</Link>
+      <div className="shell grid gap-4 border-t border-on-brand/15 pb-[calc(6.5rem+env(safe-area-inset-bottom))] pt-6 text-sm text-on-brand/70 lg:pb-8">
+        {/*
+          Companies Act 2013, s.12 read with Rule 26: a company that has a website must
+          publish its name, registered office address, CIN, phone number and email on it.
+          The address above is the operating office, which is a different place.
+        */}
+        <p className="max-w-[90ch] leading-relaxed">
+          {company.name} · CIN {CIN} · GST {company.gst}
+          <br />
+          Registered office: {company.registeredAddress}
+        </p>
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <p>© {company.name}. All rights reserved.</p>
+          <div className="flex flex-wrap gap-x-5 gap-y-1">
+            <Link href="/privacy-policy" className="inline-block py-1 hover:text-on-brand">Privacy Policy</Link>
+            <Link href="/terms" className="inline-block py-1 hover:text-on-brand">Terms of Use</Link>
+            <Link href="/sitemap" className="inline-block py-1 hover:text-on-brand">Sitemap</Link>
+            <Link href="/enquiry" className="inline-block py-1 hover:text-on-brand">Contact</Link>
+          </div>
         </div>
       </div>
     </footer>

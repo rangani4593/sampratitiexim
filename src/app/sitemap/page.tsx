@@ -17,6 +17,8 @@ const pages = [
   { href: "/products-and-services", label: "Products & Services" },
   { href: "/industry", label: "Industries" },
   { href: "/enquiry", label: "Contact Us" },
+  { href: "/privacy-policy", label: "Privacy Policy" },
+  { href: "/terms", label: "Terms of Use" },
 ];
 
 export default function SitemapPage() {
