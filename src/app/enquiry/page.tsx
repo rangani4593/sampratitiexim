@@ -3,7 +3,9 @@ import type { Metadata } from "next";
 import { PageIntro } from "@/components/company/PageIntro";
 import { EnquiryForm } from "@/components/enquiry/EnquiryForm";
 import { Icon } from "@/components/ui/Icon";
+import { JsonLd } from "@/components/ui/JsonLd";
 import { company } from "@/data/company";
+import { contactPageLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Contact Us",
@@ -15,6 +17,7 @@ export default function EnquiryPage() {
   const phone = { display: company.phoneDisplay, href: company.phoneHref };
   return (
     <>
+      <JsonLd data={contactPageLd} />
       <PageIntro title="Contact Us" lead="Tell us your requirement. We reply with price, availability and dispatch time." />
       <section className="shell grid gap-10 pb-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
         <div className="rounded-[var(--radius-surface)] bg-surface p-5 hairline md:p-8">

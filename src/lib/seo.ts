@@ -1,6 +1,15 @@
 import { company } from "@/data/company";
-import { industriesFor, typeOf, type Product } from "@/lib/catalog";
+import { industryPages } from "@/data/industries";
+import { industriesFor, productCount, productTypes, typeOf, type Product } from "@/lib/catalog";
 import { SITE_URL } from "@/lib/site";
+
+/*
+  One timestamp per build. A static site has no per-page edit history, so this is the
+  honest answer to "when was this last changed" — the same answer the sitemap gives.
+*/
+const BUILT_AT = new Date().toISOString();
+
+const CIN = company.registrations.find((r) => r.label === "CIN No.")?.value ?? "";
 
 export { SITE_URL };
 
@@ -87,7 +96,65 @@ export const organizationLd = {
   founder: { "@type": "Person", name: company.ceo },
   sameAs: company.social,
   hasMap: company.office.mapHref,
+  /*
+    Registration numbers and a subject list give an answer engine something checkable to
+    tie this entity to, rather than leaving it to infer the business from prose.
+  */
+  identifier: [
+    { "@type": "PropertyValue", name: "CIN", value: CIN },
+    { "@type": "PropertyValue", name: "GSTIN", value: company.gst },
+    { "@type": "PropertyValue", name: "FSSAI Licence", value: company.fssai.number },
+  ],
+  knowsAbout: [
+    ...productTypes.map((t) => t.name),
+    ...industryPages.map((i) => i.name),
+    "Chemical import and distribution",
+    "Bulk chemical supply",
+    "COA and MSDS documentation",
+    "Food grade chemicals",
+    "Pharmaceutical grade chemicals",
+  ],
 };
+
+/*
+  An answer-first paragraph for the top of the home page. Answer engines quote the first
+  section of a page far more often than anything below it, so the plain facts go there.
+*/
+export const homeQuickAnswer = `${company.name} is an Ahmedabad based chemical importer, trader and bulk supplier, established in ${company.established}. It supplies ${productCount}+ food, pharma, nutraceutical, industrial, agriculture and water treatment chemicals to manufacturers across India, with COA and MSDS available as applicable to the product and batch. Prices are quoted on request.`;
+
+/** Contact page node, so the enquiry page is understood as the way to reach the company. */
+export const contactPageLd = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "@id": `${SITE_URL}/enquiry#page`,
+  url: `${SITE_URL}/enquiry`,
+  name: `Contact ${company.name}`,
+  description: `Send an enquiry, call or message ${company.shortName} in Ahmedabad for price, availability and dispatch time on bulk chemicals.`,
+  inLanguage: "en-IN",
+  isPartOf: { "@id": `${SITE_URL}/#website` },
+  about: { "@id": `${SITE_URL}/#organization` },
+  mainEntity: { "@id": `${SITE_URL}/#organization` },
+  dateModified: BUILT_AT,
+};
+
+/** Industry page node: the industry, plus the products we list for it as an ordered list. */
+export const industryCollectionLd = (ind: { slug: string; title: string; blurb: string }, items: Product[]) => ({
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "@id": `${SITE_URL}/industry/${ind.slug}#page`,
+  url: `${SITE_URL}/industry/${ind.slug}`,
+  name: ind.title,
+  description: ind.blurb,
+  inLanguage: "en-IN",
+  isPartOf: { "@id": `${SITE_URL}/#website` },
+  about: { "@id": `${SITE_URL}/#organization` },
+  dateModified: BUILT_AT,
+  mainEntity: {
+    "@type": "ItemList",
+    numberOfItems: items.length,
+    itemListElement: items.map((p, n) => ({ "@type": "ListItem", position: n + 1, url: `${SITE_URL}/${p.slug}`, name: p.name })),
+  },
+});
 
 export const websiteLd = {
   "@context": "https://schema.org",
@@ -104,6 +171,7 @@ export type Faq = { q: string; a: string };
 export const faqLd = (faqs: Faq[]) => ({
   "@context": "https://schema.org",
   "@type": "FAQPage",
+  dateModified: BUILT_AT,
   mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
 });
 
