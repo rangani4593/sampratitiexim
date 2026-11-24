@@ -34,7 +34,8 @@ export function Footer() {
         alt=""
         width={640}
         height={798}
-        className="pointer-events-none absolute -right-24 -top-10 -z-10 w-[26rem] opacity-[0.07] md:w-[40rem]"
+        sizes="(min-width: 1024px) 28rem, (min-width: 768px) 22rem, 12rem"
+        className="pointer-events-none absolute right-4 top-8 -z-10 w-48 opacity-[0.07] md:right-8 md:top-10 md:w-[22rem] lg:w-[28rem]"
       />
       <div className="shell grid gap-12 pb-10 pt-16 md:pt-24 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
         <div id="contact">
