@@ -60,7 +60,9 @@ export const organizationLd = {
   name: company.name,
   alternateName: "Sampratiti Exim",
   url: SITE_URL,
-  logo: abs("/icon.png"),
+  // Google reads this for the logo rich result and the knowledge panel; as an ImageObject
+  // with explicit dimensions it has everything it needs without fetching the file first.
+  logo: { "@type": "ImageObject", url: abs("/icon.png"), contentUrl: abs("/icon.png"), width: 512, height: 512, caption: company.name },
   image: abs("/opengraph-image.jpg"),
   description:
     "Chemical importer, exporter, trader and bulk supplier of food, pharma, nutraceutical, industrial, agriculture and water treatment chemicals from Ahmedabad, Gujarat, with COA and MSDS support and pan-India supply.",

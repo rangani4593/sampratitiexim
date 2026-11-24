@@ -46,6 +46,10 @@ export const metadata: Metadata = {
   category: "Chemicals",
   alternates: { canonical: "/" },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
+  // Set NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION in the hosting dashboard to claim the domain in
+  // Search Console. Without it the sitemap cannot be submitted and a changed favicon, title or
+  // description cannot be sent for re-crawling, so updates wait for Google to come round on its own.
+  ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ? { verification: { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION } } : {}),
   openGraph: baseOpenGraph,
   twitter: { card: "summary_large_image" },
   other: { "geo.region": "IN-GJ", "geo.placename": "Ahmedabad", "geo.position": "23.03899;72.69154", ICBM: "23.03899, 72.69154" },
