@@ -119,7 +119,7 @@ export default function Home() {
                   <span className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent transition-opacity duration-500 group-hover:from-black/90" />
                   <span className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-4 md:p-6">
                     <span className="min-w-0">
-                      <span className="block text-xs font-semibold uppercase tracking-[0.14em] text-gold">{t.products.length} products</span>
+                      <span className="block whitespace-nowrap text-xs font-semibold uppercase tracking-[0.14em] text-gold">{t.products.length} products</span>
                       <span className={`mt-1 block font-semibold leading-tight tracking-tight text-white ${big ? "text-2xl md:text-4xl" : "text-[1.05rem] md:text-xl"}`}>{t.name}</span>
                       <span
                         className={`mt-2 max-w-[44ch] text-sm leading-snug text-white/75 ${big ? "hidden sm:block md:text-base" : "hidden md:block md:max-h-0 md:overflow-hidden md:opacity-0 md:transition-all md:duration-500 md:group-hover:max-h-16 md:group-hover:opacity-100"}`}

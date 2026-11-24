@@ -259,11 +259,11 @@ export function Header({ families, companyLinks, productCount, phone }: Props) {
             <button
               type="button"
               onClick={openSearch}
-              className="flex h-11 min-w-0 items-center gap-3 whitespace-nowrap rounded-full bg-surface px-4 text-ink-2 hairline transition-colors hover:text-ink xl:flex-1 xl:max-w-[28rem] min-[1700px]:pr-2.5"
+              className="flex h-11 min-w-0 shrink-0 items-center gap-3 whitespace-nowrap xl:shrink rounded-full bg-surface px-4 text-ink-2 hairline transition-colors hover:text-ink xl:flex-1 xl:max-w-[28rem] min-[1700px]:pr-2.5"
               aria-label="Search products"
             >
               <Icon icon={Search01Icon} size={21} className="shrink-0" />
-              <span className="hidden text-[0.95rem] md:inline xl:hidden">Search</span>
+              {/* Icon only below xl: with the nav showing there is no room for a word, which was cut to "Searc" or pushed under "Contact". */}
               <span className="hidden min-w-0 flex-1 truncate text-left text-[0.95rem] xl:inline">Search {productCount} products</span>
               <kbd className="hidden shrink-0 rounded-md bg-surface-2 px-1.5 py-0.5 font-mono text-[10px] text-ink-3 min-[1700px]:inline">Ctrl K</kbd>
             </button>
