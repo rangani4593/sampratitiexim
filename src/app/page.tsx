@@ -63,9 +63,9 @@ export default function Home() {
             <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/70 to-transparent" />
             {[
               { k: "Satisfied Customers", v: `${company.customers}+`, d: "verified buyers across India" },
-              { k: "Industries Served", v: String(industryPages.length), d: "food, pharma and industrial" },
+              { k: "Industries Served", v: `${company.industriesServed}+`, d: "food, pharma and industrial" },
               { k: "Years in Business", v: `${company.yearsInBusiness}+`, d: `since ${company.established}` },
-              { k: "Products", v: `${productCount}+`, d: `across ${productTypes.length} product groups` },
+              { k: "Products Supplied", v: `${company.productsSupplied}+`, d: `${productCount} listed here, more on request` },
             ].map((s, i) => (
               <div
                 key={s.k}
@@ -205,8 +205,8 @@ export default function Home() {
           {/* Stat strip below image */}
           <div className="mt-4 grid grid-cols-3 gap-3">
             {[
-              { v: `${productCount}+`, label: "Products" },
-              { v: `${industryPages.length}`, label: "Industries" },
+              { v: `${company.productsSupplied}+`, label: "Products Supplied" },
+              { v: `${company.industriesServed}+`, label: "Industries Served" },
               { v: String(company.warehouses.flatMap((w) => w.places).length), label: "Warehouses" },
             ].map((s) => (
               <div key={s.label} className="rounded-2xl bg-surface px-3 py-4 text-center hairline">

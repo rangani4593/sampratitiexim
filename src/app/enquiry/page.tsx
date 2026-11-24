@@ -74,7 +74,7 @@ export default function EnquiryPage() {
           <div className="overflow-hidden rounded-[var(--radius-surface)] hairline">
             <iframe
               title="Sampratiti Exim office location on Google Maps"
-              src="https://maps.google.com/maps?q=23.03899,72.69154&z=15&output=embed"
+              src={`https://maps.google.com/maps?q=${company.geo.lat},${company.geo.lng}&z=15&output=embed`}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               className="block aspect-[4/3] w-full border-0"

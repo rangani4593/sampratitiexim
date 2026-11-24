@@ -4,8 +4,6 @@ import type { Metadata } from "next";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Icon } from "@/components/ui/Icon";
 import { aboutParagraphs, company, customerApproach, industries, mission, welcomeParagraphs } from "@/data/company";
-import { industryPages } from "@/data/industries";
-import { productCount } from "@/lib/catalog";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -54,9 +52,9 @@ export default function AboutPage() {
       <section className="shell pb-12">
         <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-[var(--radius-surface)] bg-line md:grid-cols-4">
           {[
-            { k: "Products", v: `${productCount}+` },
+            { k: "Products Supplied", v: `${company.productsSupplied}+` },
             { k: "Years Active", v: `${company.yearsInBusiness}+` },
-            { k: "Industries", v: `${industryPages.length}` },
+            { k: "Industries Served", v: `${company.industriesServed}+` },
             { k: "Happy Customers", v: `${company.customers}+` },
           ].map((s) => (
             <div key={s.k} className="bg-surface p-5 text-center md:p-6">

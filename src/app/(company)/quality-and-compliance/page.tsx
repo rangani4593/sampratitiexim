@@ -39,20 +39,9 @@ export default function QualityPage() {
         <aside className="rounded-[var(--radius-surface)] bg-surface p-5 hairline md:p-7">
           <p className="text-xs font-bold uppercase tracking-widest text-gold-ink">FSSAI licence</p>
           <CopyValue label="Licence number" value={company.fssai.number} className="-mx-2 mt-3 rounded-xl p-2 hover:bg-surface-2" />
-          <dl className="mt-4 grid gap-4 border-t border-line pt-4 text-sm sm:grid-cols-2">
-            {[
-              ["Issued on", company.fssai.issued],
-              ["Valid up to", company.fssai.validUpto],
-            ].map(([k, v]) => (
-              <div key={k}>
-                <dt className="text-xs text-ink-3">{k}</dt>
-                <dd className="mt-0.5 font-medium">{v}</dd>
-              </div>
-            ))}
-            <div className="sm:col-span-2">
-              <dt className="text-xs text-ink-3">Kind of business</dt>
-              <dd className="mt-0.5 font-medium">{company.fssai.kind}</dd>
-            </div>
+          <dl className="mt-4 border-t border-line pt-4 text-sm">
+            <dt className="text-xs text-ink-3">Kind of business</dt>
+            <dd className="mt-0.5 font-medium">{company.fssai.kind}</dd>
           </dl>
         </aside>
       </section>

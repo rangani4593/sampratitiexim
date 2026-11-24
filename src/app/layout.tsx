@@ -52,7 +52,7 @@ export const metadata: Metadata = {
   ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ? { verification: { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION } } : {}),
   openGraph: baseOpenGraph,
   twitter: { card: "summary_large_image" },
-  other: { "geo.region": "IN-GJ", "geo.placename": "Ahmedabad", "geo.position": "23.03899;72.69154", ICBM: "23.03899, 72.69154" },
+  other: { "geo.region": "IN-GJ", "geo.placename": "Ahmedabad", "geo.position": `${company.geo.lat};${company.geo.lng}`, ICBM: `${company.geo.lat}, ${company.geo.lng}` },
   formatDetection: { telephone: true, email: true, address: true },
 };
 

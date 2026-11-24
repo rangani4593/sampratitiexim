@@ -1,5 +1,9 @@
 import { SITE_URL } from "@/lib/site";
 
+/* The office pin. Everything that needs the coordinates — schema, the map embed, the
+   geo meta tags, the directions link — reads them from here, so they cannot drift apart. */
+const geo = { lat: 23.042824, lng: 72.703643 };
+
 export const company = {
   name: "Sampratiti Exim Private Limited",
   shortName: "Sampratiti Exim",
@@ -12,22 +16,30 @@ export const company = {
   altPhoneOwner: "Urmil Ramani",
   whatsapp: "919558086593",
   email: "sampratitiexim@gmail.com",
-  geo: { lat: 23.03899, lng: 72.69154 },
+  geo,
   social: [
     "https://www.facebook.com/p/Sampratiti-Exim-Pvt-Ltd-100087364990464/",
     "https://in.linkedin.com/in/sampratiti-exim-a4659327b",
     "https://www.youtube.com/channel/UC_tdJhji8jBnLEVb3fqtTHg",
   ],
   responseRate: "85%",
-  customers: 1500,
+  customers: 4000,
+  /*
+    Two different kinds of number, deliberately kept apart.
+    productCount and industryPages.length are counted from the catalogue, so anything a
+    visitor can click and then count — "Browse N products", "All N products" — must keep
+    using those. The two below are what the business supplies, which is wider than what
+    is listed on the site, so they belong only in the stat strips, where the label says
+    "Supplied" / "Served" rather than promising a list of that length.
+  */
+  productsSupplied: 40,
+  industriesServed: 10,
   established: "2022",
   yearsInBusiness: new Date().getFullYear() - 2022,
   gst: "24ABJCS3281Q1ZP",
   catalogue: { href: "/downloads/sampratiti-exim-catalogue.pdf", size: "35 MB" },
   fssai: {
     number: "10723026002936",
-    issued: "02-10-2024 (Renewal)",
-    validUpto: "03-12-2029",
     kind: "Trade/Retail: Wholesaler, Distributor, Retailer",
   },
   contactPerson: { name: "Mayur Patel", role: "Managing Director" },
@@ -35,7 +47,7 @@ export const company = {
   office: {
     label: "Office",
     lines: ["56, Vivan Industrial Park", "Kathwada GIDC, Ahmedabad", "Gujarat 382430, India"],
-    mapHref: "https://maps.google.com?q=23.03899000,72.69154000",
+    mapHref: `https://maps.google.com?q=${geo.lat},${geo.lng}`,
   },
   warehouses: [
     { region: "Gujarat", places: ["Kathwada", "Aslali", "Narol"] },
