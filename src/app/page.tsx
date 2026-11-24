@@ -14,7 +14,7 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { advantageIntro, advantages, company, welcomeParagraphs } from "@/data/company";
 import { industryPages } from "@/data/industries";
-import { homeFaqs } from "@/lib/seo";
+import { homeFaqs, homeQuickAnswer } from "@/lib/seo";
 import { featured, productCount, productTypes } from "@/lib/catalog";
 
 const HEADLINE = "Your trusted chemical solutions partner";
@@ -54,6 +54,13 @@ export default function Home() {
         <div className="fade-in" style={{ ["--d" as string]: "200ms" }}>
           <ProductDeck slides={slides} />
         </div>
+      </section>
+
+      {/* Answer-first summary: the plain facts, high on the page, for people and answer engines alike. */}
+      <section className="shell pb-8 pt-10 md:pb-10 md:pt-14">
+        <p className="max-w-[76ch] rounded-2xl bg-gold-soft p-4 text-[1.02rem] leading-relaxed text-ink md:p-5" data-speakable>
+          {homeQuickAnswer}
+        </p>
       </section>
 
       {/* Proof strip */}

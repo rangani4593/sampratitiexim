@@ -8,8 +8,9 @@ import { ProductCard } from "@/components/product/ProductCard";
 import { InquiryButton } from "@/components/ui/InquiryButton";
 import { getIndustry, industryPages } from "@/data/industries";
 import { company } from "@/data/company";
+import { JsonLd } from "@/components/ui/JsonLd";
 import { getProduct } from "@/lib/catalog";
-import { baseOpenGraph } from "@/lib/seo";
+import { baseOpenGraph, industryCollectionLd } from "@/lib/seo";
 
 export const instant = false;
 
@@ -39,6 +40,7 @@ export default async function IndustryDetail({ params }: PageProps<"/industry/[s
 
   return (
     <>
+      <JsonLd data={industryCollectionLd(ind, items)} />
       <section className="shell pt-3 md:pt-6">
         <Breadcrumbs items={[{ href: "/industry", label: "Industries" }, { label: ind.name }]} />
         <div className="relative mt-5 overflow-hidden rounded-[var(--radius-surface)] bg-brand-deep">

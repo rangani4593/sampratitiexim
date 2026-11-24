@@ -4,6 +4,7 @@ import { productTypes } from "@/lib/catalog";
 import { SITE_URL } from "@/lib/site";
 
 const BASE = SITE_URL;
+const CIN = company.registrations.find((r) => r.label === "CIN No.")?.value ?? "";
 
 export function GET() {
   const lines = [
@@ -18,6 +19,8 @@ export function GET() {
     `- Phone and WhatsApp: +91 ${company.phoneDisplay} (${company.phoneOwner}), +91 ${company.altPhoneDisplay} (${company.altPhoneOwner})`,
     `- Email: ${company.email}`,
     `- GST: ${company.gst}`,
+    `- CIN: ${CIN}`,
+    `- FSSAI licence: ${company.fssai.number}`,
     `- Prices are quoted on request: use the inquiry form, WhatsApp or phone.`,
     "",
     "## Key pages",
@@ -27,6 +30,8 @@ export function GET() {
     `- [About us](${BASE}/about-us)`,
     `- [Quality and compliance](${BASE}/quality-and-compliance)`,
     `- [Contact](${BASE}/enquiry)`,
+    `- [Privacy Policy](${BASE}/privacy-policy)`,
+    `- [Terms of Use](${BASE}/terms)`,
     "",
     "## Industries",
     ...industryPages.map((i) => `- [${i.title}](${BASE}/industry/${i.slug}): ${i.blurb}`),
