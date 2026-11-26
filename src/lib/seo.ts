@@ -18,7 +18,12 @@ export { SITE_URL };
  * this in: Next replaces the parent's openGraph object instead of merging it.
  * There is deliberately no `url` — a shared one made every page claim to be the homepage.
  */
-const TITLE_SUFFIX = " | Sampratiti Exim";
+/*
+  The name Google prints above the result in place of the bare domain. It reads it from the
+  home page's WebSite node, og:site_name and the title, so all three must say the same thing.
+*/
+export const SITE_NAME = "Sampratiti Exim";
+const TITLE_SUFFIX = ` | ${SITE_NAME}`;
 const MAX_TITLE = 60; // roughly what Google shows before cutting the title off
 const MAX_DESCRIPTION = 160;
 
@@ -42,7 +47,7 @@ export function fitDescription(parts: string[], max = MAX_DESCRIPTION): string {
   return `${cut.slice(0, cut.lastIndexOf(" "))}…`;
 }
 
-export const baseOpenGraph = { type: "website", siteName: "Sampratiti Exim Pvt Ltd", locale: "en_IN" } as const;
+export const baseOpenGraph = { type: "website", siteName: SITE_NAME, locale: "en_IN" } as const;
 export const abs = (path: string) => `${SITE_URL}${path}`;
 
 const plainText = (html: string) =>
@@ -122,7 +127,7 @@ export const organizationLd = {
   An answer-first paragraph for the top of the home page. Answer engines quote the first
   section of a page far more often than anything below it, so the plain facts go there.
 */
-export const homeQuickAnswer = `${company.name} is an Ahmedabad based chemical importer, trader and bulk supplier, established in ${company.established}. It supplies ${productCount}+ food, pharma, nutraceutical, industrial, agriculture and water treatment chemicals to manufacturers across India, with COA and MSDS available as applicable to the product and batch. Prices are quoted on request.`;
+export const homeQuickAnswer = `${company.name} is an Ahmedabad based chemical importer, trader and bulk supplier, established in ${company.established}. ${company.shortName} supplies ${productCount}+ food, pharma, nutraceutical, industrial, agriculture and water treatment chemicals to manufacturers across India, with COA and MSDS available as applicable to the product and batch. Prices are quoted on request.`;
 
 /** Contact page node, so the enquiry page is understood as the way to reach the company. */
 export const contactPageLd = {
@@ -162,8 +167,9 @@ export const websiteLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   "@id": `${SITE_URL}/#website`,
-  url: SITE_URL,
-  name: "Sampratiti Exim Pvt Ltd",
+  url: `${SITE_URL}/`,
+  name: SITE_NAME,
+  alternateName: ["Sampratiti Exim Pvt Ltd", company.name, "Sampratiti"],
   inLanguage: "en-IN",
   publisher: { "@id": `${SITE_URL}/#organization` },
 };

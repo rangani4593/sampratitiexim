@@ -25,7 +25,9 @@ export const metadata: Metadata = {
     template: "%s | Sampratiti Exim",
   },
   description:
-    "Ahmedabad importer and bulk supplier of food grade sucralose, aspartame, TCCA 90, xanthan gum, citric acid and sodium benzoate. COA/MSDS and pan-India supply.",
+    // Leads with the company name, like an About line: for a search on the name, Google keeps a
+    // description that names the business instead of lifting a sentence from the page.
+    "Sampratiti Exim is an Ahmedabad importer and bulk supplier of food, pharma, industrial and water treatment chemicals, with COA/MSDS and pan-India supply.",
   keywords: [
     "Food Grade Sucralose",
     "Aspartame Powder",
